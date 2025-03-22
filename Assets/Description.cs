@@ -10,7 +10,6 @@ public class Description : MonoBehaviour
         Dec.enabled = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         

@@ -15,37 +15,66 @@ public class Inventory : MonoBehaviour
 
     public UI_Inventory _uiAni;
     public static Inventory _invInstance;
+    public List<GameObject> _itemData = new List<GameObject>();
     public List<GameObject> _invItems = new List<GameObject>();
     void Start()
     {
+        _invInstance = this;
         _uiAni = FindFirstObjectByType<UI_Inventory>();
-        if (_uiAni == null)
+        foreach (GameObject itemObj in _itemData)
         {
-            Debug.LogError("UI_Animation not found in the scene!");
+            Item item = itemObj.GetComponent<Item>();
+            item._itemQuantity = 0;
         }
     }
     public void AddItem(GameObject itemPrefab)
     {
-        if (!_invItems.Contains(itemPrefab) && itemPrefab != null)
+        if (itemPrefab != null)
         {
             _invItems.RemoveAll(item => item == null);
-            _invItems.Add(itemPrefab);
-            Debug.Log($"Added {itemPrefab.GetComponent<Item>()._itemName} to inventory!");
-            _uiAni.UpdateUI();
-        }
-        else if (_invItems.Contains(itemPrefab) && itemPrefab.GetComponent<Item>()._itemQuantity < itemPrefab.GetComponent<Item>()._itemMaxQuantity)
-        {
-            itemPrefab.GetComponent<Item>()._itemQuantity++;
-        }
-        else
-        {
-            Debug.Log("Item already in inventory.");
+            foreach (GameObject Obj in _itemData)
+            {
+                Item _item1 = Obj.GetComponent<Item>();
+                Item _item2 = itemPrefab.GetComponent<Item>();
+                //Debug.Log(_item1);
+                //Debug.Log(_item2);
+                //Debug.Log(string.Join(", ", _invItems));
+                //Debug.Log(itemPrefab);
+                //Debug.Log(_itemname1 + " " + _itemname2);
+                if (_item1._itemName == _item2._itemName && _item1._itemQuantity == 0)
+                {
+                    _invItems.Add(Obj);
+                    //Debug.Log($"Added {itemPrefab.GetComponent<Item>()._itemName} to inventory!");
+                    _item1._itemQuantity++;
+                    _uiAni.UpdateUI();
+                    break;
+                }
+                else if (_item1._itemName == _item2._itemName && _item1._itemQuantity < _item1._itemMaxQuantity)
+                {
+                    _item1._itemQuantity++;
+                    _uiAni.UpdateUI();
+                }
+                else if (_item1._itemName == _item2._itemName && _item1._itemQuantity >= _item1._itemMaxQuantity)
+                {
+                    Debug.Log("Item already in inventory.");
+                }
+            }
         }
     }
     public void RemoveItem(GameObject itemPrefab)
     {
-        _invItems.Remove(itemPrefab);
-        Debug.Log($"Removed {itemPrefab.GetComponent<Item>()._itemName} from inventory!");
+        Item _item = itemPrefab.GetComponent<Item>();
+        if (_item._itemQuantity == 1)
+        {
+            _item._itemQuantity--;
+            _invItems.Remove(itemPrefab);
+            Debug.Log($"Removed {itemPrefab.GetComponent<Item>()._itemName} from inventory!");
+        }
+        else if(_item._itemQuantity > 1)
+        {
+            _item._itemQuantity--;
+            Debug.Log($"Removed {itemPrefab.GetComponent<Item>()._itemName} from inventory!");
+        }
         if (_uiAni != null)
         {
             _uiAni.UpdateUI();
@@ -53,6 +82,6 @@ public class Inventory : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(string.Join(", ", _invItems));
+        //Debug.Log(string.Join(", ", _invItems));
     }
 }

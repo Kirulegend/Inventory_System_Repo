@@ -1,6 +1,7 @@
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class Player : MonoBehaviour
     public Rigidbody _rb3D;
     public LayerMask _layerMask;
     public Inventory _inv;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public bool _itemEnter = false;
+    public GameObject _item;
     void Start()
     {
         //_inv = GetComponent<Inventory>();
@@ -23,10 +25,14 @@ public class Player : MonoBehaviour
         _rb3D = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         PlayerMovementKB();
+        if (Input.GetKeyDown(KeyCode.E) && _itemEnter)
+        {
+            Inventory._invInstance.AddItem(_item);
+            Destroy(_item);
+        }
     }
 
     void PlayerMovementKB()
@@ -68,15 +74,19 @@ public class Player : MonoBehaviour
         Gizmos.color = GroundCheck() ? Color.green : Color.red;
         Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y + -1f, transform.position.z), new Vector3(1, .25f, 1));
     }
-
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        //Debug.Log("Triggered with: " + other.gameObject.name);
         if (other.CompareTag("Item"))
         {
-            GameObject newItem = other.gameObject.GetComponent<Item>()._itemPrefab;
-            _inv.AddItem(newItem);
-            //Destroy(other.gameObject, 5);
+            _item = other.gameObject;
+            _itemEnter = true;
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Item"))
+        {
+            _itemEnter = false;
         }
     }
 }

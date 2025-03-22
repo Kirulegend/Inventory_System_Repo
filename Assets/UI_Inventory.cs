@@ -9,13 +9,11 @@ public class UI_Inventory : MonoBehaviour
     float _aniIndex = 0;
     public Inventory _inv;
     public GameObject _itemPrefab;
-    public Transform _itemContainer;
+    public RectTransform _itemContainer;
     private List<GameObject> slots = new List<GameObject>();
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _itemContainer = transform;
         if (_inv != null && _inv._invItems.Count > 0)
         {
             UpdateUI();
@@ -23,7 +21,6 @@ public class UI_Inventory : MonoBehaviour
         _ani = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         _ani.SetFloat("Index", _aniIndex);
@@ -33,16 +30,17 @@ public class UI_Inventory : MonoBehaviour
     {
         while (slots.Count < _inv._invItems.Count)
         {
-            Debug.Log(slots.Count + " " + _inv._invItems.Count);
+            //Debug.Log(slots.Count + " " + _inv._invItems.Count);
             GameObject slot = Instantiate(_itemPrefab, _itemContainer);
             slots.Add(slot);
+            //_itemContainer.offsetMax += new Vector2(0, 69f);
         }
-        //while (slots.Count > _inv._invItems.Count)
-        //{
-        //    GameObject slotToRemove = slots[slots.Count - 1];
-        //    slots.RemoveAt(slots.Count - 1);
-        //    Destroy(slotToRemove);
-        //}
+        while (slots.Count > _inv._invItems.Count)
+        {
+            GameObject slotToRemove = slots[slots.Count - 1];
+            slots.RemoveAt(slots.Count - 1);
+            Destroy(slotToRemove);
+        }
         for (int i = 0; i < slots.Count; i++)
         {
             GameObject slot = slots[i];
@@ -57,6 +55,10 @@ public class UI_Inventory : MonoBehaviour
             slotDescription.text = item._itemDescription;
             TextMeshProUGUI slotQuantity = slot.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
             slotQuantity.text = item._itemQuantity.ToString();
+
+            UI_Item ui_Item = slot.GetComponent<UI_Item>();
+            ui_Item._itemPrefab = itemInstance;
+            ui_Item._itemName = item._itemName;
         }
     }
     public void OnClickEvent()
