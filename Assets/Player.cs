@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public Inventory _inv;
     public bool _itemEnter = false;
     public GameObject _item;
+    public Vector3 _hitPos;
     void Start()
     {
         //_inv = GetComponent<Inventory>();
@@ -32,6 +33,27 @@ public class Player : MonoBehaviour
         {
             Inventory._invInstance.AddItem(_item);
             Destroy(_item);
+        }
+        Debug.Log(RayCast());
+    }
+
+    public bool RayCast()
+    {
+        Vector3 baseDirection = Vector3.down;
+        float angle = -75f;
+        Vector3 rotationAxis = transform.right;
+        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis);
+        Vector3 angledDirection = rotation * baseDirection;
+        if (Physics.Raycast(transform.position, angledDirection, out RaycastHit hitInfo, 10f))
+        {
+            _hitPos = hitInfo.point;
+            Debug.DrawRay(transform.position, angledDirection * hitInfo.distance, Color.green);
+            return true;
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, angledDirection * 10f, Color.red);
+            return false;
         }
     }
 

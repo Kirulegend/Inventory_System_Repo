@@ -26,9 +26,12 @@ public class UI_Item : MonoBehaviour
 
     public void InstantiateObj()
     {
-        Vector3 pos = _player.transform.position;
-        Instantiate(_itemPrefab, new Vector3(pos.x, pos.y, pos.z + 2.5f), Quaternion.identity);
-        _itemPrefab.name = _itemName;
-        Inventory._invInstance.RemoveItem(_itemPrefab);
+        if (_player.RayCast())
+        {
+            Vector3 pos = _player._hitPos;
+            Instantiate(_itemPrefab, new Vector3(pos.x, pos.y + 1f, pos.z), Quaternion.identity);
+            _itemPrefab.name = _itemName;
+            Inventory._invInstance.RemoveItem(_itemPrefab);
+        }
     }
 }
