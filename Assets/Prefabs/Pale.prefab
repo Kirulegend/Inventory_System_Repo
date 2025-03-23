@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemName: Pale
-  _itemQuantity: 0
+  _itemQuantity: 1
   _itemMaxQuantity: 10
   _iconTexture: {fileID: -1247990647, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _itemDescription: This is a Basic Pale Cube
