@@ -36,15 +36,9 @@ public class Inventory : MonoBehaviour
             {
                 Item _item1 = Obj.GetComponent<Item>();
                 Item _item2 = itemPrefab.GetComponent<Item>();
-                //Debug.Log(_item1);
-                //Debug.Log(_item2);
-                //Debug.Log(string.Join(", ", _invItems));
-                //Debug.Log(itemPrefab);
-                //Debug.Log(_itemname1 + " " + _itemname2);
                 if (_item1._itemName == _item2._itemName && _item1._itemQuantity == 0)
                 {
                     _invItems.Add(Obj);
-                    //Debug.Log($"Added {itemPrefab.GetComponent<Item>()._itemName} to inventory!");
                     _item1._itemQuantity++;
                     _uiAni.UpdateUI();
                     break;
@@ -82,6 +76,6 @@ public class Inventory : MonoBehaviour
     }
     private void Update()
     {
-        //Debug.Log(string.Join(", ", _invItems));
+        
     }
 }

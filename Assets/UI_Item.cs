@@ -18,7 +18,6 @@ public class UI_Item : MonoBehaviour
     {
         if (_player == null || _inv == null)
         {
-            //Debug.Log(_itemName);
             _player = FindAnyObjectByType<Player>();
             _inv = FindAnyObjectByType<Inventory>();
         }
@@ -26,7 +25,7 @@ public class UI_Item : MonoBehaviour
 
     public void InstantiateObj()
     {
-        if (_player.RayCast())
+        if (!_player._obj)
         {
             Vector3 pos = _player._hitPos;
             Instantiate(_itemPrefab, new Vector3(pos.x, pos.y + 1f, pos.z), Quaternion.identity);
