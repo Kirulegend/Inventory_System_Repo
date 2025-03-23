@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2246834696507723107}
   - component: {fileID: 7100421320508951534}
   - component: {fileID: -4924012880027001987}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Pink
   m_TagString: Item
   m_Icon: {fileID: 0}

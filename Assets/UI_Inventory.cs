@@ -24,6 +24,10 @@ public class UI_Inventory : MonoBehaviour
     void Update()
     {
         _ani.SetFloat("Index", _aniIndex);
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            OnClickEvent();
+        }
     }
 
     public void UpdateUI()

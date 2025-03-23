@@ -1941,6 +1941,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16
   _inv: {fileID: 1709957134}
+  _uiInv: {fileID: 771331677}
   _item: {fileID: 330585543}
   _hitPos: {x: 0, y: 0, z: 0}
   Count: 0

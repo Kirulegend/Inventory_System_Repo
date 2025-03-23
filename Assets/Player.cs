@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,6 +19,7 @@ public class Player : MonoBehaviour
     public Rigidbody _rb3D;
     public LayerMask _layerMask;
     public Inventory _inv;
+    public UI_Inventory _uiInv;
     public GameObject _item;
     public Vector3 _hitPos;
     public int Count = 0;
@@ -24,8 +27,13 @@ public class Player : MonoBehaviour
     public float _dis;
     public Image crossHair;
     public bool _obj = false;
+    //public Camera _camera;
+    //public float FOV;
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        //_uiInv = GetComponent<UI_Inventory>();
+        //FOV = _camera.fieldOfView;
         _rb3D = GetComponent<Rigidbody>();
     }
 
@@ -71,7 +79,7 @@ public class Player : MonoBehaviour
             if (hitInfo.collider.gameObject.CompareTag("Item"))
             {
                 _item = hitInfo.collider.gameObject;
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.F))
                 {
                     Inventory._invInstance.AddItem(_item);
                     Destroy(_item);
@@ -132,6 +140,8 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
         {
+            //_camera.fieldOfView += 10;
+            //StartCoroutine(Cam(_camera));
             _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _jumpForce, _rb3D.linearVelocity.z);
         }
     }
@@ -146,4 +156,14 @@ public class Player : MonoBehaviour
         Gizmos.color = GroundCheck() ? Color.green : Color.red;
         Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y + -1f, transform.position.z), new Vector3(1, .25f, 1));
     }
+    
+    //IEnumerator Cam(Camera Cam)
+    //{
+    //    yield return new WaitForSeconds(1f);
+    //    if(Cam.fieldOfView != FOV)
+    //    {
+    //        Cam.fieldOfView = Mathf.Lerp(Cam.fieldOfView, FOV, Time.deltaTime * 50);
+    //        //Cam.fieldOfView = FOV;
+    //    }
+    //}
 }
