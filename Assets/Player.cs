@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
         {
             if (hitInfo.collider.gameObject.CompareTag("Item"))
             {
+                //GameObject _objCopy = new GameObject(hitInfo.collider.gameObject);
                 _item = hitInfo.collider.gameObject;
                 if (Input.GetKeyDown(KeyCode.F))
                 {
