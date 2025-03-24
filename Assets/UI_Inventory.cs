@@ -11,6 +11,8 @@ public class UI_Inventory : MonoBehaviour
     public GameObject _itemPrefab;
     public RectTransform _itemContainer;
     private List<GameObject> slots = new List<GameObject>();
+    public Slider _sliderHealth;
+    public Slider _sliderPower;
 
     void Start()
     {
@@ -23,6 +25,8 @@ public class UI_Inventory : MonoBehaviour
 
     void Update()
     {
+        _sliderHealth.value = Player._healthPower;
+        _sliderPower.value = Player._attackPower;
         _ani.SetFloat("Index", _aniIndex);
         if (Input.GetKeyUp(KeyCode.E))
         {

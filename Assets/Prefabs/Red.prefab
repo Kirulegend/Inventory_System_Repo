@@ -129,7 +129,8 @@ MonoBehaviour:
   _itemQuantity: 0
   _itemMaxQuantity: 10
   _iconTexture: {fileID: 692238458, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
-  _itemDescription: This is a Basic Red Cube
+  _itemDescription: This is a Basic Red Cube which gives +2 Power
+  _itemAttribute: Power
   _itemPrefab: {fileID: 1880829798882469176}
 --- !u!54 &8430898752123496971
 Rigidbody:

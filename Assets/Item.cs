@@ -9,5 +9,6 @@ public class Item : MonoBehaviour
     public int _itemMaxQuantity = 10;
     public Sprite _iconTexture;
     public string _itemDescription;
+    public string _itemAttribute;
     public GameObject _itemPrefab;
 }

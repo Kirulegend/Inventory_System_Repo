@@ -130,6 +130,7 @@ MonoBehaviour:
   _itemMaxQuantity: 10
   _iconTexture: {fileID: 1473697657, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _itemDescription: This is a Basic Purple Cube
+  _itemAttribute: Item
   _itemPrefab: {fileID: 2071320690149705527}
 --- !u!54 &-3143449082536927864
 Rigidbody:

@@ -130,6 +130,7 @@ MonoBehaviour:
   _itemMaxQuantity: 10
   _iconTexture: {fileID: 793821866, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _itemDescription: This is a Basic Pink Cube
+  _itemAttribute: Item
   _itemPrefab: {fileID: 9185241574201251053}
 --- !u!54 &7100421320508951534
 Rigidbody:

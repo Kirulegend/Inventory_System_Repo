@@ -125,11 +125,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bbedc6dbec99649a6de2171f7c2ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemName: Pale
+  _itemName: Pale_Key
   _itemQuantity: 0
-  _itemMaxQuantity: 10
+  _itemMaxQuantity: 1
   _iconTexture: {fileID: -1247990647, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
-  _itemDescription: This is a Basic Pale Cube
+  _itemDescription: This is a Key
+  _itemAttribute: Key
   _itemPrefab: {fileID: 5376143419705752120}
 --- !u!54 &8085380013785955861
 Rigidbody:

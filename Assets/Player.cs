@@ -27,8 +27,8 @@ public class Player : MonoBehaviour
     public float _dis;
     public Image crossHair;
     public bool _obj = false;
-    //public Camera _camera;
-    //public float FOV;
+    public static int _healthPower = 2;
+    public static int _attackPower = 2;
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log(_healthPower);
+        //Debug.Log(_attackPower);
         PlayerMovementKB();
         CameraRot();
         RayCast();
@@ -51,7 +53,6 @@ public class Player : MonoBehaviour
             if (Count == 0)
             {
                 Count++;
-                Debug.Log("Cam");
                 Cursor.lockState = CursorLockMode.Locked;
             }
             else if (Count == 1)
@@ -87,6 +88,16 @@ public class Player : MonoBehaviour
                 }
                 _obj = true;
                 crossHair.color = new Color(crossHair.color.r, crossHair.color.g, crossHair.color.b, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+            }
+            if (hitInfo.collider.gameObject.CompareTag("Door"))
+            {
+                Debug.Log("Collided with door");
+                GameManager._nearDoor = true;
+                crossHair.color = new Color(crossHair.color.r, crossHair.color.g, crossHair.color.b, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+            }
+            else
+            {
+                GameManager._nearDoor = false;
             }
             Debug.DrawRay(PlayerPos, angledDirection * hitInfo.distance, Color.green);
         }

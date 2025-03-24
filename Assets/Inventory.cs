@@ -74,8 +74,4 @@ public class Inventory : MonoBehaviour
             _uiAni.UpdateUI();
         }
     }
-    private void Update()
-    {
-        
-    }
 }

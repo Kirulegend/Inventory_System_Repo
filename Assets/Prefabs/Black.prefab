@@ -130,6 +130,7 @@ MonoBehaviour:
   _itemMaxQuantity: 10
   _iconTexture: {fileID: -796926374, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _itemDescription: This is a Basic Black Cube
+  _itemAttribute: Item
   _itemPrefab: {fileID: 2856917259269167720}
 --- !u!54 &-3131464681495456130
 Rigidbody:
