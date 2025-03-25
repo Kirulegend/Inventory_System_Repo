@@ -27,8 +27,8 @@ public class Player : MonoBehaviour
     public float _dis;
     public Image crossHair;
     public bool _obj = false;
-    public static int _healthPower = 2;
-    public static int _attackPower = 2;
+    public static int _healthPower = 5;
+    public static int _attackPower = 10;
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -87,16 +87,24 @@ public class Player : MonoBehaviour
                     Destroy(_item);
                 }
                 _obj = true;
-                crossHair.color = new Color(crossHair.color.r, crossHair.color.g, crossHair.color.b, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+                crossHair.color = new Color(100, 100, 100, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
             }
-            if (hitInfo.collider.gameObject.CompareTag("Door"))
+            else if (hitInfo.collider.gameObject.CompareTag("Door"))
             {
-                Debug.Log("Collided with door");
                 GameManager._nearDoor = true;
-                crossHair.color = new Color(crossHair.color.r, crossHair.color.g, crossHair.color.b, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+                if (!GameManager._hasKey)
+                {
+                    Debug.Log("Door");
+                    crossHair.color = new Color(225, 0, 0, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+                }
+                if (GameManager._hasKey)
+                {
+                    crossHair.color = new Color(100, 100, 100, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+                }
             }
             else
             {
+                crossHair.color = new Color(100, 100, 100, Mathf.Clamp01(crossHair.color.a - (Time.deltaTime * 20f)));
                 GameManager._nearDoor = false;
             }
             Debug.DrawRay(PlayerPos, angledDirection * hitInfo.distance, Color.green);
@@ -104,7 +112,7 @@ public class Player : MonoBehaviour
         else
         {
             _obj = false;
-            crossHair.color = new Color(crossHair.color.r, crossHair.color.g, crossHair.color.b, Mathf.Clamp01(crossHair.color.a - (Time.deltaTime * 20f)));
+            crossHair.color = new Color(100, 100, 100, Mathf.Clamp01(crossHair.color.a - (Time.deltaTime * 20f)));
             Debug.DrawRay(PlayerPos, angledDirection * 5, Color.red);
         }
     }
@@ -168,14 +176,13 @@ public class Player : MonoBehaviour
         Gizmos.color = GroundCheck() ? Color.green : Color.red;
         Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y + -1f, transform.position.z), new Vector3(1, .25f, 1));
     }
-    
-    //IEnumerator Cam(Camera Cam)
-    //{
-    //    yield return new WaitForSeconds(1f);
-    //    if(Cam.fieldOfView != FOV)
-    //    {
-    //        Cam.fieldOfView = Mathf.Lerp(Cam.fieldOfView, FOV, Time.deltaTime * 50);
-    //        //Cam.fieldOfView = FOV;
-    //    }
-    //}
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            _healthPower -= 1;
+            Destroy(collision.gameObject);
+        }
+    }
 }

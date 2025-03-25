@@ -7,6 +7,7 @@ TagManager:
   - Item
   - ItemInstance
   - Door
+  - Bullet
   layers:
   - Default
   - TransparentFX
