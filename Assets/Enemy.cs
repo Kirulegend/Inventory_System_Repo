@@ -52,12 +52,12 @@ public class Enemy : MonoBehaviour
     void InstantiateBullet()
     {
         _Bullet = Instantiate(_bullet, _instantiatePos.position, Quaternion.identity);
-        //Vector3 direction = _playerPos - _Bullet.transform.position;
-        //Quaternion targetRotation = Quaternion.LookRotation(direction);
-        //_Bullet.transform.rotation = targetRotation;
         _bulletRigi = _Bullet.GetComponent<Rigidbody>();
-        _bulletRigi.AddForce(Vector3.back * 200, ForceMode.Force);
-        Destroy(_Bullet, 4);
+        Vector3 direction = _playerPos - _Bullet.transform.position;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        _Bullet.transform.rotation = targetRotation;
+        _bulletRigi.AddForce(transform.forward * 200, ForceMode.Force);
+        Destroy(_Bullet, 3);
         StartCoroutine(TimeBullet());
     }
     IEnumerator TimeBullet()

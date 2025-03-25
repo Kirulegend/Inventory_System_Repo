@@ -26,7 +26,7 @@ public class UI_Inventory : MonoBehaviour
     void Update()
     {
         _sliderHealth.value = Player._healthPower;
-        _sliderPower.value = Player._attackPower;
+        _sliderPower.value = Player._shieldPower;
         _ani.SetFloat("Index", _aniIndex);
         if (Input.GetKeyUp(KeyCode.E))
         {

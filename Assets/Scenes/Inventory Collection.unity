@@ -394,7 +394,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 5
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.216981, g: 0.63858616, b: 1, a: 1}
+  m_Color: {r: 0.30588236, g: 0.63858616, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -596,7 +596,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 20
+  m_PixelsPerUnitMultiplier: 34.5
 --- !u!222 &187825269
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3385,6 +3385,11 @@ MonoBehaviour:
   _dis: 5
   crossHair: {fileID: 885860358}
   _obj: 0
+  _isShield: 0
+  _shieldMat: {fileID: 2100000, guid: b7902ec5824bdfa40aa260f9fc82a364, type: 2}
+  _damageMat: {fileID: 2100000, guid: ff266f30fb51a3e49855b54e2487d645, type: 2}
+  _defaultMat: {fileID: 0}
+  _matPlayer: {fileID: 0}
 --- !u!1 &1854975063
 GameObject:
   m_ObjectHideFlags: 0

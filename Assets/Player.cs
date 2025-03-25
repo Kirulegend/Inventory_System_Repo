@@ -27,10 +27,17 @@ public class Player : MonoBehaviour
     public float _dis;
     public Image crossHair;
     public bool _obj = false;
-    public static int _healthPower = 5;
-    public static int _attackPower = 10;
+    public bool _isShield = false;
+    public static int _healthPower = 10;
+    public static int _shieldPower = 10;
+    public Material _shieldMat;
+    public Material _damageMat;
+    public Material _defaultMat;
+    public Renderer _matPlayer;
     void Start()
     {
+        _matPlayer = GetComponent<Renderer>();
+        _defaultMat = _matPlayer.material;
         Cursor.lockState = CursorLockMode.None;
         //_uiInv = GetComponent<UI_Inventory>();
         //FOV = _camera.fieldOfView;
@@ -39,12 +46,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(_healthPower);
-        //Debug.Log(_attackPower);
         PlayerMovementKB();
         CameraRot();
         RayCast();
         Crosshair();
+        Shield();
     }
     void CameraRot()
     {
@@ -67,7 +73,22 @@ public class Player : MonoBehaviour
             _rb3D.MoveRotation(Quaternion.Euler(0, CamInputRotation.x, 0));
         }
     }
-
+    void Shield()
+    {
+        if (!_isShield && Input.GetKeyDown(KeyCode.Q) && _shieldPower > 0)
+        {
+            _matPlayer.material = _shieldMat;
+            _isShield = true;
+            StartCoroutine(ShieldTimer());
+        }
+    }
+    IEnumerator ShieldTimer()
+    {
+        yield return new WaitForSeconds(5);
+        _matPlayer.material = _defaultMat;
+        _shieldPower--;
+        _isShield = false;
+    }
     void Crosshair()
     {
         Vector3 baseDirection = Vector3.down;
@@ -177,11 +198,21 @@ public class Player : MonoBehaviour
         Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y + -1f, transform.position.z), new Vector3(1, .25f, 1));
     }
 
+    IEnumerator Damage()
+    {
+        _healthPower -= 1;
+        _matPlayer.material = _damageMat;
+        yield return new WaitForSeconds(.05f);
+        _matPlayer.material = _defaultMat;
+    }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            _healthPower -= 1;
+            if (!_isShield)
+            {
+                StartCoroutine(Damage());
+            }
             Destroy(collision.gameObject);
         }
     }

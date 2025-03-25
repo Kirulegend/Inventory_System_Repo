@@ -54,9 +54,9 @@ public class UI_Item : MonoBehaviour
         }
         else if (_item._itemAttribute == "Power")
         {
-            if (Player._attackPower < 10)
+            if (Player._shieldPower < 10)
             {
-                Player._attackPower = Mathf.Clamp(Player._attackPower + 2, 0, 10);
+                Player._shieldPower = Mathf.Clamp(Player._shieldPower + 2, 0, 10);
                 Inventory._invInstance.RemoveItem(_itemPrefab);
             }
             else
