@@ -68,9 +68,7 @@ public class UI_Item : MonoBehaviour
         {
             if (GameManager._nearDoor)
             {
-                Debug.Log("klhnsadifhn");
                 Inventory._invInstance.RemoveItem(_itemPrefab);
-                GameManager._hasKey = true;
             }
         }
     }

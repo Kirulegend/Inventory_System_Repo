@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
     public int Count = 0;
     public float _angle;
     public float _dis;
-    public Image crossHair;
     public bool _obj = false;
     public bool _isShield = false;
     public static int _healthPower = 10;
@@ -47,35 +46,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         PlayerMovementKB();
-        CameraRot();
         RayCast();
         Crosshair();
         Shield();
     }
-    void CameraRot()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (Count == 0)
-            {
-                Count++;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            else if (Count == 1)
-            {
-                Count--;
-                Cursor.lockState = CursorLockMode.None;
-            }
-        }
-        if (Count == 1)
-        {
-            CamInputRotation.x += Input.GetAxis("Mouse X");
-            _rb3D.MoveRotation(Quaternion.Euler(0, CamInputRotation.x, 0));
-        }
-    }
     void Shield()
     {
-        if (!_isShield && Input.GetKeyDown(KeyCode.Q) && _shieldPower > 0)
+        if (!_isShield && Input.GetKeyDown(KeyCode.LeftAlt) && _shieldPower > 0)
         {
             _matPlayer.material = _shieldMat;
             _isShield = true;
@@ -108,24 +85,31 @@ public class Player : MonoBehaviour
                     Destroy(_item);
                 }
                 _obj = true;
-                crossHair.color = new Color(100, 100, 100, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+                GameManager._blackB = true;
+                GameManager._redB = true;
+                GameManager._greenB = true;
             }
             else if (hitInfo.collider.gameObject.CompareTag("Door"))
             {
                 GameManager._nearDoor = true;
                 if (!GameManager._hasKey)
                 {
-                    Debug.Log("Door");
-                    crossHair.color = new Color(225, 0, 0, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+                    GameManager._blackB = false;
+                    GameManager._redB = true;
+                    GameManager._greenB = false;
                 }
                 if (GameManager._hasKey)
                 {
-                    crossHair.color = new Color(100, 100, 100, Mathf.Clamp01(crossHair.color.a + (Time.deltaTime * 20f)));
+                    GameManager._blackB = false;
+                    GameManager._redB = false;
+                    GameManager._greenB = true;
                 }
             }
             else
             {
-                crossHair.color = new Color(100, 100, 100, Mathf.Clamp01(crossHair.color.a - (Time.deltaTime * 20f)));
+                GameManager._blackB = false;
+                GameManager._redB = false;
+                GameManager._greenB = false;
                 GameManager._nearDoor = false;
             }
             Debug.DrawRay(PlayerPos, angledDirection * hitInfo.distance, Color.green);
@@ -133,7 +117,9 @@ public class Player : MonoBehaviour
         else
         {
             _obj = false;
-            crossHair.color = new Color(100, 100, 100, Mathf.Clamp01(crossHair.color.a - (Time.deltaTime * 20f)));
+            GameManager._blackB = false;
+            GameManager._redB = false;
+            GameManager._greenB = false;
             Debug.DrawRay(PlayerPos, angledDirection * 5, Color.red);
         }
     }

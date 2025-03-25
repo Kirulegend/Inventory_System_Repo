@@ -1,24 +1,97 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static bool _hasKey = false;
     public static bool _nearDoor = false;
-    public Rigidbody _objDoor;
+    public Transform _objDoor;
     private bool _doorOpened = false;
+    public Sprite _red;
+    public Sprite _green;
+    public Sprite _black;
+    public Image _crossHair;
+    public static bool _redB;
+    public static bool _greenB;
+    public static bool _blackB;
+    public Vector2 CamInputRotation;
+    public Rigidbody _rb3D;
+    public Player _player;
+    public int Count = 0;
+    public Vector3 targetPosition;
+    private bool _pressedE = false;
+
+    void Start()
+    {
+        _rb3D = _player.GetComponent<Rigidbody>();
+        Cursor.lockState = CursorLockMode.None;
+    }
     void Update()
     {
-        if(_hasKey && !_doorOpened)
+        Door();
+        CameraRot();
+        Crosshair();
+    }
+    public void Door()
+    {
+        if (_hasKey && !_doorOpened && Input.GetKeyDown(KeyCode.E))
         {
-            _objDoor.isKinematic = false;
-            _objDoor.AddForce(Vector3.up, ForceMode.Force);
+            _pressedE = true;
         }
-        if(_objDoor.transform.position.y >= 4f && !_doorOpened)
+        if(_pressedE)
         {
+            _objDoor.position = Vector3.Lerp(_objDoor.position, targetPosition, 2 * Time.deltaTime);
+        }
+        if (_objDoor.position.y >= 4.5f && !_doorOpened)
+        {
+            _pressedE = false;
             _doorOpened = true;
-            _objDoor.isKinematic = true;
             _hasKey = false;
+        }
+    }
+    public void Crosshair()
+    {
+        if (_blackB)
+        {
+            _crossHair.color = new Color(_crossHair.color.r, _crossHair.color.g, _crossHair.color.b, Mathf.Clamp01(_crossHair.color.a + (Time.deltaTime * 20f)));
+            _crossHair.sprite = _black;
+        }
+        else if (_redB)
+        {
+            _crossHair.color = new Color(_crossHair.color.r, _crossHair.color.g, _crossHair.color.b, Mathf.Clamp01(_crossHair.color.a + (Time.deltaTime * 20f)));
+            _crossHair.sprite = _red;
+        }
+        else if (_greenB)
+        {
+            _crossHair.color = new Color(_crossHair.color.r, _crossHair.color.g, _crossHair.color.b, Mathf.Clamp01(_crossHair.color.a + (Time.deltaTime * 20f)));
+            _crossHair.sprite = _green;
+        }
+        else if(!_blackB && !_greenB && !_redB)
+        {
+            _crossHair.color = new Color(_crossHair.color.r, _crossHair.color.g, _crossHair.color.b, Mathf.Clamp01(_crossHair.color.a - (Time.deltaTime * 20f)));
+        }
+    }
+    void CameraRot()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (Count == 0)
+            {
+                Count++;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else if (Count == 1)
+            {
+                Count--;
+                Cursor.lockState = CursorLockMode.None;
+            }
+        }
+        if (Count == 1)
+        {
+            CamInputRotation.x += Input.GetAxis("Mouse X");
+            _rb3D.MoveRotation(Quaternion.Euler(0, CamInputRotation.x, 0));
         }
     }
 }

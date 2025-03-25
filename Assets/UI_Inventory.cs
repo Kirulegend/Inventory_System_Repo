@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 public class UI_Inventory : MonoBehaviour
 {
     Animator _ani;
@@ -13,7 +16,8 @@ public class UI_Inventory : MonoBehaviour
     private List<GameObject> slots = new List<GameObject>();
     public Slider _sliderHealth;
     public Slider _sliderPower;
-
+    public int _invIndex = 0;
+    public bool _invNumPressed = false;
     void Start()
     {
         if (_inv != null && _inv._invItems.Count > 0)
@@ -25,13 +29,15 @@ public class UI_Inventory : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(slots.Count);
         _sliderHealth.value = Player._healthPower;
         _sliderPower.value = Player._shieldPower;
         _ani.SetFloat("Index", _aniIndex);
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             OnClickEvent();
         }
+        NumInv();
     }
 
     public void UpdateUI()
@@ -67,6 +73,24 @@ public class UI_Inventory : MonoBehaviour
             UI_Item ui_Item = slot.GetComponent<UI_Item>();
             ui_Item._itemPrefab = itemInstance;
             ui_Item._itemName = item._itemName;
+        }
+    }
+    void NumInv()
+    {
+        if (Input.anyKeyDown && slots.Count > 0 && _aniIndex == 2)
+        {
+            string _tempIndex = Input.inputString;
+            if (int.TryParse(_tempIndex, out _invIndex))
+            {
+                _invNumPressed = true;
+            }
+        }
+        if (_invNumPressed && _invIndex <= slots.Count && _invIndex > 0)
+        {
+            Debug.Log(slots[_invIndex - 1]);
+            Button TempButtom = slots[_invIndex - 1].GetComponent<Button>();
+            TempButtom.onClick.Invoke();
+            _invNumPressed = false;
         }
     }
     public void OnClickEvent()
