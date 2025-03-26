@@ -29,7 +29,7 @@ public class UI_Inventory : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(slots.Count);
+        //Debug.Log(slots.Count);
         _sliderHealth.value = Player._healthPower;
         _sliderPower.value = Player._shieldPower;
         _ani.SetFloat("Index", _aniIndex);

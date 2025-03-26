@@ -110,7 +110,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Height: 2.2
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2591325038909486222
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemName: Pale_Key
-  _itemQuantity: 0
+  _itemQuantity: 1
   _itemMaxQuantity: 1
   _iconTexture: {fileID: -1247990647, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _itemDescription: This is a Key

@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
     public Material _damageMat;
     public Material _defaultMat;
     public Renderer _matPlayer;
+    public Transform _placementPreview;
+    public static bool _isItem = false;
     void Start()
     {
         _matPlayer = GetComponent<Renderer>();
@@ -45,6 +47,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log(_hitPos.y);
         PlayerMovementKB();
         RayCast();
         Crosshair();
@@ -77,6 +80,7 @@ public class Player : MonoBehaviour
         {
             if (hitInfo.collider.gameObject.CompareTag("Item"))
             {
+                _isItem = true;
                 //GameObject _objCopy = new GameObject(hitInfo.collider.gameObject);
                 _item = hitInfo.collider.gameObject;
                 if (Input.GetKeyDown(KeyCode.F))
@@ -91,6 +95,7 @@ public class Player : MonoBehaviour
             }
             else if (hitInfo.collider.gameObject.CompareTag("Door"))
             {
+                _isItem = true;
                 GameManager._nearDoor = true;
                 if (!GameManager._hasKey)
                 {
@@ -107,6 +112,7 @@ public class Player : MonoBehaviour
             }
             else
             {
+                _isItem = false;
                 GameManager._blackB = false;
                 GameManager._redB = false;
                 GameManager._greenB = false;
@@ -133,6 +139,10 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(PlayerPos, angledDirection, out RaycastHit hitInfo, _dis))
         {
             _hitPos = hitInfo.point;
+            if (hitInfo.collider.gameObject.layer == Mathf.Log(_layerMask.value, 2))
+            {
+                _isItem = false;
+            }
             Debug.DrawRay(PlayerPos, angledDirection * hitInfo.distance, Color.green);
             return true;
         }

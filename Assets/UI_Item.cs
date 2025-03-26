@@ -10,6 +10,16 @@ public class UI_Item : MonoBehaviour
     public GameObject _itemDes;
     public Player _player;
     public Inventory _inv;
+    public Material _previewMatG;
+    public Material _previewMatR;
+    public Material _defaultMat;
+    public bool _itemPreview = false;
+    Vector3 pos;
+    Rigidbody _tempRigi;
+    Renderer _tempRend;
+    BoxCollider _tempColB;
+    CapsuleCollider _tempColC;
+    GameObject _tempObj;
 
     void Start()
     {
@@ -25,6 +35,19 @@ public class UI_Item : MonoBehaviour
             _player = FindAnyObjectByType<Player>();
             _inv = FindAnyObjectByType<Inventory>();
         }
+        if(_itemPreview && _tempObj != null)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                _tempColB.enabled = true;
+                _tempColC.enabled = true;
+                _tempRend.material = _defaultMat;
+                _tempRigi.isKinematic = false;
+                _itemPreview = false;
+                _tempObj.transform.parent = null;
+                Inventory._invInstance.RemoveItem(_itemPrefab);
+            }
+        }
     }
 
     public void InstantiateObj()
@@ -34,10 +57,26 @@ public class UI_Item : MonoBehaviour
         {
             if(!_player._obj)
             {
-                Vector3 pos = _player._hitPos;
-                Instantiate(_itemPrefab, new Vector3(pos.x, pos.y + 1f, pos.z), Quaternion.identity);
-                _itemPrefab.name = _itemName;
-                Inventory._invInstance.RemoveItem(_itemPrefab);
+                pos = _player._hitPos;
+                _tempObj = Instantiate(_itemPrefab, new Vector3(pos.x, pos.y + .5f, pos.z), Quaternion.identity, _player.transform);
+                _tempRigi = _tempObj.GetComponent<Rigidbody>();
+                _tempRend = _tempObj.GetComponent<Renderer>();
+                _tempColB = _tempObj.GetComponent<BoxCollider>();
+                _tempColC = _tempObj.GetComponent<CapsuleCollider>();
+                _tempColB.enabled = false;
+                _tempColC.enabled = false;
+                _defaultMat = _tempRend.material;
+                if (Player._isItem)
+                {
+                    _tempRend.material = _previewMatR;
+                }
+                else
+                {
+                    _tempRend.material = _previewMatG;
+                }
+                _tempRigi.isKinematic = true;
+                _tempObj.name = _itemName;
+                _itemPreview = true;
             }
         }
         else if (_item._itemAttribute == "Heal")

@@ -154,6 +154,10 @@ MonoBehaviour:
   _itemDes: {fileID: 0}
   _player: {fileID: 0}
   _inv: {fileID: 0}
+  _previewMatG: {fileID: 2100000, guid: 8b0f4aaef62647a41b80c9ddfedcdc85, type: 2}
+  _previewMatR: {fileID: 2100000, guid: 0907f9a5d1bc92941b0d5f1b14fa705f, type: 2}
+  _defaultMat: {fileID: 0}
+  _itemPreview: 0
 --- !u!1 &4976519587137837284
 GameObject:
   m_ObjectHideFlags: 0
