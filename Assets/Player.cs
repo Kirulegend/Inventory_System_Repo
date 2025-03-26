@@ -2,11 +2,9 @@ using System;
 using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
@@ -34,9 +32,10 @@ public class Player : MonoBehaviour
     public Material _defaultMat;
     public Renderer _matPlayer;
     public Transform _placementPreview;
-    public static bool _isItem = false;
+    public Transform _camPos;
     void Start()
     {
+        _camPos = transform.Find("Main Camera").transform;
         _matPlayer = GetComponent<Renderer>();
         _defaultMat = _matPlayer.material;
         Cursor.lockState = CursorLockMode.None;
@@ -47,7 +46,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(_hitPos.y);
         PlayerMovementKB();
         RayCast();
         Crosshair();
@@ -72,15 +70,15 @@ public class Player : MonoBehaviour
     void Crosshair()
     {
         Vector3 baseDirection = Vector3.down;
-        Vector3 PlayerPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        Vector3 rotationAxis = transform.right;
-        Quaternion rotation = Quaternion.AngleAxis(-80, rotationAxis);
-        Vector3 angledDirection = rotation * baseDirection;
-        if (Physics.Raycast(PlayerPos, angledDirection, out RaycastHit hitInfo, 5))
+        Vector3 CamPos = _camPos.position;
+        Vector3 rotationAxis = _camPos.right * -1;
+        Quaternion rotation = Quaternion.AngleAxis(_angle, rotationAxis);
+        Vector3 angledDirection = rotation * transform.forward;
+        if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis))
         {
             if (hitInfo.collider.gameObject.CompareTag("Item"))
             {
-                _isItem = true;
+                UI_Item._isItem = true;
                 //GameObject _objCopy = new GameObject(hitInfo.collider.gameObject);
                 _item = hitInfo.collider.gameObject;
                 if (Input.GetKeyDown(KeyCode.F))
@@ -95,7 +93,7 @@ public class Player : MonoBehaviour
             }
             else if (hitInfo.collider.gameObject.CompareTag("Door"))
             {
-                _isItem = true;
+                UI_Item._isItem = true;
                 GameManager._nearDoor = true;
                 if (!GameManager._hasKey)
                 {
@@ -110,15 +108,22 @@ public class Player : MonoBehaviour
                     GameManager._greenB = true;
                 }
             }
+            else if (hitInfo.collider.gameObject.CompareTag("Ground"))
+            {
+                UI_Item._isItem = false;
+                GameManager._blackB = false;
+                GameManager._redB = false;
+                GameManager._greenB = false;
+            }
             else
             {
-                _isItem = false;
+                UI_Item._isItem = false;
                 GameManager._blackB = false;
                 GameManager._redB = false;
                 GameManager._greenB = false;
                 GameManager._nearDoor = false;
             }
-            Debug.DrawRay(PlayerPos, angledDirection * hitInfo.distance, Color.green);
+            Debug.DrawRay(CamPos, angledDirection * hitInfo.distance, Color.green);
         }
         else
         {
@@ -126,29 +131,29 @@ public class Player : MonoBehaviour
             GameManager._blackB = false;
             GameManager._redB = false;
             GameManager._greenB = false;
-            Debug.DrawRay(PlayerPos, angledDirection * 5, Color.red);
+            Debug.DrawRay(CamPos, angledDirection * _dis, Color.red);
         }
     }
     public bool RayCast()
     {
         Vector3 baseDirection = Vector3.down;
-        Vector3 PlayerPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        Vector3 rotationAxis = transform.right;
+        Vector3 CamPos = _camPos.position;
+        Vector3 rotationAxis = _camPos.right * -1;
         Quaternion rotation = Quaternion.AngleAxis(_angle, rotationAxis);
-        Vector3 angledDirection = rotation * baseDirection;
-        if (Physics.Raycast(PlayerPos, angledDirection, out RaycastHit hitInfo, _dis))
+        Vector3 angledDirection = rotation * transform.forward;
+        if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis))
         {
             _hitPos = hitInfo.point;
             if (hitInfo.collider.gameObject.layer == Mathf.Log(_layerMask.value, 2))
             {
-                _isItem = false;
+                UI_Item._isItem = false;
             }
-            Debug.DrawRay(PlayerPos, angledDirection * hitInfo.distance, Color.green);
+            Debug.DrawRay(CamPos, angledDirection * hitInfo.distance, Color.green);
             return true;
         }
         else
         {
-            Debug.DrawRay(PlayerPos, angledDirection * _dis, Color.red);
+            Debug.DrawRay(CamPos, angledDirection * _dis, Color.red);
             return false;
         }
     }

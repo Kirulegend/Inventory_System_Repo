@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
-using static UnityEngine.InputManagerEntry;
 
 public class UI_Item : MonoBehaviour
 {
@@ -13,12 +11,12 @@ public class UI_Item : MonoBehaviour
     public Material _previewMatG;
     public Material _previewMatR;
     public Material _defaultMat;
-    public bool _itemPreview = false;
+    public static bool _itemPreview = false;
+    public static bool _isItem = false;
     Vector3 pos;
     Rigidbody _tempRigi;
     Renderer _tempRend;
     BoxCollider _tempColB;
-    CapsuleCollider _tempColC;
     GameObject _tempObj;
 
     void Start()
@@ -35,45 +33,53 @@ public class UI_Item : MonoBehaviour
             _player = FindAnyObjectByType<Player>();
             _inv = FindAnyObjectByType<Inventory>();
         }
-        if(_itemPreview && _tempObj != null)
+        if(_player != null)
         {
-            if (Input.GetMouseButtonDown(0))
+            pos = _player._hitPos;
+        }
+        if (_itemPreview && _tempObj != null)
+        {
+            _tempObj.transform.position = new Vector3(pos.x, pos.y + .5f, pos.z);
+            if (_isItem)
+            {
+                _tempRend.material = _previewMatR;
+            }
+            else
+            {
+                _tempRend.material = _previewMatG;
+            }
+            if (Input.GetMouseButtonDown(0) && !_isItem)
             {
                 _tempColB.enabled = true;
-                _tempColC.enabled = true;
                 _tempRend.material = _defaultMat;
                 _tempRigi.isKinematic = false;
-                _itemPreview = false;
-                _tempObj.transform.parent = null;
+                //_tempObj.transform.parent = null;
                 Inventory._invInstance.RemoveItem(_itemPrefab);
+                _tempObj = null;
+                _itemPreview = false;
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                Destroy(_tempObj);
+                _itemPreview = false;
             }
         }
     }
 
     public void InstantiateObj()
     {
+        //Debug.Log(Player._isItem);
         Item _item = _itemPrefab.GetComponent<Item>();
         if (_item._itemAttribute == "Item")
         {
-            if(!_player._obj)
+            if(!_player._obj && _tempObj == null)
             {
-                pos = _player._hitPos;
-                _tempObj = Instantiate(_itemPrefab, new Vector3(pos.x, pos.y + .5f, pos.z), Quaternion.identity, _player.transform);
+                _tempObj = Instantiate(_itemPrefab, new Vector3(pos.x, pos.y + .5f, pos.z), Quaternion.identity);
                 _tempRigi = _tempObj.GetComponent<Rigidbody>();
                 _tempRend = _tempObj.GetComponent<Renderer>();
                 _tempColB = _tempObj.GetComponent<BoxCollider>();
-                _tempColC = _tempObj.GetComponent<CapsuleCollider>();
                 _tempColB.enabled = false;
-                _tempColC.enabled = false;
                 _defaultMat = _tempRend.material;
-                if (Player._isItem)
-                {
-                    _tempRend.material = _previewMatR;
-                }
-                else
-                {
-                    _tempRend.material = _previewMatG;
-                }
                 _tempRigi.isKinematic = true;
                 _tempObj.name = _itemName;
                 _itemPreview = true;
