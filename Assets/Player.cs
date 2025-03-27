@@ -108,8 +108,16 @@ public class Player : MonoBehaviour
                     GameManager._greenB = true;
                 }
             }
+            else if (hitInfo.collider.gameObject.CompareTag("Enemy"))
+            {
+                UI_Item._isItem = true;
+                GameManager._blackB = false;
+                GameManager._redB = true;
+                GameManager._greenB = false;
+            }
             else if (hitInfo.collider.gameObject.CompareTag("Ground"))
             {
+                _obj = false;
                 UI_Item._isItem = false;
                 GameManager._blackB = false;
                 GameManager._redB = false;
@@ -157,7 +165,6 @@ public class Player : MonoBehaviour
             return false;
         }
     }
-
     void PlayerMovementKB()
     {
         _Hor = Input.GetAxisRaw("Horizontal");

@@ -74,6 +74,7 @@ public class UI_Item : MonoBehaviour
         {
             if(!_player._obj && _tempObj == null)
             {
+                Debug.Log("Hello");
                 _tempObj = Instantiate(_itemPrefab, new Vector3(pos.x, pos.y + .5f, pos.z), Quaternion.identity);
                 _tempRigi = _tempObj.GetComponent<Rigidbody>();
                 _tempRend = _tempObj.GetComponent<Renderer>();
