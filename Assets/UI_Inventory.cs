@@ -37,7 +37,8 @@ public class UI_Inventory : MonoBehaviour
         {
             OnClickEvent();
         }
-        NumInv();
+        NumInvKeypad();
+        NumInvScroll();
     }
 
     public void UpdateUI()
@@ -75,7 +76,29 @@ public class UI_Inventory : MonoBehaviour
             ui_Item._itemName = item._itemName;
         }
     }
-    void NumInv()
+    void NumInvScroll()
+    {
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel") * 10;
+        Debug.Log(scrollInput);
+        if (scrollInput != 0 && slots.Count > 0 && _aniIndex == 2)
+        {
+            int _tempIndex = 0;
+            if (scrollInput != 0)
+            {
+                _tempIndex = (int)scrollInput;
+                //_tempIndex += Mathf.Clamp((int)scrollInput, 0, slots.Count);
+            }
+            Debug.Log(slots.Count);
+        }
+        //if (_invNumPressed && _invIndex <= slots.Count && _invIndex > 0)
+        //{
+        //    Debug.Log(slots[_invIndex - 1]);
+        //    Button TempButtom = slots[_invIndex - 1].GetComponent<Button>();
+        //    TempButtom.onClick.Invoke();
+        //    _invNumPressed = false;
+        //}
+    }
+    void NumInvKeypad()
     {
         if (Input.anyKeyDown && slots.Count > 0 && _aniIndex == 2)
         {
