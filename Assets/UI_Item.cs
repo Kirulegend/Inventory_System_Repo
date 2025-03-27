@@ -53,7 +53,6 @@ public class UI_Item : MonoBehaviour
                 _tempColB.enabled = true;
                 _tempRend.material = _defaultMat;
                 _tempRigi.isKinematic = false;
-                //_tempObj.transform.parent = null;
                 Inventory._invInstance.RemoveItem(_itemPrefab);
                 _tempObj = null;
                 _itemPreview = false;
@@ -68,7 +67,6 @@ public class UI_Item : MonoBehaviour
 
     public void InstantiateObj()
     {
-        //Debug.Log(Player._isItem);
         Item _item = _itemPrefab.GetComponent<Item>();
         if (_item._itemAttribute == "Item")
         {

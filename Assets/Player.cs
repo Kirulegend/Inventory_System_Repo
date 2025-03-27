@@ -22,9 +22,11 @@ public class Player : MonoBehaviour
     public Vector3 _hitPos;
     public int Count = 0;
     public float _angle;
+    public float _angleBullet;
     public float _dis;
     public bool _obj = false;
     public bool _isShield = false;
+    public bool _canShoot = true;
     public static int _healthPower = 10;
     public static int _shieldPower = 10;
     public Material _shieldMat;
@@ -33,8 +35,12 @@ public class Player : MonoBehaviour
     public Renderer _matPlayer;
     public Transform _placementPreview;
     public Transform _camPos;
+    public GameObject _bullet;
+    public GameObject _Bullet;
+    public static int _tempBulletCount;
     void Start()
     {
+        _tempBulletCount = GameManager._bulletCount;
         _camPos = transform.Find("Main Camera").transform;
         _matPlayer = GetComponent<Renderer>();
         _defaultMat = _matPlayer.material;
@@ -50,6 +56,7 @@ public class Player : MonoBehaviour
         RayCast();
         Crosshair();
         Shield();
+        Shoot();
     }
     void Shield()
     {
@@ -164,6 +171,34 @@ public class Player : MonoBehaviour
             Debug.DrawRay(CamPos, angledDirection * _dis, Color.red);
             return false;
         }
+    }
+    
+    void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && _tempBulletCount == 0)
+        {
+            _tempBulletCount = GameManager._bulletCount;
+        }
+        if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0)
+        {
+            StartCoroutine(DelayedShoot());
+        }
+    }
+    IEnumerator DelayedShoot()
+    {
+        _canShoot = false;
+        yield return new WaitForSeconds(.05f);
+        Vector3 rotationAxis = _camPos.right * -1;
+        Quaternion rotation = Quaternion.AngleAxis(_angle, rotationAxis);
+        Vector3 shootDirection = rotation * transform.forward;
+        Vector3 spawnPosition = _camPos.position + shootDirection * 1f;
+        _Bullet = Instantiate(_bullet, spawnPosition, Quaternion.LookRotation(shootDirection));
+        _tempBulletCount--;
+        Rigidbody _bulletRigi = _Bullet.GetComponent<Rigidbody>();
+        _bulletRigi.AddForce(shootDirection * 1000f, ForceMode.Force);
+        Destroy(_Bullet, 3f);
+        yield return new WaitForSeconds(.05f);
+        _canShoot = true;
     }
     void PlayerMovementKB()
     {

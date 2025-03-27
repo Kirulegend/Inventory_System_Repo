@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public Sprite _red;
     public Sprite _green;
     public Sprite _black;
+    public Sprite _white;
     public Image _crossHair;
     public static bool _redB;
     public static bool _greenB;
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
     public int Count = 0;
     public Vector3 targetPosition;
     private bool _pressedE = false;
+    public static int _bulletCount = 30;
+    public TextMeshProUGUI _bulletCountText;
 
     void Start()
     {
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
+        _bulletCountText.text = Player._tempBulletCount.ToString();
         Door();
         CameraRot();
         Crosshair();
@@ -55,22 +59,19 @@ public class GameManager : MonoBehaviour
     {
         if (_blackB)
         {
-            _crossHair.color = new Color(_crossHair.color.r, _crossHair.color.g, _crossHair.color.b, Mathf.Clamp01(_crossHair.color.a + (Time.deltaTime * 20f)));
             _crossHair.sprite = _black;
         }
         else if (_redB)
         {
-            _crossHair.color = new Color(_crossHair.color.r, _crossHair.color.g, _crossHair.color.b, Mathf.Clamp01(_crossHair.color.a + (Time.deltaTime * 20f)));
             _crossHair.sprite = _red;
         }
         else if (_greenB)
         {
-            _crossHair.color = new Color(_crossHair.color.r, _crossHair.color.g, _crossHair.color.b, Mathf.Clamp01(_crossHair.color.a + (Time.deltaTime * 20f)));
             _crossHair.sprite = _green;
         }
         else if(!_blackB && !_greenB && !_redB)
         {
-            _crossHair.color = new Color(_crossHair.color.r, _crossHair.color.g, _crossHair.color.b, Mathf.Clamp01(_crossHair.color.a - (Time.deltaTime * 20f)));
+            _crossHair.sprite = _white;
         }
     }
     void CameraRot()
