@@ -37,7 +37,7 @@ public class UI_Inventory : MonoBehaviour
         _sliderHealth.value = Player._healthPower;
         _sliderPower.value = Player._shieldPower;
         _ani.SetFloat("Index", _aniIndex);
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.Q) && !GameManager._isScope)
         {
             OnClickEvent();
         }
@@ -80,7 +80,6 @@ public class UI_Inventory : MonoBehaviour
     }
     void NumInvScroll()
     {
-        Debug.Log(_tempIndex);
         float scrollInput = -Input.GetAxisRaw("Mouse ScrollWheel") * 10;
         if (_tempIndex1 == -1 && slots.Count > 0)
         {

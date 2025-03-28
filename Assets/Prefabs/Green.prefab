@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6223283141741886484}
   - component: {fileID: 4355044179465501271}
   - component: {fileID: 5229702584487736528}
-  - component: {fileID: 6977256702332310159}
   - component: {fileID: -6878599890349974515}
   - component: {fileID: -3139257370222277352}
   - component: {fileID: 2280700810963759591}
@@ -90,29 +89,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6977256702332310159
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5903290483612247684}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 1
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-6878599890349974515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +134,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &2280700810963759591
 BoxCollider:
   m_ObjectHideFlags: 0

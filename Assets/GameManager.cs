@@ -25,7 +25,17 @@ public class GameManager : MonoBehaviour
     private bool _pressedE = false;
     public static int _bulletCount = 30;
     public TextMeshProUGUI _bulletCountText;
-
+    public Camera _camera;
+    public GameObject _canvas;
+    public GameObject _scope;
+    public UI_Inventory _uiInv;
+    public static bool _isScope = false;
+    public Image _weapon;
+    public Sprite _gun;
+    public Sprite _hand;
+    public GameObject _unlimited;
+    public static bool _unlimitedAmmo = false;
+    public static bool _isHand = false;
     void Start()
     {
         _rb3D = _player.GetComponent<Rigidbody>();
@@ -37,6 +47,8 @@ public class GameManager : MonoBehaviour
         Door();
         CameraRot();
         Crosshair();
+        Scope();
+        Weapon();
     }
     public void Door()
     {
@@ -48,7 +60,7 @@ public class GameManager : MonoBehaviour
         {
             _objDoor.position = Vector3.Lerp(_objDoor.position, targetPosition, 2 * Time.deltaTime);
         }
-        if (_objDoor.position.y >= 4.5f && !_doorOpened)
+        if (_objDoor.position.y >= 4.4f && !_doorOpened)
         {
             _pressedE = false;
             _doorOpened = true;
@@ -95,6 +107,73 @@ public class GameManager : MonoBehaviour
             CamInputRotation.y += Input.GetAxis("Mouse Y");
             CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -30f, 30f);
             _rb3D.MoveRotation(Quaternion.Euler(Mathf.Clamp(-CamInputRotation.y, -30, 30), CamInputRotation.x, 0));
+        }
+    }
+    void Scope()
+    {
+        if (!_isHand)
+        {
+            if (Input.GetMouseButtonDown(1) && _uiInv._aniIndex != 2)
+            {
+                _isScope = true;
+            }
+            if (Input.GetMouseButtonUp(1) && _uiInv._aniIndex != 2)
+            {
+                _isScope = false;
+            }
+            if (!_isScope && _camera.fieldOfView != 60)
+            {
+                _scope.SetActive(false);
+                _camera.fieldOfView = Mathf.SmoothStep(25, 60, 2f);
+                _canvas.transform.localScale = Vector3.Lerp(new Vector3(0.00061556f, 0.00061556f, 0.00061556f), new Vector3(0.001603751f, 0.001603751f, 0.001603751f), 2f);
+            }
+            else if (_isScope && _camera.fieldOfView != 25)
+            {
+                _scope.SetActive(true);
+                _camera.fieldOfView = Mathf.SmoothStep(60, 25, 2f);
+                _canvas.transform.localScale = Vector3.Lerp(new Vector3(0.001603751f, 0.001603751f, 0.001603751f), new Vector3(0.00061556f, 0.00061556f, 0.00061556f), 2f);
+            }
+        }
+    }
+    void Weapon()
+    {
+        if (_uiInv._aniIndex != 2)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1) && _weapon.sprite != _hand)
+            {
+                _weapon.sprite = _hand;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && _weapon.sprite != _gun)
+            {
+                _bulletCountText.enabled = true;
+                _unlimited.SetActive(false);
+                _weapon.sprite = _gun;
+            }
+            if (_weapon.sprite == _hand)
+            {
+                _isHand = true;
+                _bulletCountText.enabled = false;
+                _unlimited.SetActive(true);
+            }
+            if (_weapon.sprite == _gun)
+            {
+                _isHand = false;
+                if (Input.GetKeyDown(KeyCode.U))
+                {
+                    if (_unlimitedAmmo)
+                    {
+                        _bulletCountText.enabled = true;
+                        _unlimited.SetActive(false);
+                        _unlimitedAmmo = false;
+                    }
+                    else
+                    {
+                        _bulletCountText.enabled = false;
+                        _unlimited.SetActive(true);
+                        _unlimitedAmmo = true;
+                    }
+                }
+            }
         }
     }
 }
