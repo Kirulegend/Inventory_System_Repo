@@ -36,6 +36,17 @@ public class GameManager : MonoBehaviour
     public GameObject _unlimited;
     public static bool _unlimitedAmmo = false;
     public static bool _isHand = false;
+    public Image _inv;
+    public Image _jump;
+    public Image _tel;
+    public static bool _isTel = false;
+    public static bool _isJump = false;
+    public static bool _isInv = false;
+    public Transform _camPos;
+    public Transform _playerPos;
+    public GameObject _teleporter;
+    public GameObject _Teleporter;
+
     void Start()
     {
         _rb3D = _player.GetComponent<Rigidbody>();
@@ -43,12 +54,12 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        _bulletCountText.text = Player._tempBulletCount.ToString();
         Door();
         CameraRot();
         Crosshair();
         Scope();
         Weapon();
+        Abilities();
     }
     public void Door()
     {
@@ -137,6 +148,7 @@ public class GameManager : MonoBehaviour
     }
     void Weapon()
     {
+        _bulletCountText.text = Player._tempBulletCount.ToString();
         if (_uiInv._aniIndex != 2)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && _weapon.sprite != _hand)
@@ -175,5 +187,32 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+    void Abilities()
+    {
+        if (Input.GetKeyDown(KeyCode.Z) && _isTel == false)
+        {
+            _isTel = true;
+        }
+        if (_isTel)
+        {
+            _tel.color = new Color32(255, 255, 255, 255);
+            StartCoroutine(AbilitiesTimer(2));
+        }
+    }
+    IEnumerator AbilitiesTimer(float time)
+    {
+        _isTel = false;
+        Vector3 rotationAxis = _camPos.right * -1;
+        Quaternion rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
+        Vector3 shootDirection = rotation * _playerPos.forward;
+        Vector3 spawnPosition = _camPos.position + shootDirection * 1f;
+        _Teleporter = Instantiate(_teleporter, spawnPosition, Quaternion.LookRotation(shootDirection));
+        Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
+        _TeleporterRigi.AddForce(shootDirection * 2000f, ForceMode.Force);
+        Destroy(_Teleporter, 3f);
+        yield return new WaitForSeconds(time);
+        _tel.color = new Color32(45, 45, 45, 125);
+        Debug.Log("Hello");
     }
 }
