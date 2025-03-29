@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,10 +43,15 @@ public class GameManager : MonoBehaviour
     public static bool _isTel = false;
     public static bool _isJump = false;
     public static bool _isInv = false;
+    public static bool _telPreview = false;
     public Transform _camPos;
     public Transform _playerPos;
     public GameObject _teleporter;
     public GameObject _Teleporter;
+    public Vector3 rotationAxis;
+    public Quaternion rotation;
+    public Vector3 shootDirection;
+    public Vector3 spawnPosition;
 
     void Start()
     {
@@ -190,29 +196,55 @@ public class GameManager : MonoBehaviour
     }
     void Abilities()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && _isTel == false)
+        Debug.Log(_Teleporter);
+        if (Input.GetKeyDown(KeyCode.Z) && _isTel == false && _Teleporter == null)
         {
+            _telPreview = true;
             _isTel = true;
         }
         if (_isTel)
         {
             _tel.color = new Color32(255, 255, 255, 255);
-            StartCoroutine(AbilitiesTimer(2));
+            rotationAxis = _camPos.right * -1;
+            rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
+            shootDirection = rotation * _playerPos.forward;
+            spawnPosition = new Vector3(_playerPos.position.x, _playerPos.position.y + .75f, _playerPos.position.z) + shootDirection * 1f;
+            _Teleporter = Instantiate(_teleporter, spawnPosition, Quaternion.LookRotation(shootDirection), _playerPos);
+            _isTel = false;
+            Destroy(_Teleporter, 20f);
+        }
+        if(_Teleporter != null && _isTel == false)
+        {
+            Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
+            if (Input.GetMouseButtonDown(0) && !_TeleporterRigi.useGravity)
+            {
+                rotationAxis = _camPos.right * -1;
+                rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
+                shootDirection = rotation * _playerPos.forward;
+                _TeleporterRigi.useGravity = true;
+                _TeleporterRigi.isKinematic = false;
+                _tel.color = new Color32(45, 45, 45, 125);
+            }
+            if (_TeleporterRigi.useGravity)
+            {
+                StartCoroutine(PreviewTimer());
+                if (_Teleporter.transform.parent != null)
+                {
+                    _Teleporter.transform.SetParent(null);
+                }
+                _TeleporterRigi.AddForce(shootDirection * 1.25f, ForceMode.Force);
+            }
+            if (Input.GetKeyDown(KeyCode.E) && _TeleporterRigi.useGravity && _Teleporter.transform.parent == null)
+            {
+                _playerPos.position = _Teleporter.transform.position;
+                Destroy(_Teleporter);
+                _tel.color = new Color32(45, 45, 45, 255);
+            }
         }
     }
-    IEnumerator AbilitiesTimer(float time)
+    IEnumerator PreviewTimer()
     {
-        _isTel = false;
-        Vector3 rotationAxis = _camPos.right * -1;
-        Quaternion rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
-        Vector3 shootDirection = rotation * _playerPos.forward;
-        Vector3 spawnPosition = _camPos.position + shootDirection * 1f;
-        _Teleporter = Instantiate(_teleporter, spawnPosition, Quaternion.LookRotation(shootDirection));
-        Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
-        _TeleporterRigi.AddForce(shootDirection * 2000f, ForceMode.Force);
-        Destroy(_Teleporter, 3f);
-        yield return new WaitForSeconds(time);
-        _tel.color = new Color32(45, 45, 45, 125);
-        Debug.Log("Hello");
+        yield return new WaitForSeconds(1);
+        _telPreview = false;
     }
 }

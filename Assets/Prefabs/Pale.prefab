@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemName: Pale_Key
-  _itemQuantity: 1
+  _itemQuantity: 0
   _itemMaxQuantity: 1
   _iconTexture: {fileID: -1247990647, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _itemDescription: This is a Key
@@ -142,7 +142,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5376143419705752120}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 66f03d97c4772b54a99d5819e2ffbaf6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

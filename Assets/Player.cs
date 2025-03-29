@@ -186,7 +186,7 @@ public class Player : MonoBehaviour
         {
             _tempBulletCount = GameManager._bulletCount;
         }
-        if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0 && !GameManager._isHand)
+        if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0 && !GameManager._isHand && !GameManager._telPreview)
         {
             StartCoroutine(DelayedShoot());
         }
