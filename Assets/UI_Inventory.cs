@@ -37,7 +37,7 @@ public class UI_Inventory : MonoBehaviour
         _sliderHealth.value = Player._healthPower;
         _sliderPower.value = Player._shieldPower;
         _ani.SetFloat("Index", _aniIndex);
-        if (Input.GetKeyUp(KeyCode.Q) && !GameManager._isScope)
+        if (Input.GetKeyUp(KeyCode.Tab) && !GameManager._isScope)
         {
             OnClickEvent();
         }

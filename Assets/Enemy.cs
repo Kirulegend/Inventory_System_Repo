@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     public bool _isFiring = false;
     void Update()
     {
-        if (_isPlayer)
+        if (_isPlayer && !GameManager._isInv)
         {
             if (_isFiring)
             {

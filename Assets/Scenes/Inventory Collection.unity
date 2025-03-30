@@ -1372,7 +1372,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -4943,6 +4943,7 @@ MonoBehaviour:
   _inv: {fileID: 1690175098}
   _jump: {fileID: 675138440}
   _tel: {fileID: 720043207}
+  _meshRenderer: {fileID: 0}
   _camPos: {fileID: 330585546}
   _playerPos: {fileID: 1816174963}
   _teleporter: {fileID: 4694453179775538213, guid: 97f2b14326fc71b47bdd3e1cadeeb5b9, type: 3}
