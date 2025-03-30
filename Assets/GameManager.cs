@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
     public Transform _playerPos;
     public GameObject _teleporter;
     public GameObject _Teleporter;
+    public GameObject _jumpPad;
+    public GameObject _JumpPad;
     public Vector3 rotationAxis;
     public Quaternion rotation;
     public Vector3 shootDirection;
@@ -122,8 +124,8 @@ public class GameManager : MonoBehaviour
         {
             CamInputRotation.x += Input.GetAxis("Mouse X");
             CamInputRotation.y += Input.GetAxis("Mouse Y");
-            CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -30f, 30f);
-            _rb3D.MoveRotation(Quaternion.Euler(Mathf.Clamp(-CamInputRotation.y, -30, 30), CamInputRotation.x, 0));
+            CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -40f, 40f);
+            _rb3D.MoveRotation(Quaternion.Euler(Mathf.Clamp(-CamInputRotation.y, -40, 40), CamInputRotation.x, 0));
         }
     }
     void Scope()
@@ -240,6 +242,10 @@ public class GameManager : MonoBehaviour
                 Destroy(_Teleporter);
                 _tel.color = new Color32(45, 45, 45, 255);
             }
+        }
+        if (Input.GetKeyDown(KeyCode.E) && !_isJump)
+        {
+
         }
     }
     IEnumerator PreviewTimer()
