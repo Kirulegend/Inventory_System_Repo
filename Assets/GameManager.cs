@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviour
         }
         if (_isTel)
         {
-            rotationAxis = _camPos.right * -1;
+            rotationAxis = _camPos.forward;
             rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
             shootDirection = rotation * _playerPos.forward;
             spawnPosition = new Vector3(_playerPos.position.x , _playerPos.position.y + 1f, _playerPos.position.z) + shootDirection * 1f;
@@ -220,7 +220,7 @@ public class GameManager : MonoBehaviour
             Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
             if (Input.GetMouseButtonDown(0) && !_TeleporterRigi.useGravity)
             {
-                rotationAxis = _camPos.right * -1;
+                rotationAxis = _camPos.forward;
                 rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
                 shootDirection = rotation * _playerPos.forward;
                 _TeleporterRigi.useGravity = true;
