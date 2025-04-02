@@ -53,12 +53,19 @@ public class GameManager : MonoBehaviour
     public GameObject _Teleporter;
     public GameObject _jumpPad;
     public GameObject _JumpPad;
+    public float _jumpPadforce;
     public Vector3 rotationAxis;
     public Quaternion rotation;
     public Vector3 shootDirection;
     public Vector3 spawnPosition;
     public Volume _vol;
     public Vignette _vig;
+    public TextMeshProUGUI _invCount;
+    public TextMeshProUGUI _jumpCount;
+    public TextMeshProUGUI _telCount;
+    public int _invCountNum;
+    public int _jumpCountNum;
+    public int _telCountNum;
 
     void Start()
     {
@@ -204,13 +211,28 @@ public class GameManager : MonoBehaviour
     }
     void Abilities()
     {
-        Debug.Log(_Teleporter);
-        if (Input.GetKeyDown(KeyCode.Q) && !_isJump)
+        _invCount.text = _invCountNum.ToString();
+        _jumpCount.text = _jumpCountNum.ToString();
+        _telCount.text = _telCountNum.ToString();
+        if(_invCountNum == 0)
+        {
+            _inv.color = new Color32(45, 45, 45, 125);
+        }
+        if (_jumpCountNum == 0)
+        {
+            _jump.color = new Color32(45, 45, 45, 125);
+        }
+        if (_telCountNum == 0)
+        {
+            _tel.color = new Color32(45, 45, 45, 125);
+        }
+        if (Input.GetKeyDown(KeyCode.Q) && !_isJump && _jumpCountNum >= 1)
         {
             _isJump = true;
         }
         if (_isJump)
         {
+            _jump.color = new Color32(255, 255, 255, 255);
             rotationAxis = _playerPos.forward;
             rotation = Quaternion.AngleAxis(_playerPos.localRotation.x, rotationAxis);
             shootDirection = rotation * _playerPos.forward;
@@ -218,10 +240,14 @@ public class GameManager : MonoBehaviour
             _JumpPad = Instantiate(_jumpPad, spawnPosition, Quaternion.LookRotation(shootDirection));
             Rigidbody _JumpPadRigi = _JumpPad.GetComponent<Rigidbody>();
             _JumpPadRigi.AddForce(_playerPos.forward * 250f, ForceMode.Force);
-            Destroy(_JumpPad, 5);
+            _JumpPadRigi.AddForce(Physics.gravity * 2f, ForceMode.Acceleration);
+            CapsuleCollider _tempCollider = _JumpPad.GetComponent<CapsuleCollider>();
+            StartCoroutine(Jump(_tempCollider));
+            _jumpCountNum--;
+            Destroy(_JumpPad, 10);
             _isJump = false;
         }
-        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && _Teleporter == null && _uiInv._aniIndex != 2)
+        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && _Teleporter == null && _telCountNum >= 1)
         {
             _tel.color = new Color32(255, 255, 255, 255);
             _telPreview = true;
@@ -247,6 +273,7 @@ public class GameManager : MonoBehaviour
                 _TeleporterRigi.useGravity = true;
                 _TeleporterRigi.isKinematic = false;
                 _tel.color = new Color32(45, 45, 45, 125);
+                _telCountNum--;
                 Destroy(_Teleporter, 20f);
             }
             if (_TeleporterRigi.useGravity)
@@ -271,7 +298,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.X) && !_isInv)
+        if (Input.GetKeyDown(KeyCode.X) && !_isInv && _invCountNum >= 1)
         {
             _inv.color = new Color32(255, 255, 255, 255);
             _meshRenderer =  _playerPos.gameObject.GetComponent<MeshRenderer>();
@@ -286,15 +313,27 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator Inv()
     {
-        _inv.color = new Color32(45, 45, 45, 125);
+        _inv.color = new Color32(255, 255, 255, 255);
         _isInv = true;
+        _invCountNum--;
         yield return new WaitForSeconds(10);
         _meshRenderer.enabled = true;
         _isInv = false;
         _inv.color = new Color32(45, 45, 45, 255);
     }
+    IEnumerator Jump(CapsuleCollider _tempCollider)
+    {
+        yield return new WaitForSeconds(.1f);
+        _jump.color = new Color32(45, 45, 45, 255);
+        _tempCollider.enabled = true;
+    }
     void Damage()
     {
+        if(Player._healthPower > 5)
+        {
+            _vol.profile.TryGet(out _vig);
+            _vig.intensity.Override(0);
+        }
         if(Player._healthPower == 5)
         {
             float _temp = Mathf.SmoothStep(0.0f, 0.1f, 2f);

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 693876939894072946}
   m_Layer: 0
   m_Name: Jump_Pad
-  m_TagString: Untagged
+  m_TagString: Jumppad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,7 +135,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 96
   m_CollisionDetection: 1
 --- !u!136 &693876939894072946
 CapsuleCollider:
@@ -154,7 +154,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1
   m_Height: 0

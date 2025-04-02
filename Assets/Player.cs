@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public LayerMask _layerMask;
     public Inventory _inv;
     public UI_Inventory _uiInv;
+    public GameManager _gm;
     public GameObject _item;
     public Vector3 _hitPos;
     public int Count = 0;
@@ -205,7 +206,7 @@ public class Player : MonoBehaviour
             _tempBulletCount--;
         }
         Rigidbody _bulletRigi = _Bullet.GetComponent<Rigidbody>();
-        _bulletRigi.AddForce(shootDirection * 2000f, ForceMode.Force);
+        _bulletRigi.AddForce(shootDirection * 5000f, ForceMode.Force);
         Destroy(_Bullet, 3f);
         yield return new WaitForSeconds(.05f);
         _canShoot = true;
@@ -226,11 +227,11 @@ public class Player : MonoBehaviour
         }
         if ((Input.GetKeyDown(KeyCode.LeftShift)))
         {
-            _moveSpeed *= 2;
+            _moveSpeed *= 1.5f;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            _moveSpeed /= 2;
+            _moveSpeed /= 1.5f;
         }
         if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
         {
@@ -267,6 +268,14 @@ public class Player : MonoBehaviour
                 StartCoroutine(Damage());
             }
             Destroy(collision.gameObject);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Jumppad"))
+        {
+            _rb3D.AddForce(transform.up * _gm._jumpPadforce * _moveSpeed, ForceMode.Impulse);
+            Destroy(other.gameObject, .25f);
         }
     }
 }

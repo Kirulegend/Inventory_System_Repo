@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - Ground
   - Enemy
+  - Jumppad
   layers:
   - Default
   - TransparentFX

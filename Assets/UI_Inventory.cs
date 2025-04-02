@@ -120,7 +120,7 @@ public class UI_Inventory : MonoBehaviour
             _tempIndex1 = -1;
             _tempIndex2 = 0;
         }
-        if (Input.GetKeyDown(KeyCode.E) && slots.Count > 0 && _aniIndex == 2)
+        if (Input.GetKeyDown(KeyCode.F) && slots.Count > 0 && _aniIndex == 2)
         {
             Button TempButtom = slots[_tempIndex].GetComponent<Button>();
             TempButtom.onClick.Invoke();
