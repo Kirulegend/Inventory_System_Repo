@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
         _bulletCountText.text = Player._tempBulletCount.ToString();
         if (_uiInv._aniIndex != 2)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1) && _weapon.sprite != _hand)
+            if ((Input.GetKeyDown(KeyCode.Alpha1) || _telPreview) && _weapon.sprite != _hand)
             {
                 _weapon.sprite = _hand;
             }
@@ -205,6 +205,22 @@ public class GameManager : MonoBehaviour
     void Abilities()
     {
         Debug.Log(_Teleporter);
+        if (Input.GetKeyDown(KeyCode.Q) && !_isJump)
+        {
+            _isJump = true;
+        }
+        if (_isJump)
+        {
+            rotationAxis = _playerPos.forward;
+            rotation = Quaternion.AngleAxis(_playerPos.localRotation.x, rotationAxis);
+            shootDirection = rotation * _playerPos.forward;
+            spawnPosition = new Vector3(_playerPos.position.x, _playerPos.position.y + 1f, _playerPos.position.z) + shootDirection * 1f;
+            _JumpPad = Instantiate(_jumpPad, spawnPosition, Quaternion.LookRotation(shootDirection));
+            Rigidbody _JumpPadRigi = _JumpPad.GetComponent<Rigidbody>();
+            _JumpPadRigi.AddForce(_playerPos.forward * 250f, ForceMode.Force);
+            Destroy(_JumpPad, 5);
+            _isJump = false;
+        }
         if (Input.GetKeyDown(KeyCode.E) && _isTel == false && _Teleporter == null && _uiInv._aniIndex != 2)
         {
             _tel.color = new Color32(255, 255, 255, 255);
