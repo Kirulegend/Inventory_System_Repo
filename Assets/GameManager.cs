@@ -2,6 +2,8 @@ using System.Collections;
 using System.Drawing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -55,6 +57,8 @@ public class GameManager : MonoBehaviour
     public Quaternion rotation;
     public Vector3 shootDirection;
     public Vector3 spawnPosition;
+    public Volume _vol;
+    public Vignette _vig;
 
     void Start()
     {
@@ -69,6 +73,7 @@ public class GameManager : MonoBehaviour
         Scope();
         Weapon();
         Abilities();
+        Damage();
     }
     public void Door()
     {
@@ -144,13 +149,13 @@ public class GameManager : MonoBehaviour
             if (!_isScope && _camera.fieldOfView != 60)
             {
                 _scope.SetActive(false);
-                _camera.fieldOfView = Mathf.SmoothStep(25, 60, 2f);
+                _camera.fieldOfView = Mathf.SmoothStep(20, 60, 2f);
                 _canvas.transform.localScale = Vector3.Lerp(new Vector3(0.00061556f, 0.00061556f, 0.00061556f), new Vector3(0.001603751f, 0.001603751f, 0.001603751f), 2f);
             }
-            else if (_isScope && _camera.fieldOfView != 25)
+            else if (_isScope && _camera.fieldOfView != 20)
             {
                 _scope.SetActive(true);
-                _camera.fieldOfView = Mathf.SmoothStep(60, 25, 2f);
+                _camera.fieldOfView = Mathf.SmoothStep(60, 20, 2f);
                 _canvas.transform.localScale = Vector3.Lerp(new Vector3(0.001603751f, 0.001603751f, 0.001603751f), new Vector3(0.00061556f, 0.00061556f, 0.00061556f), 2f);
             }
         }
@@ -200,7 +205,7 @@ public class GameManager : MonoBehaviour
     void Abilities()
     {
         Debug.Log(_Teleporter);
-        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && _Teleporter == null)
+        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && _Teleporter == null && _uiInv._aniIndex != 2)
         {
             _tel.color = new Color32(255, 255, 255, 255);
             _telPreview = true;
@@ -260,7 +265,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator TeleporterPreview()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2.5f);
         _telPreview = false;
     }
     IEnumerator Inv()
@@ -271,5 +276,38 @@ public class GameManager : MonoBehaviour
         _meshRenderer.enabled = true;
         _isInv = false;
         _inv.color = new Color32(45, 45, 45, 255);
+    }
+    void Damage()
+    {
+        if(Player._healthPower == 5)
+        {
+            float _temp = Mathf.SmoothStep(0.0f, 0.1f, 2f);
+            _vol.profile.TryGet(out _vig);
+            _vig.intensity.Override(_temp);
+        }
+        if (Player._healthPower == 4)
+        {
+            float _temp = Mathf.SmoothStep(0.1f, 0.2f, 2f);
+            _vol.profile.TryGet(out _vig);
+            _vig.intensity.Override(_temp);
+        }
+        if (Player._healthPower == 3)
+        {
+            float _temp = Mathf.SmoothStep(0.2f, 0.3f, 2f);
+            _vol.profile.TryGet(out _vig);
+            _vig.intensity.Override(_temp);
+        }
+        if (Player._healthPower == 2)
+        {
+            float _temp = Mathf.SmoothStep(0.3f, 0.4f, 2f);
+            _vol.profile.TryGet(out _vig);
+            _vig.intensity.Override(_temp);
+        }
+        if (Player._healthPower == 1)
+        {
+            float _temp = Mathf.SmoothStep(0.4f, 0.5f, 2f);
+            _vol.profile.TryGet(out _vig);
+            _vig.intensity.Override(_temp);
+        }
     }
 }
