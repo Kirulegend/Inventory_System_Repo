@@ -63,9 +63,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI _invCount;
     public TextMeshProUGUI _jumpCount;
     public TextMeshProUGUI _telCount;
-    int _invCountNum = 10;
-    int _jumpCountNum = 10;
-    int _telCountNum = 10;
+    int _invCountNum = 50;
+    int _jumpCountNum = 50;
+    int _telCountNum = 50;
 
     void Start()    
     {
@@ -79,10 +79,14 @@ public class GameManager : MonoBehaviour
         Crosshair();
         Scope();
         Weapon();
-        Abilities();
         Damage();
+        Abilities();
     }
-    public void Door()
+    public void FixedUpdate()
+    {
+        Abilities();
+    }
+    void Door()
     {
         if (_hasKey && !_doorOpened && Input.GetKeyDown(KeyCode.E))
         {
@@ -99,7 +103,7 @@ public class GameManager : MonoBehaviour
             _hasKey = false;
         }
     }
-    public void Crosshair()
+    void Crosshair()
     {
         if (_blackB)
         {
@@ -211,6 +215,7 @@ public class GameManager : MonoBehaviour
     }
     void Abilities()
     {
+        //UI count Display
         _invCount.text = _invCountNum.ToString();
         _jumpCount.text = _jumpCountNum.ToString();
         _telCount.text = _telCountNum.ToString();
@@ -226,6 +231,8 @@ public class GameManager : MonoBehaviour
         {
             _tel.color = new Color32(45, 45, 45, 125);
         }
+
+        //Jump-pad Logic
         if (Input.GetKeyDown(KeyCode.Q) && !_isJump && _jumpCountNum >= 1)
         {
             _isJump = true;
@@ -247,35 +254,31 @@ public class GameManager : MonoBehaviour
             Destroy(_JumpPad, 10);
             _isJump = false;
         }
-        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && _Teleporter == null && _telCountNum >= 1)
+
+        //Teleporter Logic
+        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && !_Teleporter.activeInHierarchy && _telCountNum >= 1)
         {
+            _Teleporter.transform.SetParent(_playerPos);
+            _Teleporter.transform.localRotation = Quaternion.identity;
             _tel.color = new Color32(255, 255, 255, 255);
             _telPreview = true;
             _isTel = true;
         }
         if (_isTel)
         {
-            //rotationAxis = _camPos.forward;
-            //rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
-            //shootDirection = rotation * _playerPos.forward;
-            //spawnPosition = new Vector3(_playerPos.position.x , _playerPos.position.y + 1f, _playerPos.position.z) + shootDirection * 1f;
+            _Teleporter.SetActive(true);
             _Teleporter.transform.position = _TelTargetPos.position;
-            //_Teleporter = Instantiate(_teleporter, spawnPosition, Quaternion.LookRotation(shootDirection), _playerPos);
             _isTel = false;
         }
-        if(_Teleporter != null && _isTel == false)
+        if(_Teleporter.activeInHierarchy && _isTel == false)
         {
             Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
             if (Input.GetMouseButtonDown(0) && !_TeleporterRigi.useGravity)
             {
-                rotationAxis = _camPos.forward;
-                rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
-                shootDirection = rotation * _playerPos.forward;
                 _TeleporterRigi.useGravity = true;
                 _TeleporterRigi.isKinematic = false;
                 _tel.color = new Color32(45, 45, 45, 125);
                 _telCountNum--;
-                Destroy(_Teleporter, 20f);
             }
             if (_TeleporterRigi.useGravity)
             {
@@ -284,22 +287,20 @@ public class GameManager : MonoBehaviour
                 {
                     _Teleporter.transform.SetParent(null);
                 }
-                _TeleporterRigi.AddForce(shootDirection * 1.25f, ForceMode.Force);
+                _TeleporterRigi.AddForce(_camPos.forward * 1.25f, ForceMode.Force);
             }
-            if (Input.GetKeyDown(KeyCode.E) && _TeleporterRigi.useGravity && _Teleporter.transform.parent == null)
+            if (Input.GetKeyDown(KeyCode.E) && _TeleporterRigi.useGravity && _Teleporter.transform.parent == null && _Teleporter.activeInHierarchy)
             {
-                _TeleporterRigi.linearVelocity = Vector3.zero;
-                _TeleporterRigi.angularVelocity = Vector3.zero;
+                _TeleporterRigi.useGravity = false;
+                _TeleporterRigi.isKinematic = true;
                 Vector3 _tempPos = _Teleporter.transform.position;
                 _playerPos.position = _tempPos;
                 _tel.color = new Color32(45, 45, 45, 255);
-                Destroy(_Teleporter, 0.1f);
-                if (_Teleporter != null)
-                {
-                    Destroy(_Teleporter, 0.1f);
-                }
+                _Teleporter.SetActive(false);
             }
         }
+
+        //Invisiable Logic
         if (Input.GetKeyDown(KeyCode.X) && !_isInv && _invCountNum >= 1)
         {
             _inv.color = new Color32(255, 255, 255, 255);
