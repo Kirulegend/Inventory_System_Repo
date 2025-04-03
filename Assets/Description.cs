@@ -9,11 +9,11 @@ public class Description : MonoBehaviour
         Dec = GetComponent<TextMeshProUGUI>();
         Dec.enabled = false;
     }
-    private void OnMouseEnter()
+    void OnMouseEnter()
     {
         Dec.enabled = true;
     }
-    private void OnMouseExit()
+    void OnMouseExit()
     {
         Dec.enabled = false;
     }

@@ -6,7 +6,6 @@ using TMPro;
 using Unity.VisualScripting;
 using System;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEditor.Rendering.LookDev;
 public class UI_Inventory : MonoBehaviour
 {
     Animator _ani;
