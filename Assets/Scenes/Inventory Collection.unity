@@ -5202,11 +5202,8 @@ MonoBehaviour:
   _black: {fileID: 1952366574, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _white: {fileID: 538062040, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _crossHair: {fileID: 885860358}
-  CamInputRotation: {x: 0, y: 0}
   _rb3D: {fileID: 0}
   _player: {fileID: 1816174965}
-  Count: 0
-  targetPosition: {x: 0, y: 4.5, z: 2.5}
   _bulletCountText: {fileID: 62640273}
   _camera: {fileID: 330585545}
   _canvas: {fileID: 744278000}
@@ -5222,23 +5219,16 @@ MonoBehaviour:
   _meshRenderer: {fileID: 0}
   _camPos: {fileID: 330585546}
   _playerPos: {fileID: 1816174963}
-  _teleporter: {fileID: 4694453179775538213, guid: 97f2b14326fc71b47bdd3e1cadeeb5b9, type: 3}
-  _Teleporter: {fileID: 0}
+  _TelTargetPos: {fileID: 0}
+  _Teleporter: {fileID: 4694453179775538213, guid: 97f2b14326fc71b47bdd3e1cadeeb5b9, type: 3}
   _jumpPad: {fileID: 5211159794750620397, guid: 933074570b87fc94e88c8f3552bc1e8d, type: 3}
   _JumpPad: {fileID: 0}
   _jumpPadforce: 75
-  rotationAxis: {x: 0, y: 0, z: 0}
-  rotation: {x: 0, y: 0, z: 0, w: 0}
-  shootDirection: {x: 0, y: 0, z: 0}
-  spawnPosition: {x: 0, y: 0, z: 0}
   _vol: {fileID: 832575518}
   _vig: {fileID: 0}
   _invCount: {fileID: 751138855}
   _jumpCount: {fileID: 231488746}
   _telCount: {fileID: 103958912}
-  _invCountNum: 5
-  _jumpCountNum: 5
-  _telCountNum: 5
 --- !u!4 &1998226801
 Transform:
   m_ObjectHideFlags: 0

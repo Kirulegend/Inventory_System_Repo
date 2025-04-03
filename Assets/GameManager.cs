@@ -20,12 +20,12 @@ public class GameManager : MonoBehaviour
     public static bool _redB;
     public static bool _greenB;
     public static bool _blackB;
-    public Vector2 CamInputRotation;
+    Vector2 CamInputRotation;
     public Rigidbody _rb3D;
     public Player _player;
-    public int Count = 0;
-    public Vector3 targetPosition;
-    private bool _pressedE = false;
+    int Count = 0;
+    Vector3 targetPosition;
+    bool _pressedE = false;
     public static int _bulletCount = 30;
     public TextMeshProUGUI _bulletCountText;
     public Camera _camera;
@@ -49,25 +49,25 @@ public class GameManager : MonoBehaviour
     public MeshRenderer _meshRenderer;
     public Transform _camPos;
     public Transform _playerPos;
-    public GameObject _teleporter;
+    public Transform _TelTargetPos;
     public GameObject _Teleporter;
     public GameObject _jumpPad;
     public GameObject _JumpPad;
     public float _jumpPadforce;
-    public Vector3 rotationAxis;
-    public Quaternion rotation;
-    public Vector3 shootDirection;
-    public Vector3 spawnPosition;
+    Vector3 rotationAxis;
+    Quaternion rotation;
+    Vector3 shootDirection;
+    Vector3 spawnPosition;
     public Volume _vol;
     public Vignette _vig;
     public TextMeshProUGUI _invCount;
     public TextMeshProUGUI _jumpCount;
     public TextMeshProUGUI _telCount;
-    public int _invCountNum;
-    public int _jumpCountNum;
-    public int _telCountNum;
+    int _invCountNum = 10;
+    int _jumpCountNum = 10;
+    int _telCountNum = 10;
 
-    void Start()
+    void Start()    
     {
         _rb3D = _player.GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.None;
@@ -255,11 +255,12 @@ public class GameManager : MonoBehaviour
         }
         if (_isTel)
         {
-            rotationAxis = _camPos.forward;
-            rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
-            shootDirection = rotation * _playerPos.forward;
-            spawnPosition = new Vector3(_playerPos.position.x , _playerPos.position.y + 1f, _playerPos.position.z) + shootDirection * 1f;
-            _Teleporter = Instantiate(_teleporter, spawnPosition, Quaternion.LookRotation(shootDirection), _playerPos);
+            //rotationAxis = _camPos.forward;
+            //rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
+            //shootDirection = rotation * _playerPos.forward;
+            //spawnPosition = new Vector3(_playerPos.position.x , _playerPos.position.y + 1f, _playerPos.position.z) + shootDirection * 1f;
+            _Teleporter.transform.position = _TelTargetPos.position;
+            //_Teleporter = Instantiate(_teleporter, spawnPosition, Quaternion.LookRotation(shootDirection), _playerPos);
             _isTel = false;
         }
         if(_Teleporter != null && _isTel == false)
@@ -289,7 +290,8 @@ public class GameManager : MonoBehaviour
             {
                 _TeleporterRigi.linearVelocity = Vector3.zero;
                 _TeleporterRigi.angularVelocity = Vector3.zero;
-                _playerPos.position = _Teleporter.transform.position;
+                Vector3 _tempPos = _Teleporter.transform.position;
+                _playerPos.position = _tempPos;
                 _tel.color = new Color32(45, 45, 45, 255);
                 Destroy(_Teleporter, 0.1f);
                 if (_Teleporter != null)
