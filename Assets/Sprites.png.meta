@@ -491,8 +491,8 @@ TextureImporter:
       name: Sprites_16
       rect:
         serializedVersion: 2
-        x: 1141
-        y: 704
+        x: 1108
+        y: 687
         width: 346
         height: 152
       alignment: 0
@@ -606,7 +606,7 @@ TextureImporter:
         width: 863
         height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -628,7 +628,7 @@ TextureImporter:
         width: 96
         height: 91
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -650,7 +650,7 @@ TextureImporter:
         width: 96
         height: 91
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -672,7 +672,7 @@ TextureImporter:
         width: 96
         height: 91
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -681,6 +681,28 @@ TextureImporter:
       bones: []
       spriteID: 825b9ca9259681b45ab0ae020e33f281
       internalID: 190925995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_25
+      rect:
+        serializedVersion: 2
+        x: 1260
+        y: 52
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a131de9018339b48aaef7d3b42f825f
+      internalID: -943278745
       vertices: []
       indices: 
       edges: []
@@ -717,6 +739,7 @@ TextureImporter:
       Sprites_22: 634495169
       Sprites_23: 190925995
       Sprites_24: -802493087
+      Sprites_25: -943278745
       Sprites_3: 1154998692
       Sprites_4: -9037029
       Sprites_5: -809467753

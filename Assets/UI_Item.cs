@@ -33,7 +33,12 @@ public class UI_Item : MonoBehaviour
             _player = FindAnyObjectByType<Player>();
             _inv = FindAnyObjectByType<Inventory>();
         }
-        if(_player != null)
+        Preview();
+    }
+    
+    void Preview()
+    {
+        if (_player != null)
         {
             pos = _player._hitPos;
         }
@@ -47,6 +52,10 @@ public class UI_Item : MonoBehaviour
             else
             {
                 _tempRend.material = _previewMatG;
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                _tempObj.transform.Rotate(0, 45, 0);
             }
             if (Input.GetMouseButtonDown(0) && !_isItem)
             {
@@ -64,7 +73,6 @@ public class UI_Item : MonoBehaviour
             }
         }
     }
-
     public void InstantiateObj()
     {
         Item _item = _itemPrefab.GetComponent<Item>();

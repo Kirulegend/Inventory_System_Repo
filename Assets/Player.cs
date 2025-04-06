@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     public GameObject _bullet;
     public GameObject _Bullet;
     public static int _tempBulletCount;
+    public LayerMask _ignoreLayer;
     void Start()
     {
         _tempBulletCount = GameManager._bulletCount;
@@ -82,7 +83,7 @@ public class Player : MonoBehaviour
         Vector3 angledDirection = rotation * transform.forward;
         if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis))
         {
-            if (!GameManager._isHand)
+            if (GameManager._isGun)
             {
                 GameManager._blackB = false;
                 GameManager._redB = false;
@@ -164,7 +165,7 @@ public class Player : MonoBehaviour
         Vector3 rotationAxis = _camPos.right * -1;
         Quaternion rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
         Vector3 angledDirection = rotation * transform.forward;
-        if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis))
+        if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis, ~_ignoreLayer))
         {
             _hitPos = hitInfo.point;
             if (hitInfo.collider.gameObject.layer == Mathf.Log(_layerMask.value, 2))
@@ -187,7 +188,7 @@ public class Player : MonoBehaviour
         {
             _tempBulletCount = GameManager._bulletCount;
         }
-        if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0 && !GameManager._isHand && !GameManager._telPreview)
+        if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0 && GameManager._isGun && !GameManager._telPreview)
         {
             StartCoroutine(DelayedShoot());
         }

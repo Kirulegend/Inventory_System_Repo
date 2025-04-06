@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Drawing;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,14 +33,24 @@ public class GameManager : MonoBehaviour
     public Camera _camera;
     public GameObject _canvas;
     public GameObject _scope;
+    public GameObject _wall;
+    public GameObject _floor;
+    public GameObject _ramp;
+    public GameObject _tempObj;
+    public GameObject _tempobj;
+    Renderer _tempRend;
+    BoxCollider _tempColB;
     public UI_Inventory _uiInv;
     public static bool _isScope = false;
     public Image _weapon;
     public Sprite _gun;
     public Sprite _hand;
+    public Sprite _build;
     public GameObject _unlimited;
+    public GameObject _buildBlock;
     public static bool _unlimitedAmmo = false;
-    public static bool _isHand = false;
+    public static bool _isGun = false;
+    public static bool _isBuild = false;
     public Image _inv;
     public Image _jump;
     public Image _tel;
@@ -66,6 +78,12 @@ public class GameManager : MonoBehaviour
     int _invCountNum = 50;
     int _jumpCountNum = 50;
     int _telCountNum = 50;
+    bool _preview = false;
+    public Material _previewMatG;
+    public Material _previewMatR;
+    public Material _defaultMat;
+    Vector3 pos;
+    public static bool _isCol = false;
 
     void Start()    
     {
@@ -81,6 +99,7 @@ public class GameManager : MonoBehaviour
         Weapon();
         Damage();
         Abilities();
+        build();
     }
     public void FixedUpdate()
     {
@@ -147,7 +166,7 @@ public class GameManager : MonoBehaviour
     }
     void Scope()
     {
-        if (!_isHand)
+        if (_isGun)
         {
             if (Input.GetMouseButtonDown(1) && _uiInv._aniIndex != 2)
             {
@@ -174,43 +193,117 @@ public class GameManager : MonoBehaviour
     void Weapon()
     {
         _bulletCountText.text = Player._tempBulletCount.ToString();
-        if (_uiInv._aniIndex != 2)
+        if (_uiInv._aniIndex != 2 && !_preview)
         {
             if ((Input.GetKeyDown(KeyCode.Alpha1) || _telPreview) && _weapon.sprite != _hand)
             {
+                _isBuild = false;
                 _weapon.sprite = _hand;
+                _isGun = false;
+                _bulletCountText.enabled = false;
+                _unlimited.SetActive(true);
+                _buildBlock.SetActive(false);
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) && _weapon.sprite != _gun)
             {
+                _isBuild = false;
+                _isGun = true;
                 _bulletCountText.enabled = true;
                 _unlimited.SetActive(false);
+                _buildBlock.SetActive(false);
                 _weapon.sprite = _gun;
             }
-            if (_weapon.sprite == _hand)
+            if(Input.GetKeyDown(KeyCode.Alpha3) && _weapon.sprite != _build)
             {
-                _isHand = true;
-                _bulletCountText.enabled = false;
+                _isBuild = true;
+                _isGun = false;
                 _unlimited.SetActive(true);
+                _buildBlock.SetActive(true);
+                _bulletCountText.enabled = false;
+                _weapon.sprite = _build;
             }
-            if (_weapon.sprite == _gun)
+            if (Input.GetKeyDown(KeyCode.U) && _weapon.sprite == _gun)
             {
-                _isHand = false;
-                if (Input.GetKeyDown(KeyCode.U))
+                if (_unlimitedAmmo)
                 {
-                    if (_unlimitedAmmo)
-                    {
-                        _bulletCountText.enabled = true;
-                        _unlimited.SetActive(false);
-                        _unlimitedAmmo = false;
-                    }
-                    else
-                    {
-                        _bulletCountText.enabled = false;
-                        _unlimited.SetActive(true);
-                        _unlimitedAmmo = true;
-                    }
+                    _bulletCountText.enabled = true;
+                    _unlimited.SetActive(false);
+                    _unlimitedAmmo = false;
+                }
+                else
+                {
+                    _bulletCountText.enabled = false;
+                    _unlimited.SetActive(true);
+                    _unlimitedAmmo = true;
                 }
             }
+        }
+    }
+    void build()
+    {
+        pos = _player._hitPos;
+        if (_isBuild)
+        {
+            if (Input.GetKeyDown(KeyCode.X) && !_preview)
+            {
+                _tempobj = _wall;
+            }
+            if (Input.GetKeyDown(KeyCode.C) && !_preview)
+            {
+                _tempobj = _ramp;
+            }
+            if (Input.GetKeyDown(KeyCode.V) && !_preview)
+            {
+                _tempobj = _floor;
+            }
+            if (_preview)
+            {
+                if (_isCol)
+                {
+                    _tempRend.material = _previewMatR;
+                }
+                else
+                {
+                    _tempRend.material = _previewMatG;
+                }
+
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    _tempObj.transform.Rotate(0, 45, 0);
+                }
+                if (Input.GetMouseButtonDown(0) && !_isCol)
+                {
+                    _tempRend.material = _defaultMat;
+                    _tempObj.transform.Find("Cube").gameObject.layer = 0;
+                    _tempColB.isTrigger = false;
+                    _tempobj = null;
+                    _preview = false;
+                }
+                if (Input.GetMouseButtonDown(1))
+                {
+                    Destroy(_tempObj);
+                    _tempobj = null;
+                    _preview = false;
+                }
+            }
+            if (_tempobj != null)
+            {
+                Preview(_tempobj);
+                _tempObj.transform.position = pos;
+            }
+        }
+    }
+    void Preview(GameObject Obj)
+    {
+        if (!_preview)
+        {
+            _tempObj = Instantiate(Obj, pos, Quaternion.identity);
+            _tempObj.transform.Find("Cube").gameObject.layer = 6;
+            _tempRend = _tempObj.transform.Find("Cube").GetComponent<Renderer>();
+            _tempColB = _tempObj.transform.Find("Cube").GetComponent<BoxCollider>();
+            _tempColB.isTrigger = true;
+            _defaultMat = _tempRend.material;
+            _preview = true;
         }
     }
     void Abilities()
@@ -233,7 +326,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Jump-pad Logic
-        if (Input.GetKeyDown(KeyCode.Q) && !_isJump && _jumpCountNum >= 1)
+        if (Input.GetKeyDown(KeyCode.Q) && !_isJump && _jumpCountNum >= 1 && !_preview)
         {
             _isJump = true;
         }
@@ -256,7 +349,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Teleporter Logic
-        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && !_Teleporter.activeInHierarchy && _telCountNum >= 1)
+        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview)
         {
             _Teleporter.transform.SetParent(_playerPos);
             _Teleporter.transform.localRotation = Quaternion.identity;
@@ -301,7 +394,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Invisiable Logic
-        if (Input.GetKeyDown(KeyCode.X) && !_isInv && _invCountNum >= 1)
+        if (Input.GetKeyDown(KeyCode.X) && !_isInv && _invCountNum >= 1 && !_preview)
         {
             _inv.color = new Color32(255, 255, 255, 255);
             _meshRenderer =  _playerPos.gameObject.GetComponent<MeshRenderer>();
