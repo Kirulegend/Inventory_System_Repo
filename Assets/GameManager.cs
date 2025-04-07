@@ -101,10 +101,6 @@ public class GameManager : MonoBehaviour
         Abilities();
         build();
     }
-    public void FixedUpdate()
-    {
-        Abilities();
-    }
     void Door()
     {
         if (_hasKey && !_doorOpened && Input.GetKeyDown(KeyCode.E))
@@ -160,8 +156,8 @@ public class GameManager : MonoBehaviour
         {
             CamInputRotation.x += Input.GetAxis("Mouse X");
             CamInputRotation.y += Input.GetAxis("Mouse Y");
-            CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -40f, 40f);
-            _rb3D.MoveRotation(Quaternion.Euler(Mathf.Clamp(-CamInputRotation.y, -40, 40), CamInputRotation.x, 0));
+            CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -40, 40f);
+            _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
         }
     }
     void Scope()
@@ -349,47 +345,93 @@ public class GameManager : MonoBehaviour
         }
 
         //Teleporter Logic
-        if (Input.GetKeyDown(KeyCode.E) && !_telPreview && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview)
+        if (Input.GetKeyDown(KeyCode.E) && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview)
         {
             _Teleporter.transform.SetParent(_playerPos);
             _Teleporter.transform.localRotation = Quaternion.identity;
-            _Teleporter.SetActive(true);
-            _Teleporter.transform.position = _TelTargetPos.position;
             _tel.color = new Color32(255, 255, 255, 255);
             _telPreview = true;
-            _isTel = false;
+            _Teleporter.SetActive(true);
+            _Teleporter.transform.position = _TelTargetPos.position;
         }
-        if(_telPreview)
+        if (_Teleporter.activeInHierarchy)
         {
             Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
-            if (Input.GetMouseButtonDown(0))
+            _Teleporter.transform.rotation = Quaternion.Euler(0, _Teleporter.transform.eulerAngles.y, 0);
+            if (Input.GetMouseButtonDown(0) && _telPreview)
             {
                 _TeleporterRigi.useGravity = true;
                 _TeleporterRigi.isKinematic = false;
                 _tel.color = new Color32(45, 45, 45, 125);
-                _telCountNum--;
                 _Teleporter.transform.SetParent(null);
-                _TeleporterRigi.AddForce(_camPos.forward * 10f, ForceMode.Impulse);
-            }
-            if (_TeleporterRigi.useGravity)
-            {
+                _telCountNum--;
                 _telPreview = false;
-                if (_Teleporter.transform.parent != null)
-                {
-                    _Teleporter.transform.SetParent(null);
-                }
-                _TeleporterRigi.AddForce(_camPos.forward * .1f, ForceMode.Impulse);
             }
-            if (Input.GetKeyDown(KeyCode.E) && _Teleporter.transform.parent == null && _Teleporter.activeInHierarchy)
+            if (!_telPreview)
             {
-                _TeleporterRigi.useGravity = false;
-                _TeleporterRigi.isKinematic = true;
-                Vector3 _tempPos = _Teleporter.transform.position;
-                _playerPos.position = _tempPos;
-                _tel.color = new Color32(45, 45, 45, 255);
-                _Teleporter.SetActive(false);
+                _TeleporterRigi.AddForce(_Teleporter.transform.forward * .5f, ForceMode.Impulse);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    _TeleporterRigi.useGravity = false;
+                    _TeleporterRigi.isKinematic = true;
+                    _rb3D.MovePosition(_Teleporter.transform.position);
+                    _tel.color = new Color32(45, 45, 45, 255);
+                    _Teleporter.SetActive(false);
+                }
             }
         }
+
+
+        //// Phase 1: Enter Teleporter Preview Mode
+        //if (Input.GetKeyDown(KeyCode.E) && !_telPreview && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview)
+        //{
+        //    _Teleporter.transform.SetParent(_playerPos);
+        //    _Teleporter.transform.localRotation = Quaternion.identity;
+        //    _Teleporter.transform.localPosition = Vector3.zero; // Ensure it starts at the player's position
+        //    _tel.material.color = new Color32(255, 255, 255, 255); // Access material.color for Renderer
+        //    _Teleporter.SetActive(true);
+        //    _telPreview = true;
+        //    _isTel = false; // Reset launch state
+        //}
+
+        //// Phase 2: Position and Launch the Teleporter
+        //if (_telPreview)
+        //{
+        //    _Teleporter.transform.position = _TelTargetPos.position; // Update position during preview
+
+        //    Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        _TeleporterRigi.useGravity = true;
+        //        _TeleporterRigi.isKinematic = false;
+        //        _tel.material.color = new Color32(45, 45, 45, 125); // Access material.color for Renderer
+        //        _telCountNum--;
+        //        _telPreview = false; // Exit preview mode
+        //        _isTel = true; // Mark as launched
+        //        _Teleporter.transform.SetParent(null); // Detach immediately on launch
+        //        _TeleporterRigi.AddForce(_camPos.forward * 10f, ForceMode.Impulse); // Increased force for better visibility
+        //    }
+
+        //    // Cancel preview (optional - if you want to cancel placement)
+        //    //if (Input.GetKeyDown(KeyCode.E))
+        //    //{
+        //    //    _Teleporter.SetActive(false);
+        //    //    _telPreview = false;
+        //    //}
+        //}
+
+        //// Phase 3: Teleport the Player
+        //if (_isTel && Input.GetKeyDown(KeyCode.E) && _Teleporter.activeInHierarchy)
+        //{
+        //    Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
+        //    _TeleporterRigi.useGravity = false;
+        //    _TeleporterRigi.isKinematic = true;
+        //    Vector3 _tempPos = _Teleporter.transform.position;
+        //    _playerPos.position = _tempPos;
+        //    _tel.material.color = new Color32(45, 45, 45, 255); // Access material.color for Renderer
+        //    _Teleporter.SetActive(false);
+        //    _isTel = false; // Reset launch state
+        //}
 
         //Invisiable Logic
         if (Input.GetKeyDown(KeyCode.X) && !_isInv && _invCountNum >= 1 && !_preview)
