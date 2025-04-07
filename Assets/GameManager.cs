@@ -345,7 +345,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Teleporter Logic
-        if (Input.GetKeyDown(KeyCode.E) && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview)
+        if (Input.GetKeyDown(KeyCode.E) && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview && !_isScope)
         {
             _Teleporter.transform.SetParent(_playerPos);
             _Teleporter.transform.localRotation = Quaternion.identity;
