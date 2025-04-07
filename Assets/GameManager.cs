@@ -349,40 +349,38 @@ public class GameManager : MonoBehaviour
         }
 
         //Teleporter Logic
-        if (Input.GetKeyDown(KeyCode.E) && _isTel == false && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview)
+        if (Input.GetKeyDown(KeyCode.E) && !_telPreview && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview)
         {
             _Teleporter.transform.SetParent(_playerPos);
             _Teleporter.transform.localRotation = Quaternion.identity;
-            _tel.color = new Color32(255, 255, 255, 255);
-            _telPreview = true;
-            _isTel = true;
-        }
-        if (_isTel)
-        {
             _Teleporter.SetActive(true);
             _Teleporter.transform.position = _TelTargetPos.position;
+            _tel.color = new Color32(255, 255, 255, 255);
+            _telPreview = true;
             _isTel = false;
         }
-        if(_Teleporter.activeInHierarchy && _isTel == false)
+        if(_telPreview)
         {
             Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
-            if (Input.GetMouseButtonDown(0) && !_TeleporterRigi.useGravity)
+            if (Input.GetMouseButtonDown(0))
             {
                 _TeleporterRigi.useGravity = true;
                 _TeleporterRigi.isKinematic = false;
                 _tel.color = new Color32(45, 45, 45, 125);
                 _telCountNum--;
+                _Teleporter.transform.SetParent(null);
+                _TeleporterRigi.AddForce(_camPos.forward * 10f, ForceMode.Impulse);
             }
             if (_TeleporterRigi.useGravity)
             {
-                StartCoroutine(TeleporterPreview());
+                _telPreview = false;
                 if (_Teleporter.transform.parent != null)
                 {
                     _Teleporter.transform.SetParent(null);
                 }
-                _TeleporterRigi.AddForce(_camPos.forward * 1.25f, ForceMode.Force);
+                _TeleporterRigi.AddForce(_camPos.forward * .1f, ForceMode.Impulse);
             }
-            if (Input.GetKeyDown(KeyCode.E) && _TeleporterRigi.useGravity && _Teleporter.transform.parent == null && _Teleporter.activeInHierarchy)
+            if (Input.GetKeyDown(KeyCode.E) && _Teleporter.transform.parent == null && _Teleporter.activeInHierarchy)
             {
                 _TeleporterRigi.useGravity = false;
                 _TeleporterRigi.isKinematic = true;
@@ -401,11 +399,6 @@ public class GameManager : MonoBehaviour
             _meshRenderer.enabled = false;
             StartCoroutine(Inv());
         }
-    }
-    IEnumerator TeleporterPreview()
-    {
-        yield return new WaitForSeconds(2.5f);
-        _telPreview = false;
     }
     IEnumerator Inv()
     {
