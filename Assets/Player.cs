@@ -94,7 +94,6 @@ public class Player : MonoBehaviour
                 if (hitInfo.collider.gameObject.CompareTag("Item"))
                 {
                     UI_Item._isItem = true;
-                    //GameObject _objCopy = new GameObject(hitInfo.collider.gameObject);
                     _item = hitInfo.collider.gameObject;
                     if (Input.GetKeyDown(KeyCode.F))
                     {
@@ -103,8 +102,18 @@ public class Player : MonoBehaviour
                     }
                     _obj = true;
                     GameManager._blackB = true;
-                    GameManager._redB = true;
-                    GameManager._greenB = true;
+                    GameManager._redB = false;
+                    GameManager._greenB = false;
+                }
+                else if (hitInfo.collider.gameObject.CompareTag("RopePoint"))
+                {
+                    _gm._ropePoint = hitInfo.collider.gameObject;
+                    _gm._tempRopeRen = _gm._ropePoint.GetComponent<Renderer>();
+                    _gm._defaultRopeMat = _gm._tempRopeRen.material;
+                    GameManager._isRope = true;
+                    GameManager._blackB = true;
+                    GameManager._redB = false;
+                    GameManager._greenB = false;
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Door"))
                 {
@@ -151,6 +160,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            GameManager._isRope = false;
             _obj = false;
             GameManager._blackB = false;
             GameManager._redB = false;
@@ -271,7 +281,7 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Jumppad"))
         {

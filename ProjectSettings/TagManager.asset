@@ -11,6 +11,8 @@ TagManager:
   - Ground
   - Enemy
   - Jumppad
+  - RopePoint
+  - Pole
   layers:
   - Default
   - TransparentFX

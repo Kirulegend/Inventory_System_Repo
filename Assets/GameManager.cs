@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public static bool _hasKey = false;
     public static bool _nearDoor = false;
     public Transform _objDoor;
-    private bool _doorOpened = false;
+    bool _doorOpened = false;
     public Sprite _red;
     public Sprite _green;
     public Sprite _black;
@@ -36,10 +36,11 @@ public class GameManager : MonoBehaviour
     public GameObject _wall;
     public GameObject _floor;
     public GameObject _ramp;
+    public GameObject _cone;
     public GameObject _tempObj;
     public GameObject _tempobj;
     Renderer _tempRend;
-    BoxCollider _tempColB;
+    MeshCollider _tempCol;
     public UI_Inventory _uiInv;
     public static bool _isScope = false;
     public Image _weapon;
@@ -84,6 +85,10 @@ public class GameManager : MonoBehaviour
     public Material _defaultMat;
     Vector3 pos;
     public static bool _isCol = false;
+    public static bool _isRope = false;
+    public GameObject _ropePoint;
+    public Renderer _tempRopeRen;
+    public Material _defaultRopeMat;
 
     void Start()    
     {
@@ -100,6 +105,18 @@ public class GameManager : MonoBehaviour
         Damage();
         Abilities();
         build();
+        Rope();
+    }
+    void Rope()
+    {
+        if (_isRope && _ropePoint != null)
+        {
+            _tempRopeRen.material = _previewMatG;
+        }
+        else
+        {
+            _tempRopeRen.material = _defaultMat;
+        }
     }
     void Door()
     {
@@ -156,7 +173,7 @@ public class GameManager : MonoBehaviour
         {
             CamInputRotation.x += Input.GetAxis("Mouse X");
             CamInputRotation.y += Input.GetAxis("Mouse Y");
-            CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -40, 40f);
+            CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -60, 60f);
             _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
         }
     }
@@ -252,6 +269,10 @@ public class GameManager : MonoBehaviour
             {
                 _tempobj = _floor;
             }
+            if (Input.GetKeyDown(KeyCode.B) && !_preview)
+            {
+                _tempobj = _cone;
+            }
             if (_preview)
             {
                 if (_isCol)
@@ -270,8 +291,8 @@ public class GameManager : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) && !_isCol)
                 {
                     _tempRend.material = _defaultMat;
-                    _tempObj.transform.Find("Cube").gameObject.layer = 0;
-                    _tempColB.isTrigger = false;
+                    _tempObj.transform.gameObject.layer = 0;
+                    _tempCol.isTrigger = false;
                     _tempobj = null;
                     _preview = false;
                 }
@@ -294,10 +315,10 @@ public class GameManager : MonoBehaviour
         if (!_preview)
         {
             _tempObj = Instantiate(Obj, pos, Quaternion.identity);
-            _tempObj.transform.Find("Cube").gameObject.layer = 6;
-            _tempRend = _tempObj.transform.Find("Cube").GetComponent<Renderer>();
-            _tempColB = _tempObj.transform.Find("Cube").GetComponent<BoxCollider>();
-            _tempColB.isTrigger = true;
+            _tempObj.transform.gameObject.layer = 6;
+            _tempRend = _tempObj.transform.GetComponent<Renderer>();
+            _tempCol = _tempObj.transform.GetComponent<MeshCollider>();
+            _tempCol.isTrigger = true;
             _defaultMat = _tempRend.material;
             _preview = true;
         }
@@ -380,58 +401,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-
-        //// Phase 1: Enter Teleporter Preview Mode
-        //if (Input.GetKeyDown(KeyCode.E) && !_telPreview && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview)
-        //{
-        //    _Teleporter.transform.SetParent(_playerPos);
-        //    _Teleporter.transform.localRotation = Quaternion.identity;
-        //    _Teleporter.transform.localPosition = Vector3.zero; // Ensure it starts at the player's position
-        //    _tel.material.color = new Color32(255, 255, 255, 255); // Access material.color for Renderer
-        //    _Teleporter.SetActive(true);
-        //    _telPreview = true;
-        //    _isTel = false; // Reset launch state
-        //}
-
-        //// Phase 2: Position and Launch the Teleporter
-        //if (_telPreview)
-        //{
-        //    _Teleporter.transform.position = _TelTargetPos.position; // Update position during preview
-
-        //    Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        _TeleporterRigi.useGravity = true;
-        //        _TeleporterRigi.isKinematic = false;
-        //        _tel.material.color = new Color32(45, 45, 45, 125); // Access material.color for Renderer
-        //        _telCountNum--;
-        //        _telPreview = false; // Exit preview mode
-        //        _isTel = true; // Mark as launched
-        //        _Teleporter.transform.SetParent(null); // Detach immediately on launch
-        //        _TeleporterRigi.AddForce(_camPos.forward * 10f, ForceMode.Impulse); // Increased force for better visibility
-        //    }
-
-        //    // Cancel preview (optional - if you want to cancel placement)
-        //    //if (Input.GetKeyDown(KeyCode.E))
-        //    //{
-        //    //    _Teleporter.SetActive(false);
-        //    //    _telPreview = false;
-        //    //}
-        //}
-
-        //// Phase 3: Teleport the Player
-        //if (_isTel && Input.GetKeyDown(KeyCode.E) && _Teleporter.activeInHierarchy)
-        //{
-        //    Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
-        //    _TeleporterRigi.useGravity = false;
-        //    _TeleporterRigi.isKinematic = true;
-        //    Vector3 _tempPos = _Teleporter.transform.position;
-        //    _playerPos.position = _tempPos;
-        //    _tel.material.color = new Color32(45, 45, 45, 255); // Access material.color for Renderer
-        //    _Teleporter.SetActive(false);
-        //    _isTel = false; // Reset launch state
-        //}
 
         //Invisiable Logic
         if (Input.GetKeyDown(KeyCode.X) && !_isInv && _invCountNum >= 1 && !_preview)
