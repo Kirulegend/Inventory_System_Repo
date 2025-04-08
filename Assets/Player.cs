@@ -107,13 +107,28 @@ public class Player : MonoBehaviour
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("RopePoint"))
                 {
-                    _gm._ropePoint = hitInfo.collider.gameObject;
-                    _gm._tempRopeRen = _gm._ropePoint.GetComponent<Renderer>();
-                    _gm._defaultRopeMat = _gm._tempRopeRen.material;
                     GameManager._isRope = true;
+                    if (!_gm._lineRen.enabled)
+                    {
+                        _gm._ropePoint = hitInfo.collider.gameObject;
+                    }
+                    if (_gm._tempRopeRen == null)
+                    {
+                        _gm._tempRopeRen = _gm._ropePoint.GetComponent<Renderer>();
+                        _gm._defaultRopeMat = _gm._tempRopeRen.material;
+                    }
                     GameManager._blackB = true;
                     GameManager._redB = false;
                     GameManager._greenB = false;
+                }
+                else if (!hitInfo.collider.gameObject.CompareTag("RopePoint"))
+                {
+                    if(_gm._tempRopeRen != null)
+                    {
+                        _gm._tempRopeRen.material = _gm._defaultRopeMat;
+                        _gm._tempRopeRen = null;
+                    }
+                    GameManager._isRope = false;
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Door"))
                 {
@@ -161,6 +176,11 @@ public class Player : MonoBehaviour
         else
         {
             GameManager._isRope = false;
+            if (_gm._tempRopeRen != null)
+            {
+                _gm._tempRopeRen.material = _gm._defaultRopeMat;
+                _gm._tempRopeRen = null;
+            }
             _obj = false;
             GameManager._blackB = false;
             GameManager._redB = false;

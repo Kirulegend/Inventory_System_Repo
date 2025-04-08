@@ -89,9 +89,12 @@ public class GameManager : MonoBehaviour
     public GameObject _ropePoint;
     public Renderer _tempRopeRen;
     public Material _defaultRopeMat;
+    public LineRenderer _lineRen;
 
     void Start()    
     {
+        _lineRen  = GetComponent<LineRenderer>();
+        _lineRen.enabled = false;
         _rb3D = _player.GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.None;
     }
@@ -109,13 +112,32 @@ public class GameManager : MonoBehaviour
     }
     void Rope()
     {
-        if (_isRope && _ropePoint != null)
-        {
-            _tempRopeRen.material = _previewMatG;
+        if(_ropePoint != null)
+        {   
+            if (_isRope)
+            {
+                _tempRopeRen.material = _previewMatG;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _lineRen.enabled = true;
+                }
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                _lineRen.enabled = false;
+            }
+            _lineRen.positionCount = 2;
+            _lineRen.SetPosition(0, _playerPos.position);
+            _lineRen.SetPosition(1, _ropePoint.transform.position);
         }
-        else
+        if (_lineRen.enabled)
         {
-            _tempRopeRen.material = _defaultMat;
+            Vector3 _tempPos = new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z);
+            _playerPos.position = Vector3.MoveTowards(_playerPos.position, _tempPos, .1f);
+            if(_playerPos.position == new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z))
+            {
+                _lineRen.enabled = false;
+            }
         }
     }
     void Door()
