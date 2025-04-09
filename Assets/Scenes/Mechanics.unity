@@ -5894,6 +5894,7 @@ MonoBehaviour:
   _tempRopeRen: {fileID: 0}
   _defaultRopeMat: {fileID: 0}
   _lineRen: {fileID: 0}
+  gridSize: 5
 --- !u!4 &1998226801
 Transform:
   m_ObjectHideFlags: 0

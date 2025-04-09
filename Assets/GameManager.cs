@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
     public Renderer _tempRopeRen;
     public Material _defaultRopeMat;
     public LineRenderer _lineRen;
+    public int gridSize;
 
     void Start()    
     {
@@ -277,6 +278,11 @@ public class GameManager : MonoBehaviour
     void build()
     {
         pos = _player._hitPos;
+        Vector3 snappedPosition = new Vector3(
+        Mathf.Round(pos.x / gridSize) * gridSize,
+        Mathf.Round(pos.y / gridSize) * gridSize,
+        Mathf.Round(pos.z / gridSize) * gridSize
+    );
         if (_isBuild)
         {
             if (Input.GetKeyDown(KeyCode.X) && !_preview)
@@ -328,7 +334,7 @@ public class GameManager : MonoBehaviour
             if (_tempobj != null)
             {
                 Preview(_tempobj);
-                _tempObj.transform.position = pos;
+                _tempObj.transform.position = snappedPosition;
             }
         }
     }
