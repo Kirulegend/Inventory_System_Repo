@@ -9,20 +9,13 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 public class UI_Inventory : MonoBehaviour
 {
     Animator _ani;
-    public float _aniIndex = 0;
-    public Inventory _inv;
-    public GameObject _itemPrefab;
-    public RectTransform _itemContainer;
-    public List<GameObject> slots = new List<GameObject>();
-    public Slider _sliderHealth;
-    public Slider _sliderPower;
-    public int _invIndex = 0;
-    public bool _invNumPressed = false;
-    private int _tempIndex = 0;
-    private int _tempIndex1 = -1;
-    private int _tempIndex2 = 0;
+    Inventory _inv;
+    [HideInInspector]public float _aniIndex = 0;
+    List<GameObject> slots = new List<GameObject>();
+
     void Start()
     {
+        _inv = FindFirstObjectByType<Inventory>();
         if (_inv != null && _inv._invItems.Count > 0)
         {
             UpdateUI();
@@ -30,11 +23,16 @@ public class UI_Inventory : MonoBehaviour
         _ani = GetComponent<Animator>();
     }
 
+    [Header("Inventory UI Components")]
+    [Tooltip("Add Health UI Slider Component")]
+    [SerializeField] Slider _sliderHealth;
+    [Tooltip("Add Shield UI Slider Component")]
+    [SerializeField] Slider _sliderShield;
+
     void Update()
     {
-        //Debug.Log(slots.Count);
         _sliderHealth.value = Player._healthPower;
-        _sliderPower.value = Player._shieldPower;
+        _sliderShield.value = Player._shieldPower;
         _ani.SetFloat("Index", _aniIndex);
         if (Input.GetKeyUp(KeyCode.Tab) && !GameManager._isScope)
         {
@@ -43,6 +41,11 @@ public class UI_Inventory : MonoBehaviour
         NumInvKeypad();
         NumInvScroll();
     }
+
+    [Tooltip("Add RectTransform Component from storing UI Item GameObj")]
+    [SerializeField] RectTransform _itemContainer;
+    [Tooltip("Add Item Prefab GameObj")]
+    [SerializeField] GameObject _itemPrefab;
 
     public void UpdateUI()
     {
@@ -77,6 +80,11 @@ public class UI_Inventory : MonoBehaviour
             ui_Item._itemName = item._itemName;
         }
     }
+
+    int _tempIndex = 0;
+    int _tempIndex1 = -1;
+    int _tempIndex2 = 0;
+
     void NumInvScroll()
     {
         float scrollInput = -Input.GetAxisRaw("Mouse ScrollWheel") * 10;
@@ -100,7 +108,6 @@ public class UI_Inventory : MonoBehaviour
                         Image _tempImag1 = slots[_tempIndex1].GetComponent<Image>();
                         _tempImag1.color = new Color(_tempImag1.color.r * 2, _tempImag1.color.g * 2, _tempImag1.color.b * 2, _tempImag1.color.a);
                     }
-
                     _tempIndex2 = _tempIndex;
                     Image _tempImag2 = slots[_tempIndex2].GetComponent<Image>();
                     _tempImag2.color = new Color(_tempImag2.color.r / 2, _tempImag2.color.g / 2, _tempImag2.color.b / 2, _tempImag2.color.a);
@@ -125,6 +132,10 @@ public class UI_Inventory : MonoBehaviour
             TempButtom.onClick.Invoke();
         }
     }
+
+    int _invIndex = 0;
+    bool _invNumPressed = false;
+
     void NumInvKeypad()
     {
         if (Input.anyKeyDown && slots.Count > 0 && _aniIndex == 2)
@@ -142,6 +153,7 @@ public class UI_Inventory : MonoBehaviour
             _invNumPressed = false;
         }
     }
+
     public void OnClickEvent()
     {
         if (_aniIndex == 0)
@@ -157,6 +169,7 @@ public class UI_Inventory : MonoBehaviour
             StartCoroutine(SetIndex(0));
         }
     }
+
     IEnumerator SetIndex(float Index)
     {
         yield return new WaitForSeconds(.25f);

@@ -5,17 +5,13 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    public string _itemName;
-    public int _itemQuantity;
-    public Sprite _iconTexture;
-
-    public int _inventorySize;
-    public int _currentInventorySize;
-
-    public UI_Inventory _uiAni;
+    UI_Inventory _uiAni;
     public static Inventory _invInstance;
-    public List<GameObject> _itemData = new List<GameObject>();
-    public List<GameObject> _invItems = new List<GameObject>();
+    [Header("Inventory Objects")]
+    [Tooltip("Add all the Pickable Objects")]
+    [SerializeField] List<GameObject> _itemData = new List<GameObject>();
+    [HideInInspector] public List<GameObject> _invItems = new List<GameObject>();
+
     void Start()
     {
         _invInstance = this;
@@ -26,6 +22,7 @@ public class Inventory : MonoBehaviour
             item._itemQuantity = 0;
         }
     }
+
     public void AddItem(GameObject itemPrefab)
     {
         if (itemPrefab != null)
@@ -58,6 +55,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
     public void RemoveItem(GameObject itemPrefab)
     {
         Item _item = itemPrefab.GetComponent<Item>();

@@ -6,6 +6,7 @@ public class Build : MonoBehaviour
     Renderer _renderer;
     Color _color;
     float alpha;
+
     void Update()
     {
         alpha = (float)_health / 10;
@@ -19,6 +20,7 @@ public class Build : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Bullet") && _health > 0)
@@ -28,10 +30,12 @@ public class Build : MonoBehaviour
             _renderer.material.color = _color;
         }
     }
+
     void OnTriggerEnter(Collider other)
     {
         GameManager._isCol = true;
     }
+
     void OnTriggerExit(Collider other)
     {
         GameManager._isCol = false;

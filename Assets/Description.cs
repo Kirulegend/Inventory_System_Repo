@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Description : MonoBehaviour
 {
-    public TextMeshProUGUI Dec;
+    [SerializeField] TextMeshProUGUI Dec;
+
     void Start()
     {
         Dec = GetComponent<TextMeshProUGUI>();

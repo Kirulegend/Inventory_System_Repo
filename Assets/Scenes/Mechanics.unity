@@ -2562,14 +2562,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aniIndex: 0
-  _inv: {fileID: 1709957134}
-  _itemPrefab: {fileID: 1286774557738738841, guid: 27aecc3391bcf4d459ad4778b6a43601, type: 3}
-  _itemContainer: {fileID: 1145447637}
-  slots: []
   _sliderHealth: {fileID: 121136779}
-  _sliderPower: {fileID: 1103429525}
-  _invIndex: 0
-  _invNumPressed: 0
+  _sliderShield: {fileID: 1103429525}
+  _itemContainer: {fileID: 1145447637}
+  _itemPrefab: {fileID: 1286774557738738841, guid: 27aecc3391bcf4d459ad4778b6a43601, type: 3}
 --- !u!114 &771331679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4762,12 +4758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f56939d23de69a48b250274c37a710d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemName: 
-  _itemQuantity: 0
-  _iconTexture: {fileID: 0}
-  _inventorySize: 0
-  _currentInventorySize: 0
-  _uiAni: {fileID: 0}
   _itemData:
   - {fileID: 6996423225839407081, guid: 2db00fe6ce692dd48820ab0eba82b6e7, type: 3}
   - {fileID: 5376143419705752120, guid: da95c4a9ad16909488cf90bb6416e872, type: 3}
@@ -4970,7 +4960,7 @@ GameObject:
   - component: {fileID: 1774644166}
   - component: {fileID: 1774644165}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: BulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5115,7 +5105,6 @@ GameObject:
   - component: {fileID: 1816174960}
   - component: {fileID: 1816174965}
   - component: {fileID: 1816174964}
-  - component: {fileID: 1816174966}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -5243,7 +5232,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &1816174965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5256,63 +5245,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e758e58855096d4ca4506846479fbe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawInputMovement: {x: 0, y: 0, z: 0}
-  CamInputRotation: {x: 0, y: 0}
-  _Hor: 0
-  _Ver: 0
-  _moveSpeed: 5
-  _jumpForce: 5
-  _rb3D: {fileID: 0}
+  _shieldMat: {fileID: 2100000, guid: b7902ec5824bdfa40aa260f9fc82a364, type: 2}
+  _damageMat: {fileID: 2100000, guid: ff266f30fb51a3e49855b54e2487d645, type: 2}
+  _dis: 20
+  _obj: 0
+  _hitPos: {x: 0, y: 0, z: 0}
   _layerMask:
     serializedVersion: 2
     m_Bits: 16
-  _inv: {fileID: 1709957134}
-  _uiInv: {fileID: 771331677}
-  _gm: {fileID: 1998226800}
-  _item: {fileID: 330585543}
-  _hitPos: {x: 0, y: 0, z: 0}
-  Count: 0
-  _dis: 20
-  _obj: 0
-  _isShield: 0
-  _canShoot: 1
-  _shieldMat: {fileID: 2100000, guid: b7902ec5824bdfa40aa260f9fc82a364, type: 2}
-  _damageMat: {fileID: 2100000, guid: ff266f30fb51a3e49855b54e2487d645, type: 2}
-  _defaultMat: {fileID: 0}
-  _matPlayer: {fileID: 0}
-  _placementPreview: {fileID: 0}
-  _camPos: {fileID: 0}
-  _bullet: {fileID: 8440695812395134483, guid: 6b0f8153ff0f0da4583257ec8a030b95, type: 3}
-  _Bullet: {fileID: 0}
-  _ignoreLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _springJoint: {fileID: 0}
---- !u!145 &1816174966
-SpringJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1816174958}
-  serializedVersion: 3
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 1, z: 0}
-  m_Axis: {x: 1, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_Spring: 50
-  m_Damper: 10
-  m_MinDistance: 0.1
-  m_MaxDistance: 1
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!1 &1824344396
 GameObject:
   m_ObjectHideFlags: 0
@@ -5443,14 +5383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b5ae288c62e8e428d1a573d1a736a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 8440695812395134483, guid: 6b0f8153ff0f0da4583257ec8a030b95, type: 3}
-  _Bullet: {fileID: 0}
-  _instantiatePos: {fileID: 1774644164}
-  _playerPos: {x: 0, y: 0, z: 0}
-  _bulletRigi: {fileID: 0}
-  _enemyRigi: {fileID: 0}
-  _isPlayer: 0
-  _isFiring: 0
 --- !u!136 &1854975066
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5907,50 +5839,34 @@ MonoBehaviour:
   _black: {fileID: 1952366574, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _white: {fileID: 538062040, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _crossHair: {fileID: 885860358}
-  _rb3D: {fileID: 0}
-  _player: {fileID: 1816174965}
-  _bulletCountText: {fileID: 62640273}
   _camera: {fileID: 330585545}
   _canvas: {fileID: 744278000}
-  _scope: {fileID: 1824344396}
-  _wall: {fileID: 1731738916102048574, guid: 11fe52f188b210a45ade92273e8ffc3b, type: 3}
-  _floor: {fileID: 7271334485770533667, guid: 9b7034296cf354148b27d45366872cbb, type: 3}
-  _ramp: {fileID: 1652145362914694369, guid: b5d39dd7d71b70c4483cb8c076f7df4c, type: 3}
-  _cone: {fileID: 3482644482352016272, guid: c77d6ab2ce5fab541b45b1066bdf23bd, type: 3}
-  _tempObj: {fileID: 0}
-  _tempobj: {fileID: 0}
-  _uiInv: {fileID: 771331677}
+  _bulletCountText: {fileID: 62640273}
   _weapon: {fileID: 2099227993}
   _gun: {fileID: 1560111234, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _hand: {fileID: 1374267373, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _build: {fileID: -82822750, guid: 5a0d61ec705e8bf458613a918d962700, type: 3}
   _unlimited: {fileID: 2142441719}
   _buildBlock: {fileID: 1228168267}
+  _scope: {fileID: 1824344396}
+  _wall: {fileID: 1731738916102048574, guid: 11fe52f188b210a45ade92273e8ffc3b, type: 3}
+  _floor: {fileID: 7271334485770533667, guid: 9b7034296cf354148b27d45366872cbb, type: 3}
+  _ramp: {fileID: 1652145362914694369, guid: b5d39dd7d71b70c4483cb8c076f7df4c, type: 3}
+  _cone: {fileID: 3482644482352016272, guid: c77d6ab2ce5fab541b45b1066bdf23bd, type: 3}
+  _previewMatG: {fileID: 2100000, guid: 8b0f4aaef62647a41b80c9ddfedcdc85, type: 2}
+  _previewMatR: {fileID: 2100000, guid: 0907f9a5d1bc92941b0d5f1b14fa705f, type: 2}
+  _gridSize: 5
   _inv: {fileID: 1690175098}
   _jump: {fileID: 675138440}
   _tel: {fileID: 720043207}
-  _meshRenderer: {fileID: 0}
-  _camPos: {fileID: 330585546}
-  _playerPos: {fileID: 1816174963}
   _TelTargetPos: {fileID: 399820881}
   _Teleporter: {fileID: 1144814918}
   _jumpPad: {fileID: 5211159794750620397, guid: 933074570b87fc94e88c8f3552bc1e8d, type: 3}
-  _JumpPad: {fileID: 0}
   _jumpPadforce: 75
-  _vol: {fileID: 832575518}
-  _vig: {fileID: 0}
   _invCount: {fileID: 751138855}
   _jumpCount: {fileID: 231488746}
   _telCount: {fileID: 103958912}
-  _previewMatG: {fileID: 2100000, guid: 8b0f4aaef62647a41b80c9ddfedcdc85, type: 2}
-  _previewMatR: {fileID: 2100000, guid: 0907f9a5d1bc92941b0d5f1b14fa705f, type: 2}
-  _defaultMat: {fileID: 0}
-  _ropePoint: {fileID: 0}
-  _tempRopeRen: {fileID: 0}
-  _defaultRopeMat: {fileID: 0}
-  _lineRen: {fileID: 0}
-  _gridSize: 0
-  _sj: {fileID: 0}
+  _vol: {fileID: 832575518}
 --- !u!4 &1998226801
 Transform:
   m_ObjectHideFlags: 0

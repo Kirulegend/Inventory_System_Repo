@@ -3,52 +3,26 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public Vector3 rawInputMovement;
-    public Vector2 CamInputRotation;
-    public float _Hor;
-    public float _Ver;
-    public float _moveSpeed;
-    public float _jumpForce;
-    public Rigidbody _rb3D;
-    public LayerMask _layerMask;
-    public Inventory _inv;
-    public UI_Inventory _uiInv;
-    public GameManager _gm;
-    public GameObject _item;
-    public Vector3 _hitPos;
-    public int Count = 0;
-    public float _dis;
-    public bool _obj = false;
-    public bool _isShield = false;
-    public bool _canShoot = true;
-    public static int _healthPower = 10;
-    public static int _shieldPower = 10;
-    public Material _shieldMat;
-    public Material _damageMat;
-    public Material _defaultMat;
-    public Renderer _matPlayer;
-    public Transform _placementPreview;
-    public Transform _camPos;
-    public GameObject _bullet;
-    public GameObject _Bullet;
-    public static int _tempBulletCount;
-    public LayerMask _ignoreLayer;
-    public SpringJoint _springJoint;
+    UI_Inventory _uiInv;
+    GameManager _gm;
+    
     void Start()
     {
-        _springJoint = GetComponent<SpringJoint>();
+        //_springJoint = GetComponent<SpringJoint>();
+        _bullet = Resources.Load<GameObject>("Bullet");
         _tempBulletCount = GameManager._bulletCount;
         _camPos = transform.Find("Main Camera").transform;
         _matPlayer = GetComponent<Renderer>();
         _defaultMat = _matPlayer.material;
         Cursor.lockState = CursorLockMode.None;
-        //_uiInv = GetComponent<UI_Inventory>();
-        //FOV = _camera.fieldOfView;
+        _uiInv = FindFirstObjectByType<UI_Inventory>();
+        _gm = FindFirstObjectByType<GameManager>();
         _rb3D = GetComponent<Rigidbody>();
     }
 
@@ -61,6 +35,15 @@ public class Player : MonoBehaviour
         Shoot();
         //Spring();
     }
+
+    [Header("Shield")]
+    [Tooltip("Add Shield Material")]
+    [SerializeField] Material _shieldMat;
+    public static int _shieldPower = 10;
+    bool _isShield = false;
+    Material _defaultMat;
+    Renderer _matPlayer;
+
     void Shield()
     {
         if (!_isShield && Input.GetKeyDown(KeyCode.LeftAlt) && _shieldPower > 0)
@@ -70,6 +53,7 @@ public class Player : MonoBehaviour
             StartCoroutine(ShieldTimer());
         }
     }
+
     IEnumerator ShieldTimer()
     {
         yield return new WaitForSeconds(5);
@@ -77,6 +61,39 @@ public class Player : MonoBehaviour
         _shieldPower--;
         _isShield = false;
     }
+
+    [Header("Damage")]
+    [Tooltip("Add Damage hit Material")]
+    [SerializeField] Material _damageMat;
+    public static int _healthPower = 10;
+
+    IEnumerator Damage()
+    {
+        _healthPower -= 1;
+        _matPlayer.material = _damageMat;
+        yield return new WaitForSeconds(.05f);
+        _matPlayer.material = _defaultMat;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            if (!_isShield)
+            {
+                StartCoroutine(Damage());
+            }
+            Destroy(collision.gameObject);
+        }
+    }
+
+    [Header("Raycast")]
+    [Tooltip("Enter the Ray Length")]
+    [SerializeField] float _dis;
+    Transform _camPos;
+    [HideInInspector] public bool _obj = false;
+    GameObject _item;
+
     void Crosshair()
     {
         Vector3 baseDirection = Vector3.down;
@@ -108,31 +125,31 @@ public class Player : MonoBehaviour
                     GameManager._redB = false;
                     GameManager._greenB = false;
                 }
-                else if (hitInfo.collider.gameObject.CompareTag("RopePoint"))
-                {
-                    GameManager._isRope = true;
-                    if (!_gm._lineRen.enabled)
-                    {
-                        _gm._ropePoint = hitInfo.collider.gameObject;
-                    }
-                    if (_gm._tempRopeRen == null)
-                    {
-                        _gm._tempRopeRen = _gm._ropePoint.GetComponent<Renderer>();
-                        _gm._defaultRopeMat = _gm._tempRopeRen.material;
-                    }
-                    GameManager._blackB = true;
-                    GameManager._redB = false;
-                    GameManager._greenB = false;
-                }
-                else if (!hitInfo.collider.gameObject.CompareTag("RopePoint"))
-                {
-                    if(_gm._tempRopeRen != null)
-                    {
-                        _gm._tempRopeRen.material = _gm._defaultRopeMat;
-                        _gm._tempRopeRen = null;
-                    }
-                    GameManager._isRope = false;
-                }
+                //else if (hitInfo.collider.gameObject.CompareTag("RopePoint"))
+                //{
+                //    GameManager._isRope = true;
+                //    if (!_gm._lineRen.enabled)
+                //    {
+                //        _gm._ropePoint = hitInfo.collider.gameObject;
+                //    }
+                //    if (_gm._tempRopeRen == null)
+                //    {
+                //        _gm._tempRopeRen = _gm._ropePoint.GetComponent<Renderer>();
+                //        _gm._defaultRopeMat = _gm._tempRopeRen.material;
+                //    }
+                //    GameManager._blackB = true;
+                //    GameManager._redB = false;
+                //    GameManager._greenB = false;
+                //}
+                //else if (!hitInfo.collider.gameObject.CompareTag("RopePoint"))
+                //{
+                //    if(_gm._tempRopeRen != null)
+                //    {
+                //        _gm._tempRopeRen.material = _gm._defaultRopeMat;
+                //        _gm._tempRopeRen = null;
+                //    }
+                //    GameManager._isRope = false;
+                //}
                 else if (hitInfo.collider.gameObject.CompareTag("Door"))
                 {
                     UI_Item._isItem = true;
@@ -178,12 +195,12 @@ public class Player : MonoBehaviour
         }
         else
         {
-            GameManager._isRope = false;
-            if (_gm._tempRopeRen != null)
-            {
-                _gm._tempRopeRen.material = _gm._defaultRopeMat;
-                _gm._tempRopeRen = null;
-            }
+            //GameManager._isRope = false;
+            //if (_gm._tempRopeRen != null)
+            //{
+            //    _gm._tempRopeRen.material = _gm._defaultRopeMat;
+            //    _gm._tempRopeRen = null;
+            //}
             _obj = false;
             GameManager._blackB = false;
             GameManager._redB = false;
@@ -191,6 +208,10 @@ public class Player : MonoBehaviour
             Debug.DrawRay(CamPos, angledDirection * _dis, Color.red);
         }
     }
+
+    LayerMask _ignoreLayer;
+    [HideInInspector] public Vector3 _hitPos;
+
     public bool RayCast()
     {
         Vector3 baseDirection = Vector3.down;
@@ -214,7 +235,12 @@ public class Player : MonoBehaviour
             return false;
         }
     }
-    
+
+    bool _canShoot = true;
+    GameObject _bullet;
+    GameObject _Bullet;
+    public static int _tempBulletCount;
+
     void Shoot()
     {
         if (Input.GetKeyDown(KeyCode.R) || GameManager._unlimitedAmmo)
@@ -226,6 +252,7 @@ public class Player : MonoBehaviour
             StartCoroutine(DelayedShoot());
         }
     }
+
     IEnumerator DelayedShoot()
     {
         _canShoot = false;
@@ -245,27 +272,36 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(.05f);
         _canShoot = true;
     }
-    void Spring()
-    {
-        _springJoint.anchor = transform.position;
-        if(_gm._ropePoint != null && GameManager._isRope)
-        {
-            _springJoint.connectedAnchor = _gm._ropePoint.transform.position;
-            _springJoint.autoConfigureConnectedAnchor = false;
-            _springJoint.connectedAnchor = _gm._ropePoint.transform.position;
 
-            float distanceFromPoint = Vector3.Distance(transform.position, transform.position);
+    //public SpringJoint _springJoint;
+    //void Spring()
+    //{
+    //    _springJoint.anchor = transform.position;
+    //    if(_gm._ropePoint != null && GameManager._isRope)
+    //    {
+    //        _springJoint.connectedAnchor = _gm._ropePoint.transform.position;
+    //        _springJoint.autoConfigureConnectedAnchor = false;
+    //        _springJoint.connectedAnchor = _gm._ropePoint.transform.position;
 
-            _springJoint.maxDistance = distanceFromPoint * 0.8f;
-            _springJoint.minDistance = distanceFromPoint * 0.25f;
+    //        float distanceFromPoint = Vector3.Distance(transform.position, transform.position);
 
-            _springJoint.spring = 4.5f;
-            _springJoint.damper = 7f;
-            _springJoint.massScale = 4.5f;
-        }
-            
-        else _springJoint.connectedAnchor = transform.position;
-    }
+    //        _springJoint.maxDistance = distanceFromPoint * 0.8f;
+    //        _springJoint.minDistance = distanceFromPoint * 0.25f;
+
+    //        _springJoint.spring = 4.5f;
+    //        _springJoint.damper = 7f;
+    //        _springJoint.massScale = 4.5f;
+    //    }
+
+    //    else _springJoint.connectedAnchor = transform.position;
+    //}
+
+    float _Hor;
+    float _Ver;
+    float _moveSpeed;
+    float _jumpForce;
+    Rigidbody _rb3D;
+
     void PlayerMovementKB()
     {
         _Hor = Input.GetAxisRaw("Horizontal");
@@ -288,6 +324,13 @@ public class Player : MonoBehaviour
         {
             _moveSpeed /= 1.5f;
         }
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Vector3 dashDirection = transform.right * _Hor + transform.forward * _Ver;
+            dashDirection.y = 0;
+            dashDirection.Normalize();
+            _rb3D.AddForce(dashDirection * 400f, ForceMode.VelocityChange);
+        }
         if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
         {
             //_camera.fieldOfView += 10;
@@ -295,6 +338,10 @@ public class Player : MonoBehaviour
             _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _jumpForce, _rb3D.linearVelocity.z);
         }
     }
+
+    [Header("Ground Dectection")]
+    [Tooltip("Select the Ground Layer Mask")]
+    [SerializeField] LayerMask _layerMask;
 
     bool GroundCheck()
     {
@@ -307,24 +354,7 @@ public class Player : MonoBehaviour
         Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y + -1f, transform.position.z), new Vector3(1, .25f, 1));
     }
 
-    IEnumerator Damage()
-    {
-        _healthPower -= 1;
-        _matPlayer.material = _damageMat;
-        yield return new WaitForSeconds(.05f);
-        _matPlayer.material = _defaultMat;
-    }
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            if (!_isShield)
-            {
-                StartCoroutine(Damage());
-            }
-            Destroy(collision.gameObject);
-        }
-    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Jumppad"))

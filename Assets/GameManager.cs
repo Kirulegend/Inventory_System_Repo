@@ -10,97 +10,18 @@ using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour
 {
-    public static bool _hasKey = false;
-    public static bool _nearDoor = false;
-    public Transform _objDoor;
-    bool _doorOpened = false;
-    public Sprite _red;
-    public Sprite _green;
-    public Sprite _black;
-    public Sprite _white;
-    public Image _crossHair;
-    public static bool _redB;
-    public static bool _greenB;
-    public static bool _blackB;
-    Vector2 CamInputRotation;
-    public Rigidbody _rb3D;
-    public Player _player;
-    int Count = 0;
-    Vector3 targetPosition;
-    bool _pressedE = false;
-    public static int _bulletCount = 30;
-    public TextMeshProUGUI _bulletCountText;
-    public Camera _camera;
-    public GameObject _canvas;
-    public GameObject _scope;
-    public GameObject _wall;
-    public GameObject _floor;
-    public GameObject _ramp;
-    public GameObject _cone;
-    public GameObject _tempObj;
-    public GameObject _tempobj;
-    Renderer _tempRend;
-    MeshCollider _tempCol;
-    public UI_Inventory _uiInv;
-    public static bool _isScope = false;
-    public Image _weapon;
-    public Sprite _gun;
-    public Sprite _hand;
-    public Sprite _build;
-    public GameObject _unlimited;
-    public GameObject _buildBlock;
-    public static bool _unlimitedAmmo = false;
-    public static bool _isGun = false;
-    public static bool _isBuild = false;
-    public Image _inv;
-    public Image _jump;
-    public Image _tel;
-    public static bool _isTel = false;
-    public static bool _isJump = false;
-    public static bool _isInv = false;
-    public static bool _telPreview = false;
-    public MeshRenderer _meshRenderer;
-    public Transform _camPos;
-    public Transform _playerPos;
-    public Transform _TelTargetPos;
-    public GameObject _Teleporter;
-    public GameObject _jumpPad;
-    public GameObject _JumpPad;
-    public float _jumpPadforce;
-    Vector3 rotationAxis;
-    Quaternion rotation;
-    Vector3 shootDirection;
-    Vector3 spawnPosition;
-    public Volume _vol;
-    public Vignette _vig;
-    public TextMeshProUGUI _invCount;
-    public TextMeshProUGUI _jumpCount;
-    public TextMeshProUGUI _telCount;
-    int _invCountNum = 50;
-    int _jumpCountNum = 50;
-    int _telCountNum = 50;
-    bool _preview = false;
-    public Material _previewMatG;
-    public Material _previewMatR;
-    public Material _defaultMat;
-    Vector3 pos;
-    public static bool _isCol = false;
-    public static bool _isRope = false;
-    public GameObject _ropePoint;
-    public Renderer _tempRopeRen;
-    public Material _defaultRopeMat;
-    public LineRenderer _lineRen;
-    public int _gridSize;
-    public SpringJoint _sj;
-
     void Start()    
     {
-        _sj = _playerPos.GetComponent<SpringJoint>();
-        _lineRen  = GetComponent<LineRenderer>();
-        _lineRen.enabled = false;
+        _player = FindFirstObjectByType<Player>();
+        _uiInv = FindFirstObjectByType<UI_Inventory>();
+        _playerPos = _player.transform;
+        //_sj = _playerPos.GetComponent<SpringJoint>();
+        //_lineRen  = GetComponent<LineRenderer>();
+        //_lineRen.enabled = false;
         _rb3D = _player.GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.None;
     }
+
     void Update()
     {
         Door();
@@ -111,64 +32,82 @@ public class GameManager : MonoBehaviour
         Damage();
         Abilities();
         build();
-        Rope();
+        //Rope();
     }
-    void Rope()
-    {
-        _sj.anchor = transform.localPosition;
-        if(_ropePoint != null)
-        {   
-            if (_isRope)
-            {
-                _tempRopeRen.material = _previewMatG;
-                if (Input.GetMouseButtonDown(0))
-                {
-                    _lineRen.enabled = true;
-                    if (_sj != null)
-                    {
-                        Destroy(_sj);
-                    }
-                    _sj = _playerPos.gameObject.AddComponent<SpringJoint>();
-                    //_sj.autoConfigureConnectedAnchor = false;
-                    _sj.connectedBody = _ropePoint.GetComponent<Rigidbody>();
-                    _sj.connectedAnchor = _ropePoint.transform.position;
 
-                }
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                _lineRen.enabled = false;
-                if (_sj != null)
-                {
-                    Destroy(_sj);
-                }
-            }
-            _lineRen.positionCount = 2;
-            _lineRen.SetPosition(0, _playerPos.position);
-            _lineRen.SetPosition(1, _ropePoint.transform.position);
-        }
-        if (_lineRen.enabled)
-        {
-            _ropePoint.layer = 6;
-            float distanceToHook = Vector3.Distance(_playerPos.position, _ropePoint.transform.position);
-            if (distanceToHook < 1f)
-            {
-                _lineRen.enabled = false;
-                _ropePoint.layer = 0;
-                if (_sj != null)
-                {
-                    Destroy(_sj);
-                }
-            }
-            //Vector3 _tempPos = new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z);
-            //_playerPos.position = Vector3.MoveTowards(_playerPos.position, _tempPos, .1f);
-            //if(_playerPos.position == new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z))
-            //{
-            //    _lineRen.enabled = false;
-            //    _ropePoint.layer = 0;
-            //}
-        }
-    }
+    //[Header("Grapple Mech")]
+    //public SpringJoint _sj;
+    //public static bool _isRope = false;
+    //public GameObject _ropePoint;
+    //public Renderer _tempRopeRen;
+    //public Material _defaultRopeMat;
+    //public LineRenderer _lineRen;
+    //void Rope()
+    //{
+    //    //_sj.anchor = transform.localPosition;
+    //    if(_ropePoint != null)
+    //    {   
+    //        if (_isRope)
+    //        {
+    //            _tempRopeRen.material = _previewMatG;
+    //            if (Input.GetMouseButtonDown(0))
+    //            {
+    //                _lineRen.enabled = true;
+    //                if (_sj != null)
+    //                {
+    //                    Destroy(_sj);
+    //                }
+    //                _sj = _playerPos.gameObject.AddComponent<SpringJoint>();
+    //                //_sj.autoConfigureConnectedAnchor = false;
+    //                _sj.connectedBody = _ropePoint.GetComponent<Rigidbody>();
+    //                _sj.connectedAnchor = _ropePoint.transform.position;
+
+    //            }
+    //        }
+    //        if (Input.GetMouseButtonDown(1))
+    //        {
+    //            _lineRen.enabled = false;
+    //            if (_sj != null)
+    //            {
+    //                Destroy(_sj);
+    //            }
+    //        }
+    //        _lineRen.positionCount = 2;
+    //        _lineRen.SetPosition(0, _playerPos.position);
+    //        _lineRen.SetPosition(1, _ropePoint.transform.position);
+    //    }
+    //    if (_lineRen.enabled)
+    //    {
+    //        _ropePoint.layer = 6;
+    //        float distanceToHook = Vector3.Distance(_playerPos.position, _ropePoint.transform.position);
+    //        if (distanceToHook < 1f)
+    //        {
+    //            _lineRen.enabled = false;
+    //            _ropePoint.layer = 0;
+    //            if (_sj != null)
+    //            {
+    //                Destroy(_sj);
+    //            }
+    //        }
+    //        //Vector3 _tempPos = new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z);
+    //        //_playerPos.position = Vector3.MoveTowards(_playerPos.position, _tempPos, .1f);
+    //        //if(_playerPos.position == new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z))
+    //        //{
+    //        //    _lineRen.enabled = false;
+    //        //    _ropePoint.layer = 0;
+    //        //}
+    //    }
+    //}
+
+    [Header("Door")]
+    [Tooltip("The door which need key")]
+    public Transform _objDoor;
+    public static bool _hasKey = false;
+    public static bool _nearDoor = false;
+    bool _doorOpened = false;
+    Vector3 targetPosition;
+    bool _pressedE = false;
+
     void Door()
     {
         if (_hasKey && !_doorOpened && Input.GetKeyDown(KeyCode.E))
@@ -186,6 +125,22 @@ public class GameManager : MonoBehaviour
             _hasKey = false;
         }
     }
+
+    [Header("Crosshair Mech")]
+    [Tooltip("Add the Red Crosshair")]
+    public Sprite _red;
+    [Tooltip("Add the Green Crosshair")]
+    public Sprite _green;
+    [Tooltip("Add the Black Crosshair")]
+    public Sprite _black;
+    [Tooltip("Add the White Crosshair")]
+    public Sprite _white;
+    [Tooltip("Add the Crosshair Component")]
+    public Image _crossHair;
+    public static bool _redB;
+    public static bool _greenB;
+    public static bool _blackB;
+
     void Crosshair()
     {
         if (_blackB)
@@ -205,6 +160,14 @@ public class GameManager : MonoBehaviour
             _crossHair.sprite = _white;
         }
     }
+
+    [Header("CameraRot Mech")]
+    Transform _playerPos;
+    Player _player;
+    Rigidbody _rb3D;
+    Vector2 CamInputRotation;
+    int Count = 0;
+
     void CameraRot()
     {
         if (Input.GetKeyDown(KeyCode.BackQuote))
@@ -228,6 +191,15 @@ public class GameManager : MonoBehaviour
             _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
         }
     }
+
+    [Header("Scope Mech")]
+    [Tooltip("Add the MainCamera")]
+    public Camera _camera;
+    [Tooltip("Add the Canvas")]
+    public GameObject _canvas;
+    public static bool _isScope = false;
+    UI_Inventory _uiInv;
+
     void Scope()
     {
         if (_isGun)
@@ -254,6 +226,27 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    [Header("Weapon Mech")]
+    [Tooltip("Add the Text Component for Bullet Count")]
+    public TextMeshProUGUI _bulletCountText;
+    public static int _bulletCount = 30;
+    [Tooltip("Add the Image for Weapon UI")]
+    public Image _weapon;
+    [Tooltip("Add the Gun Sprite")]
+    public Sprite _gun;
+    [Tooltip("Add the Hand Sprite")]
+    public Sprite _hand;
+    [Tooltip("Add the Build Sprite")]
+    public Sprite _build;
+    [Tooltip("Add the Infinity Sprite")]
+    public GameObject _unlimited;
+    [Tooltip("Add the BuildEnable Sprite")]
+    public GameObject _buildBlock;
+    public static bool _unlimitedAmmo = false;
+    public static bool _isGun = false;
+    public static bool _isBuild = false;
+
     void Weapon()
     {
         _bulletCountText.text = Player._tempBulletCount.ToString();
@@ -303,6 +296,33 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    [Header("Build Mech")]
+    [Tooltip("Add the Scope Image GameObject")]
+    public GameObject _scope;
+    [Tooltip("Add the Wall GameObject")]
+    public GameObject _wall;
+    [Tooltip("Add the Floor GameObject")]
+    public GameObject _floor;
+    [Tooltip("Add the Ramp GameObject")]
+    public GameObject _ramp;
+    [Tooltip("Add the Cone GameObject")]
+    public GameObject _cone;
+    GameObject _tempObj;
+    GameObject _tempobj;
+    Renderer _tempRend;
+    MeshCollider _tempCol;
+    bool _preview = false;
+    [Tooltip("Add the Green Material")]
+    public Material _previewMatG;
+    [Tooltip("Add the red Material")]
+    public Material _previewMatR;
+    Material _defaultMat;
+    Vector3 pos;
+    public static bool _isCol = false;
+    [Tooltip("Add the Grid Space (5 is Recomended)")]
+    public int _gridSize;
+
     void build()
     {
         pos = _player._hitPos;
@@ -366,6 +386,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     void Preview(GameObject Obj)
     {
         if (!_preview)
@@ -379,6 +400,41 @@ public class GameManager : MonoBehaviour
             _preview = true;
         }
     }
+    [Header("Abilities Mech")]
+    [Tooltip("Add Invisible Image Component")]
+    public Image _inv;
+    [Tooltip("Add Jump Image Component")]
+    public Image _jump;
+    [Tooltip("Add Teleporter Image Component")]
+    public Image _tel;
+    public static bool _isTel = false;
+    public static bool _isJump = false;
+    public static bool _isInv = false;
+    public static bool _telPreview = false;
+    MeshRenderer _meshRenderer;
+    [Tooltip("Add Teleporter Spawn Position")]
+    public Transform _TelTargetPos;
+    [Tooltip("Add Teleporter Prefab")]
+    public GameObject _Teleporter;
+    [Tooltip("Add Satchel Prefab")]
+    public GameObject _jumpPad;
+    GameObject _JumpPad;
+    [Tooltip("Add Satchel Jump Force")]
+    public float _jumpPadforce;
+    Vector3 rotationAxis;
+    Quaternion rotation;
+    Vector3 shootDirection;
+    Vector3 spawnPosition;
+    [Tooltip("Add Text Component for Inv Count")]
+    public TextMeshProUGUI _invCount;
+    [Tooltip("Add Text Component for Jump Count")]
+    public TextMeshProUGUI _jumpCount;
+    [Tooltip("Add Text Component for Telporter Count")]
+    public TextMeshProUGUI _telCount;
+    int _invCountNum = 50;
+    int _jumpCountNum = 50;
+    int _telCountNum = 50;
+
     void Abilities()
     {
         //UI count Display
@@ -467,6 +523,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(Inv());
         }
     }
+
     IEnumerator Inv()
     {
         _inv.color = new Color32(255, 255, 255, 255);
@@ -477,12 +534,19 @@ public class GameManager : MonoBehaviour
         _isInv = false;
         _inv.color = new Color32(45, 45, 45, 255);
     }
+
     IEnumerator Jump(CapsuleCollider _tempCollider)
     {
         yield return new WaitForSeconds(.1f);
         _jump.color = new Color32(45, 45, 45, 255);
         _tempCollider.enabled = true;
     }
+
+    [Header("Damage Mech")]
+    [Tooltip("Add Volume Component from Global Volume GameObj")]
+    public Volume _vol;
+    Vignette _vig;
+
     void Damage()
     {
         if(Player._healthPower > 5)

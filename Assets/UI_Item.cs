@@ -3,29 +3,16 @@ using UnityEngine.UI;
 
 public class UI_Item : MonoBehaviour
 {
-    public string _itemName;
-    public GameObject _itemPrefab;
-    public GameObject _itemDes;
-    public Player _player;
-    public Inventory _inv;
-    public Material _previewMatG;
-    public Material _previewMatR;
-    public Material _defaultMat;
-    public static bool _itemPreview = false;
-    public static bool _isItem = false;
-    Vector3 pos;
-    Rigidbody _tempRigi;
-    Renderer _tempRend;
-    BoxCollider _tempColB;
-    GameObject _tempObj;
-
+    GameObject _itemDes;
+    Player _player;
+    Inventory _inv;
+    
     void Start()
     {
         _itemDes = transform.Find("Description").gameObject;
         _itemDes.GetComponent<MaskableGraphic>().maskable = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_player == null || _inv == null)
@@ -35,7 +22,21 @@ public class UI_Item : MonoBehaviour
         }
         Preview();
     }
-    
+
+    [Header("Preview")]
+    [Tooltip("Add Green Material")]
+    public Material _previewMatG;
+    [Tooltip("Add Red Material")]
+    public Material _previewMatR;
+    Material _defaultMat;
+    Rigidbody _tempRigi;
+    Renderer _tempRend;
+    BoxCollider _tempColB;
+    GameObject _tempObj;
+    Vector3 pos;
+    public static bool _isItem = false;
+    public static bool _itemPreview = false;
+
     void Preview()
     {
         if (_player != null)
@@ -73,6 +74,10 @@ public class UI_Item : MonoBehaviour
             }
         }
     }
+
+    [HideInInspector] public string _itemName;
+    [HideInInspector] public GameObject _itemPrefab;
+
     public void InstantiateObj()
     {
         Item _item = _itemPrefab.GetComponent<Item>();

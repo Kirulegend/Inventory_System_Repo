@@ -3,14 +3,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject _bullet;
-    public GameObject _Bullet;
-    public Transform _instantiatePos;
-    public Vector3 _playerPos;
-    public Rigidbody _bulletRigi;
-    public Rigidbody _enemyRigi;
-    public bool _isPlayer = false;
-    public bool _isFiring = false;
+    GameObject _bullet;
+    GameObject _Bullet;
+    Transform _instantiatePos;
+    Vector3 _playerPos;
+    Rigidbody _bulletRigi;
+    bool _isPlayer = false;
+    bool _isFiring = false;
+
+    void Start()
+    {
+        _instantiatePos = transform.Find("BulletSpawn");
+        _bullet = Resources.Load<GameObject>("Bullet");
+    }
+
     void Update()
     {
         if (_isPlayer && !GameManager._isInv)
@@ -25,6 +31,7 @@ public class Enemy : MonoBehaviour
             transform.rotation = targetRotation;
         }
     }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -34,6 +41,7 @@ public class Enemy : MonoBehaviour
             _isPlayer = true;
         }
     }
+
     public void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -42,6 +50,7 @@ public class Enemy : MonoBehaviour
             _isPlayer = true;
         }
     }
+
     public void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -49,6 +58,7 @@ public class Enemy : MonoBehaviour
             _isPlayer = false;
         }
     }
+
     void InstantiateBullet()
     {
         _Bullet = Instantiate(_bullet, _instantiatePos.position, Quaternion.identity);
@@ -60,6 +70,7 @@ public class Enemy : MonoBehaviour
         Destroy(_Bullet, 3);
         StartCoroutine(TimeBullet());
     }
+
     IEnumerator TimeBullet()
     {
         yield return new WaitForSeconds(1);
