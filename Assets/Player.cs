@@ -38,8 +38,10 @@ public class Player : MonoBehaviour
     public GameObject _Bullet;
     public static int _tempBulletCount;
     public LayerMask _ignoreLayer;
+    public SpringJoint _springJoint;
     void Start()
     {
+        _springJoint = GetComponent<SpringJoint>();
         _tempBulletCount = GameManager._bulletCount;
         _camPos = transform.Find("Main Camera").transform;
         _matPlayer = GetComponent<Renderer>();
@@ -57,6 +59,7 @@ public class Player : MonoBehaviour
         Crosshair();
         Shield();
         Shoot();
+        //Spring();
     }
     void Shield()
     {
@@ -241,6 +244,27 @@ public class Player : MonoBehaviour
         Destroy(_Bullet, 3f);
         yield return new WaitForSeconds(.05f);
         _canShoot = true;
+    }
+    void Spring()
+    {
+        _springJoint.anchor = transform.position;
+        if(_gm._ropePoint != null && GameManager._isRope)
+        {
+            _springJoint.connectedAnchor = _gm._ropePoint.transform.position;
+            _springJoint.autoConfigureConnectedAnchor = false;
+            _springJoint.connectedAnchor = _gm._ropePoint.transform.position;
+
+            float distanceFromPoint = Vector3.Distance(transform.position, transform.position);
+
+            _springJoint.maxDistance = distanceFromPoint * 0.8f;
+            _springJoint.minDistance = distanceFromPoint * 0.25f;
+
+            _springJoint.spring = 4.5f;
+            _springJoint.damper = 7f;
+            _springJoint.massScale = 4.5f;
+        }
+            
+        else _springJoint.connectedAnchor = transform.position;
     }
     void PlayerMovementKB()
     {

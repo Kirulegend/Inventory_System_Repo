@@ -90,10 +90,12 @@ public class GameManager : MonoBehaviour
     public Renderer _tempRopeRen;
     public Material _defaultRopeMat;
     public LineRenderer _lineRen;
-    public int gridSize;
+    public int _gridSize;
+    public SpringJoint _sj;
 
     void Start()    
     {
+        _sj = _playerPos.GetComponent<SpringJoint>();
         _lineRen  = GetComponent<LineRenderer>();
         _lineRen.enabled = false;
         _rb3D = _player.GetComponent<Rigidbody>();
@@ -113,6 +115,7 @@ public class GameManager : MonoBehaviour
     }
     void Rope()
     {
+        _sj.anchor = transform.localPosition;
         if(_ropePoint != null)
         {   
             if (_isRope)
@@ -121,11 +124,24 @@ public class GameManager : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     _lineRen.enabled = true;
+                    if (_sj != null)
+                    {
+                        Destroy(_sj);
+                    }
+                    _sj = _playerPos.gameObject.AddComponent<SpringJoint>();
+                    //_sj.autoConfigureConnectedAnchor = false;
+                    _sj.connectedBody = _ropePoint.GetComponent<Rigidbody>();
+                    _sj.connectedAnchor = _ropePoint.transform.position;
+
                 }
             }
             if (Input.GetMouseButtonDown(1))
             {
                 _lineRen.enabled = false;
+                if (_sj != null)
+                {
+                    Destroy(_sj);
+                }
             }
             _lineRen.positionCount = 2;
             _lineRen.SetPosition(0, _playerPos.position);
@@ -133,12 +149,24 @@ public class GameManager : MonoBehaviour
         }
         if (_lineRen.enabled)
         {
-            Vector3 _tempPos = new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z);
-            _playerPos.position = Vector3.MoveTowards(_playerPos.position, _tempPos, .1f);
-            if(_playerPos.position == new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z))
+            _ropePoint.layer = 6;
+            float distanceToHook = Vector3.Distance(_playerPos.position, _ropePoint.transform.position);
+            if (distanceToHook < 1f)
             {
                 _lineRen.enabled = false;
+                _ropePoint.layer = 0;
+                if (_sj != null)
+                {
+                    Destroy(_sj);
+                }
             }
+            //Vector3 _tempPos = new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z);
+            //_playerPos.position = Vector3.MoveTowards(_playerPos.position, _tempPos, .1f);
+            //if(_playerPos.position == new Vector3(_ropePoint.transform.position.x, _ropePoint.transform.position.y + 1, _ropePoint.transform.position.z))
+            //{
+            //    _lineRen.enabled = false;
+            //    _ropePoint.layer = 0;
+            //}
         }
     }
     void Door()
@@ -279,9 +307,9 @@ public class GameManager : MonoBehaviour
     {
         pos = _player._hitPos;
         Vector3 snappedPosition = new Vector3(
-        Mathf.Round(pos.x / gridSize) * gridSize,
-        Mathf.Round(pos.y / gridSize) * gridSize,
-        Mathf.Round(pos.z / gridSize) * gridSize
+        Mathf.Round(pos.x / _gridSize) * _gridSize,
+        Mathf.Round(pos.y / _gridSize) * _gridSize,
+        Mathf.Round(pos.z / _gridSize) * _gridSize
     );
         if (_isBuild)
         {
