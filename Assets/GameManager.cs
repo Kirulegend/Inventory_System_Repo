@@ -400,6 +400,7 @@ public class GameManager : MonoBehaviour
             _preview = true;
         }
     }
+
     [Header("Abilities Mech")]
     [Tooltip("Add Invisible Image Component")]
     public Image _inv;

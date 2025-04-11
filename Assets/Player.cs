@@ -296,10 +296,13 @@ public class Player : MonoBehaviour
     //    else _springJoint.connectedAnchor = transform.position;
     //}
 
+    [Header("Player Movement")]
+    [Tooltip("Enter the Player Move Speed")]
+    [SerializeField] float _moveSpeed;
+    [Tooltip("Enter the Player Jump Speed")]
+    [SerializeField] float _jumpForce;
     float _Hor;
     float _Ver;
-    float _moveSpeed;
-    float _jumpForce;
     Rigidbody _rb3D;
 
     void PlayerMovementKB()
@@ -333,8 +336,6 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
         {
-            //_camera.fieldOfView += 10;
-            //StartCoroutine(Cam(_camera));
             _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _jumpForce, _rb3D.linearVelocity.z);
         }
     }
@@ -353,7 +354,6 @@ public class Player : MonoBehaviour
         Gizmos.color = GroundCheck() ? Color.green : Color.red;
         Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y + -1f, transform.position.z), new Vector3(1, .25f, 1));
     }
-
 
     void OnTriggerEnter(Collider other)
     {
