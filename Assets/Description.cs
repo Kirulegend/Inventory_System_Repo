@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class Description : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI Dec;
+    [SerializeField] TextMeshProUGUI _dec;
 
     void Start()
     {
-        Dec = GetComponent<TextMeshProUGUI>();
-        Dec.enabled = false;
+        _dec = GetComponent<TextMeshProUGUI>();
+        _dec.enabled = false;
     }
     void OnMouseEnter()
     {
-        Dec.enabled = true;
+        _dec.enabled = true;
     }
     void OnMouseExit()
     {
-        Dec.enabled = false;
+        _dec.enabled = false;
     }
 }

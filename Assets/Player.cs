@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class Player : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour
         Crosshair();
         Shield();
         Shoot();
+        PickNDrop();
         //Spring();
     }
 
@@ -93,7 +95,7 @@ public class Player : MonoBehaviour
     Transform _camPos;
     [HideInInspector] public bool _obj = false;
     GameObject _item;
-
+    
     void Crosshair()
     {
         Vector3 baseDirection = Vector3.down;
@@ -101,8 +103,9 @@ public class Player : MonoBehaviour
         Vector3 rotationAxis = _camPos.right * -1;
         Quaternion rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
         Vector3 angledDirection = rotation * transform.forward;
-        if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis))
+        if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis, ~_ignoreLayer))
         {
+            Debug.Log(hitInfo.collider.gameObject.name);
             if (GameManager._isGun)
             {
                 GameManager._blackB = false;
@@ -115,11 +118,13 @@ public class Player : MonoBehaviour
                 {
                     UI_Item._isItem = true;
                     _item = hitInfo.collider.gameObject;
+                    
                     if (Input.GetKeyDown(KeyCode.F))
                     {
                         Inventory._invInstance.AddItem(_item);
                         Destroy(_item);
                     }
+                    
                     _obj = true;
                     GameManager._blackB = true;
                     GameManager._redB = false;
@@ -206,6 +211,46 @@ public class Player : MonoBehaviour
             GameManager._redB = false;
             GameManager._greenB = false;
             Debug.DrawRay(CamPos, angledDirection * _dis, Color.red);
+        }
+    }
+
+    [Header("Pick & Drop (Gravity Gun)")]
+    [Tooltip("Attach the Transform for Obj PlaceHolder")]
+    [SerializeField] Transform _objectHolder;
+    Rigidbody _grabbedRB;
+
+    void PickNDrop()
+    {
+        if (_grabbedRB)
+        {
+            _grabbedRB.MovePosition(Vector3.Lerp(_grabbedRB.position, _objectHolder.position, Time.deltaTime * 100));
+            if (Input.GetMouseButtonDown(1))
+            {
+                _grabbedRB.isKinematic = false;
+                _grabbedRB.AddForce(_objectHolder.forward * 10, ForceMode.VelocityChange);
+                _grabbedRB = null;
+            }
+        }
+        if (Input.GetMouseButtonDown(0) && _obj && _uiInv._aniIndex != 2)
+        {
+            if (!_grabbedRB)
+            {
+                _grabbedRB = _item.GetComponent<Rigidbody>();
+                if (_grabbedRB)
+                {
+                    _grabbedRB.isKinematic = true;
+                }
+            }
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (_grabbedRB)
+            {
+                _grabbedRB.isKinematic = false;
+                _grabbedRB.linearVelocity = Vector3.zero;
+                _grabbedRB.angularVelocity = Vector3.zero;
+                _grabbedRB = null;
+            }
         }
     }
 
@@ -337,6 +382,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
         {
             _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _jumpForce, _rb3D.linearVelocity.z);
+        }
+        else
+        {
+            _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _rb3D.linearVelocity.y, _rb3D.linearVelocity.z);
         }
     }
 

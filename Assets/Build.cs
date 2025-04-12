@@ -5,12 +5,12 @@ public class Build : MonoBehaviour
     int _health = 10;
     Renderer _renderer;
     Color _color;
-    float alpha;
+    float _alpha;
 
     void Update()
     {
-        alpha = (float)_health / 10;
-        if (_renderer == null)
+        _alpha = (float)_health / 10;
+        if (!_renderer)
         {
             _renderer = this.GetComponent<Renderer>();
         }
@@ -26,7 +26,7 @@ public class Build : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet") && _health > 0)
         {
             _health--;
-            _color.a = alpha;
+            _color.a = _alpha;
             _renderer.material.color = _color;
         }
     }

@@ -99,13 +99,19 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
+    [Tooltip("The door which need key")]
+    void PickNDrop()
+    {
+
+    }
+
     [Header("Door")]
     [Tooltip("The door which need key")]
     public Transform _objDoor;
     public static bool _hasKey = false;
     public static bool _nearDoor = false;
     bool _doorOpened = false;
-    Vector3 targetPosition;
+    Vector3 _targetPosition;
     bool _pressedE = false;
 
     void Door()
@@ -116,7 +122,7 @@ public class GameManager : MonoBehaviour
         }
         if(_pressedE)
         {
-            _objDoor.position = Vector3.Lerp(_objDoor.position, targetPosition, 2 * Time.deltaTime);
+            _objDoor.position = Vector3.Lerp(_objDoor.position, _targetPosition, 2 * Time.deltaTime);
         }
         if (_objDoor.position.y >= 4.4f && !_doorOpened)
         {
@@ -318,21 +324,22 @@ public class GameManager : MonoBehaviour
     [Tooltip("Add the red Material")]
     public Material _previewMatR;
     Material _defaultMat;
-    Vector3 pos;
+    Vector3 _pos;
     public static bool _isCol = false;
     [Tooltip("Add the Grid Space (5 is Recomended)")]
     public int _gridSize;
 
     void build()
-    {
-        pos = _player._hitPos;
-        Vector3 snappedPosition = new Vector3(
-        Mathf.Round(pos.x / _gridSize) * _gridSize,
-        Mathf.Round(pos.y / _gridSize) * _gridSize,
-        Mathf.Round(pos.z / _gridSize) * _gridSize
-    );
+    {   
         if (_isBuild)
         {
+            _pos = _player._hitPos;
+            // Debug.Log(pos);
+            Vector3 snappedPosition = new Vector3(
+            Mathf.Round(_pos.x / _gridSize) * _gridSize,
+            Mathf.Round(_pos.y / _gridSize) * _gridSize,
+            Mathf.Round(_pos.z / _gridSize) * _gridSize
+        );
             if (Input.GetKeyDown(KeyCode.X) && !_preview)
             {
                 _tempobj = _wall;
@@ -367,7 +374,7 @@ public class GameManager : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) && !_isCol)
                 {
                     _tempRend.material = _defaultMat;
-                    _tempObj.transform.gameObject.layer = 0;
+                    _tempObj.layer = 0;
                     _tempCol.isTrigger = false;
                     _tempobj = null;
                     _preview = false;
@@ -379,7 +386,7 @@ public class GameManager : MonoBehaviour
                     _preview = false;
                 }
             }
-            if (_tempobj != null)
+            if (_tempobj)
             {
                 Preview(_tempobj);
                 _tempObj.transform.position = snappedPosition;
@@ -391,8 +398,8 @@ public class GameManager : MonoBehaviour
     {
         if (!_preview)
         {
-            _tempObj = Instantiate(Obj, pos, Quaternion.identity);
-            _tempObj.transform.gameObject.layer = 6;
+            _tempObj = Instantiate(Obj, _pos, Quaternion.identity);
+            _tempObj.layer = 6;
             _tempRend = _tempObj.transform.GetComponent<Renderer>();
             _tempCol = _tempObj.transform.GetComponent<MeshCollider>();
             _tempCol.isTrigger = true;
@@ -422,10 +429,10 @@ public class GameManager : MonoBehaviour
     GameObject _JumpPad;
     [Tooltip("Add Satchel Jump Force")]
     public float _jumpPadforce;
-    Vector3 rotationAxis;
-    Quaternion rotation;
-    Vector3 shootDirection;
-    Vector3 spawnPosition;
+    Vector3 _rotationAxis;
+    Quaternion _rotation;
+    Vector3 _shootDirection;
+    Vector3 _spawnPosition;
     [Tooltip("Add Text Component for Inv Count")]
     public TextMeshProUGUI _invCount;
     [Tooltip("Add Text Component for Jump Count")]
@@ -463,11 +470,11 @@ public class GameManager : MonoBehaviour
         if (_isJump)
         {
             _jump.color = new Color32(255, 255, 255, 255);
-            rotationAxis = _playerPos.forward;
-            rotation = Quaternion.AngleAxis(_playerPos.localRotation.x, rotationAxis);
-            shootDirection = rotation * _playerPos.forward;
-            spawnPosition = new Vector3(_playerPos.position.x, _playerPos.position.y + 1f, _playerPos.position.z) + shootDirection * 1f;
-            _JumpPad = Instantiate(_jumpPad, spawnPosition, Quaternion.LookRotation(shootDirection));
+            _rotationAxis = _playerPos.forward;
+            _rotation = Quaternion.AngleAxis(_playerPos.localRotation.x, _rotationAxis);
+            _shootDirection = _rotation * _playerPos.forward;
+            _spawnPosition = new Vector3(_playerPos.position.x, _playerPos.position.y + 1f, _playerPos.position.z) + _shootDirection * 1f;
+            _JumpPad = Instantiate(_jumpPad, _spawnPosition, Quaternion.LookRotation(_shootDirection));
             Rigidbody _JumpPadRigi = _JumpPad.GetComponent<Rigidbody>();
             _JumpPadRigi.AddForce(_playerPos.forward * 250f, ForceMode.Force);
             _JumpPadRigi.AddForce(Physics.gravity * 2f, ForceMode.Acceleration);

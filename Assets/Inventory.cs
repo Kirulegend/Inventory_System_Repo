@@ -25,9 +25,9 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(GameObject itemPrefab)
     {
-        if (itemPrefab != null)
+        if (itemPrefab)
         {
-            _invItems.RemoveAll(item => item == null);
+            _invItems.RemoveAll(item => !item);
             foreach (GameObject Obj in _itemData)
             {
                 Item _item1 = Obj.GetComponent<Item>();
@@ -70,7 +70,7 @@ public class Inventory : MonoBehaviour
             _item._itemQuantity--;
             Debug.Log($"Removed {itemPrefab.GetComponent<Item>()._itemName} from inventory!");
         }
-        if (_uiAni != null)
+        if (_uiAni)
         {
             _uiAni.UpdateUI();
         }

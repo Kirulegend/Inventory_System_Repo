@@ -11,12 +11,12 @@ public class UI_Inventory : MonoBehaviour
     Animator _ani;
     Inventory _inv;
     [HideInInspector]public float _aniIndex = 0;
-    List<GameObject> slots = new List<GameObject>();
+    List<GameObject> _slots = new List<GameObject>();
 
     void Start()
     {
         _inv = FindFirstObjectByType<Inventory>();
-        if (_inv != null && _inv._invItems.Count > 0)
+        if (_inv && _inv._invItems.Count > 0)
         {
             UpdateUI();
         }
@@ -49,20 +49,20 @@ public class UI_Inventory : MonoBehaviour
 
     public void UpdateUI()
     {
-        while (slots.Count < _inv._invItems.Count)
+        while (_slots.Count < _inv._invItems.Count)
         {
             GameObject slot = Instantiate(_itemPrefab, _itemContainer);
-            slots.Add(slot);
+            _slots.Add(slot);
         }
-        while (slots.Count > _inv._invItems.Count)
+        while (_slots.Count > _inv._invItems.Count)
         {
-            GameObject slotToRemove = slots[slots.Count - 1];
-            slots.RemoveAt(slots.Count - 1);
+            GameObject slotToRemove = _slots[_slots.Count - 1];
+            _slots.RemoveAt(_slots.Count - 1);
             Destroy(slotToRemove);
         }
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < _slots.Count; i++)
         {
-            GameObject slot = slots[i];
+            GameObject slot = _slots[i];
             GameObject itemInstance = _inv._invItems[i];
 
             Item item = itemInstance.GetComponent<Item>();
@@ -88,28 +88,28 @@ public class UI_Inventory : MonoBehaviour
     void NumInvScroll()
     {
         float scrollInput = -Input.GetAxisRaw("Mouse ScrollWheel") * 10;
-        if (_tempIndex1 == -1 && slots.Count > 0)
+        if (_tempIndex1 == -1 && _slots.Count > 0)
         {
-            Image _tempImag0 = slots[0].GetComponent<Image>();
+            Image _tempImag0 = _slots[0].GetComponent<Image>();
             _tempImag0.color = new Color(_tempImag0.color.r / 2, _tempImag0.color.g / 2, _tempImag0.color.b / 2, _tempImag0.color.a);
             _tempIndex1 = 0;
             _tempIndex2 = 0;
         }
-        if (slots.Count > 0 && _aniIndex == 2 && !UI_Item._itemPreview)
+        if (_slots.Count > 0 && _aniIndex == 2 && !UI_Item._itemPreview)
         {
             if (scrollInput != 0)
             {
-                _tempIndex = Mathf.Clamp(_tempIndex2 + Mathf.RoundToInt(scrollInput), 0, slots.Count - 1);
+                _tempIndex = Mathf.Clamp(_tempIndex2 + Mathf.RoundToInt(scrollInput), 0, _slots.Count - 1);
 
                 if (_tempIndex != _tempIndex2)
                 {
-                    if (_tempIndex1 >= 0 && _tempIndex1 < slots.Count)
+                    if (_tempIndex1 >= 0 && _tempIndex1 < _slots.Count)
                     {
-                        Image _tempImag1 = slots[_tempIndex1].GetComponent<Image>();
+                        Image _tempImag1 = _slots[_tempIndex1].GetComponent<Image>();
                         _tempImag1.color = new Color(_tempImag1.color.r * 2, _tempImag1.color.g * 2, _tempImag1.color.b * 2, _tempImag1.color.a);
                     }
                     _tempIndex2 = _tempIndex;
-                    Image _tempImag2 = slots[_tempIndex2].GetComponent<Image>();
+                    Image _tempImag2 = _slots[_tempIndex2].GetComponent<Image>();
                     _tempImag2.color = new Color(_tempImag2.color.r / 2, _tempImag2.color.g / 2, _tempImag2.color.b / 2, _tempImag2.color.a);
                     _tempIndex1 = _tempIndex2;
                 }
@@ -117,18 +117,18 @@ public class UI_Inventory : MonoBehaviour
         }
         else if (_aniIndex != 2)
         {
-            if (_tempIndex2 >= 0 && _tempIndex2 < slots.Count)
+            if (_tempIndex2 >= 0 && _tempIndex2 < _slots.Count)
             {
-                Image _tempImag3 = slots[_tempIndex2].GetComponent<Image>();
+                Image _tempImag3 = _slots[_tempIndex2].GetComponent<Image>();
                 _tempImag3.color = new Color(_tempImag3.color.r * 2, _tempImag3.color.g * 2, _tempImag3.color.b * 2, _tempImag3.color.a);
             }
 
             _tempIndex1 = -1;
             _tempIndex2 = 0;
         }
-        if (Input.GetKeyDown(KeyCode.F) && slots.Count > 0 && _aniIndex == 2)
+        if (Input.GetKeyDown(KeyCode.F) && _slots.Count > 0 && _aniIndex == 2)
         {
-            Button TempButtom = slots[_tempIndex].GetComponent<Button>();
+            Button TempButtom = _slots[_tempIndex].GetComponent<Button>();
             TempButtom.onClick.Invoke();
         }
     }
@@ -138,7 +138,7 @@ public class UI_Inventory : MonoBehaviour
 
     void NumInvKeypad()
     {
-        if (Input.anyKeyDown && slots.Count > 0 && _aniIndex == 2)
+        if (Input.anyKeyDown && _slots.Count > 0 && _aniIndex == 2)
         {
             string _tempIndex = Input.inputString;
             if (int.TryParse(_tempIndex, out _invIndex))
@@ -146,9 +146,9 @@ public class UI_Inventory : MonoBehaviour
                 _invNumPressed = true;
             }
         }
-        if (_invNumPressed && _invIndex <= slots.Count && _invIndex > 0 && !UI_Item._itemPreview)
+        if (_invNumPressed && _invIndex <= _slots.Count && _invIndex > 0 && !UI_Item._itemPreview)
         {
-            Button TempButtom = slots[_invIndex - 1].GetComponent<Button>();
+            Button TempButtom = _slots[_invIndex - 1].GetComponent<Button>();
             TempButtom.onClick.Invoke();
             _invNumPressed = false;
         }

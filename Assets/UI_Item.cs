@@ -15,7 +15,7 @@ public class UI_Item : MonoBehaviour
 
     void Update()
     {
-        if (_player == null || _inv == null)
+        if (!_player || !_inv)
         {
             _player = FindAnyObjectByType<Player>();
             _inv = FindAnyObjectByType<Inventory>();
@@ -33,19 +33,19 @@ public class UI_Item : MonoBehaviour
     Renderer _tempRend;
     BoxCollider _tempColB;
     GameObject _tempObj;
-    Vector3 pos;
+    Vector3 _pos;
     public static bool _isItem = false;
     public static bool _itemPreview = false;
 
     void Preview()
     {
-        if (_player != null)
+        if (_player)
         {
-            pos = _player._hitPos;
+            _pos = _player._hitPos;
         }
-        if (_itemPreview && _tempObj != null)
+        if (_itemPreview && _tempObj)
         {
-            _tempObj.transform.position = new Vector3(pos.x, pos.y + .5f, pos.z);
+            _tempObj.transform.position = new Vector3(_pos.x, _pos.y + .5f, _pos.z);
             if (_isItem)
             {
                 _tempRend.material = _previewMatR;
@@ -61,6 +61,8 @@ public class UI_Item : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !_isItem)
             {
                 _tempColB.enabled = true;
+                //_tempColB.isTrigger = false;
+                _tempObj.layer = 0;
                 _tempRend.material = _defaultMat;
                 _tempRigi.isKinematic = false;
                 Inventory._invInstance.RemoveItem(_itemPrefab);
@@ -83,14 +85,16 @@ public class UI_Item : MonoBehaviour
         Item _item = _itemPrefab.GetComponent<Item>();
         if (_item._itemAttribute == "Item")
         {
-            if(!_player._obj && _tempObj == null)
+            if(!_player._obj && !_tempObj)
             {
                 Debug.Log("Hello");
-                _tempObj = Instantiate(_itemPrefab, new Vector3(pos.x, pos.y + .5f, pos.z), Quaternion.identity);
+                _tempObj = Instantiate(_itemPrefab, new Vector3(_pos.x, _pos.y + .5f, _pos.z), Quaternion.identity);
+                _tempObj.layer = 6;
                 _tempRigi = _tempObj.GetComponent<Rigidbody>();
                 _tempRend = _tempObj.GetComponent<Renderer>();
                 _tempColB = _tempObj.GetComponent<BoxCollider>();
                 _tempColB.enabled = false;
+                //_tempColB.isTrigger = true;
                 _defaultMat = _tempRend.material;
                 _tempRigi.isKinematic = true;
                 _tempObj.name = _itemName;
