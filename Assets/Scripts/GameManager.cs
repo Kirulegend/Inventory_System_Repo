@@ -99,12 +99,6 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-    [Tooltip("The door which need key")]
-    void PickNDrop()
-    {
-
-    }
-
     [Header("Door")]
     [Tooltip("The door which need key")]
     public Transform _objDoor;
@@ -523,7 +517,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Invisiable Logic
-        if (Input.GetKeyDown(KeyCode.X) && !_isInv && _invCountNum >= 1 && !_preview)
+        if (Input.GetKeyDown(KeyCode.Z) && !_isInv && _invCountNum >= 1 && !_preview)
         {
             _inv.color = new Color32(255, 255, 255, 255);
             _meshRenderer =  _playerPos.gameObject.GetComponent<MeshRenderer>();

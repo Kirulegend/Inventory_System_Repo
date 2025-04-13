@@ -35,7 +35,12 @@ public class Player : MonoBehaviour
         Shield();
         Shoot();
         PickNDrop();
+        SpecialGroundCheck();
         //Spring();
+    }
+    void FixedUpdate()
+    {
+        //_rb3D.AddForce(new Vector3(-9.81f, 11f, 0f), ForceMode.Acceleration);
     }
 
     [Header("Shield")]
@@ -92,6 +97,8 @@ public class Player : MonoBehaviour
     [Header("Raycast")]
     [Tooltip("Enter the Ray Length")]
     [SerializeField] float _dis;
+    [Tooltip("Select the Ignore Layer Mask")]
+    [SerializeField] LayerMask _ignoreLayer;
     Transform _camPos;
     [HideInInspector] public bool _obj = false;
     GameObject _item;
@@ -105,7 +112,7 @@ public class Player : MonoBehaviour
         Vector3 angledDirection = rotation * transform.forward;
         if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis, ~_ignoreLayer))
         {
-            Debug.Log(hitInfo.collider.gameObject.name);
+            //Debug.Log(hitInfo.collider.gameObject.name);
             if (GameManager._isGun)
             {
                 GameManager._blackB = false;
@@ -254,7 +261,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    LayerMask _ignoreLayer;
     [HideInInspector] public Vector3 _hitPos;
 
     public bool RayCast()
@@ -396,6 +402,18 @@ public class Player : MonoBehaviour
     bool GroundCheck()
     {
         return Physics.BoxCast(transform.position, new Vector3(1, .5f, 1), Vector3.down, Quaternion.identity, 1f, _layerMask);
+    }
+
+    //bool isOnSpecialGround = false;
+    [Tooltip("Select the Special Ground Layer Mask")]
+    [SerializeField] LayerMask _specialLayerMask;
+
+    void SpecialGroundCheck()
+    {
+        if(Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, _dis, _specialLayerMask))
+        {
+            Debug.DrawRay(transform.position, -transform.up * hitInfo.distance, Color.green);
+        }
     }
 
     void OnDrawGizmos()

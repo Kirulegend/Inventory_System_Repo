@@ -4155,7 +4155,7 @@ GameObject:
   - component: {fileID: 1315221423}
   - component: {fileID: 1315221422}
   - component: {fileID: 1315221421}
-  m_Layer: 6
+  m_Layer: 4
   m_Name: Plane
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -5228,7 +5228,7 @@ Transform:
   m_GameObject: {fileID: 1816174958}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -32.5, y: 2.1, z: 46.4}
+  m_LocalPosition: {x: -37.55, y: 2.1, z: 17.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5280,6 +5280,9 @@ MonoBehaviour:
   _shieldMat: {fileID: 2100000, guid: b7902ec5824bdfa40aa260f9fc82a364, type: 2}
   _damageMat: {fileID: 2100000, guid: ff266f30fb51a3e49855b54e2487d645, type: 2}
   _dis: 20
+  _ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 64
   _obj: 0
   _objectHolder: {fileID: 1129586295}
   _hitPos: {x: 0, y: 0, z: 0}
