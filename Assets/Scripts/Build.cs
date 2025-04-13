@@ -25,6 +25,7 @@ public class Build : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet") && _health > 0)
         {
+            Destroy(collision.gameObject);
             _health--;
             _color.a = _alpha;
             _renderer.material.color = _color;

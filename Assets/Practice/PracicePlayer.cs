@@ -1,5 +1,3 @@
-using UnityEditor.PackageManager;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class PracicePlayer : MonoBehaviour

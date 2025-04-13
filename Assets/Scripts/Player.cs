@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
         Vector3 angledDirection = rotation * transform.forward;
         if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis, ~_ignoreLayer))
         {
-            //Debug.Log(hitInfo.collider.gameObject.name);
+            Debug.Log(hitInfo.collider.gameObject.name);
             if (GameManager._isGun)
             {
                 GameManager._blackB = false;
@@ -225,17 +225,23 @@ public class Player : MonoBehaviour
     [Tooltip("Attach the Transform for Obj PlaceHolder")]
     [SerializeField] Transform _objectHolder;
     Rigidbody _grabbedRB;
+    float _force = 10;
 
     void PickNDrop()
     {
         if (_grabbedRB)
         {
             _grabbedRB.MovePosition(Vector3.Lerp(_grabbedRB.position, _objectHolder.position, Time.deltaTime * 100));
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButton(1))
+            {
+                _force += .01f;
+            }
+            if (Input.GetMouseButtonUp(1))
             {
                 _grabbedRB.isKinematic = false;
-                _grabbedRB.AddForce(_objectHolder.forward * 10, ForceMode.VelocityChange);
+                _grabbedRB.AddForce(_objectHolder.forward * (int)_force, ForceMode.VelocityChange);
                 _grabbedRB = null;
+                _force = 10;
             }
         }
         if (Input.GetMouseButtonDown(0) && _obj && _uiInv._aniIndex != 2)
@@ -251,6 +257,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0))
         {
+            _force = 10;
             if (_grabbedRB)
             {
                 _grabbedRB.isKinematic = false;

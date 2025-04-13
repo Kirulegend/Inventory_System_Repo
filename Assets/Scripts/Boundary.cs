@@ -7,9 +7,10 @@ public class Boundary : MonoBehaviour
     [SerializeField] Transform _CheckPoint;
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            other.gameObject.transform.position = _CheckPoint.position;
-        }
+        //if (other.gameObject.CompareTag("Player"))
+        //{
+        //    other.gameObject.transform.position = _CheckPoint.position;
+        //}
+        other.gameObject.transform.position = _CheckPoint.position;
     }
 }

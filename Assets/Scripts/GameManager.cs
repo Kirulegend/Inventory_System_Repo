@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,6 +31,7 @@ public class GameManager : MonoBehaviour
         Damage();
         Abilities();
         build();
+        Slowmo();
         //Rope();
     }
 
@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour
 
     void CameraRot()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote))
+        if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (Count == 0)
             {
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
             }
         }
-        if (Count == 1)
+        if (Count == 1 && Time.timeScale == 1)
         {
             CamInputRotation.x += Input.GetAxis("Mouse X");
             CamInputRotation.y += Input.GetAxis("Mouse Y");
@@ -266,6 +266,7 @@ public class GameManager : MonoBehaviour
                 _isBuild = false;
                 _isGun = true;
                 _bulletCountText.enabled = true;
+                _unlimitedAmmo = false;
                 _unlimited.SetActive(false);
                 _buildBlock.SetActive(false);
                 _weapon.sprite = _gun;
@@ -401,6 +402,21 @@ public class GameManager : MonoBehaviour
             _preview = true;
         }
     }
+
+    void Slowmo()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if(Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+            }
+            else
+            {
+                Time.timeScale = 0;
+            }
+        }
+    } 
 
     [Header("Abilities Mech")]
     [Tooltip("Add Invisible Image Component")]
