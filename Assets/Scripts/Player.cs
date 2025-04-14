@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
         Vector3 angledDirection = rotation * transform.forward;
         if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis, ~_ignoreLayer))
         {
-            Debug.Log(hitInfo.collider.gameObject.name);
+            //Debug.Log(hitInfo.collider.gameObject.name);
             if (GameManager._isGun)
             {
                 GameManager._blackB = false;
