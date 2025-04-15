@@ -433,7 +433,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Jumppad"))
         {
-            _rb3D.AddForce(transform.up * _gm._jumpPadforce * _moveSpeed, ForceMode.Impulse);
+            //_rb3D.AddForce(transform.up * _gm._jumpPadforce * _moveSpeed, ForceMode.Impulse);
             Destroy(other.gameObject, .25f);
         }
     }
