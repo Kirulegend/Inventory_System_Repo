@@ -224,7 +224,6 @@ GameObject:
   - component: {fileID: 1351669890}
   - component: {fileID: 1351669889}
   - component: {fileID: 1351669893}
-  - component: {fileID: 1351669894}
   - component: {fileID: 1351669895}
   m_Layer: 0
   m_Name: Cube
@@ -338,39 +337,12 @@ MonoBehaviour:
   _hover: 1
   _gravity: -9.81
   _gameObject: {fileID: 1674245736}
-  _transform: {fileID: 1674245740}
+  _transform: {fileID: 1351669892}
   _launchForce: 10
-  _angle: 45
+  _angle: 90
   _res: 30
   _timeStamp: 0.1
   _lineRenderer: {fileID: 0}
---- !u!54 &1351669894
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351669887}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 2
 --- !u!120 &1351669895
 LineRenderer:
   serializedVersion: 2
@@ -583,7 +555,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.26340038, y: -0, z: -0, w: 0.9646866}
   m_LocalPosition: {x: -2.4761994, y: 7.7082887, z: 30.158676}
-  m_LocalScale: {x: 10, y: 2, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -610,7 +582,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
