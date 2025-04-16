@@ -76,7 +76,6 @@ public class PhysicsController : MonoBehaviour
         Vector3 _velocity = new Vector3(_transform.forward.x, 
                                         Mathf.Sin(_radAngle), 
                                         _transform.forward.z).normalized * _launchForce;
-        _rb.linearVelocity = _velocity;
     }
     void OnCollisionEnter(Collision collision)
     {
