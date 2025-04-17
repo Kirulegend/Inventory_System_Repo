@@ -18,4 +18,31 @@ public class Item : MonoBehaviour
     public string _itemAttribute;
     [Tooltip("Add the Specific GameObj Prefab")]
     public GameObject _itemPrefab;
+
+    GameObject _player;
+    TextMeshPro _name;
+    [HideInInspector] public bool _isRay;
+
+    void Start()
+    {
+        _player = GameObject.FindWithTag("Player");
+        _name = GetComponentInChildren<TextMeshPro>();
+        _name.enabled = false;
+        _name.text = _itemName;
+    }
+    void Update()
+    {
+        if (_isRay && Player._obj)
+        {
+            _name.enabled = true;
+            Vector3 direction = _player.transform.position - _name.transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(-direction);
+            _name.transform.rotation = targetRotation;
+        }
+        else
+        {
+            _name.enabled = false;
+            _isRay = false;
+        }
+    }
 }

@@ -34,10 +34,10 @@ public class Inventory : MonoBehaviour
                 Item _item2 = itemPrefab.GetComponent<Item>();
                 if (_item1._itemName == _item2._itemName && _item1._itemQuantity == 0)
                 {
-                    if(_item2._itemAttribute == "Key")
-                    {
-                        GameManager._hasKey = true;
-                    }
+                    //if(_item2._itemAttribute == "Key")
+                    //{
+                    //    GameManager._hasKey = true;
+                    //}
                     _invItems.Add(Obj);
                     _item1._itemQuantity++;
                     _uiAni.UpdateUI();

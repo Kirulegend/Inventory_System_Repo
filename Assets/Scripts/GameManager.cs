@@ -23,8 +23,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        Door();
-        //CameraRot();
+        //Door();
+        CameraRot();
         Crosshair();
         Scope();
         Weapon();
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
         Abilities();
         build();
         Slowmo();
+        MiniMap();
         //Rope();
     }
 
@@ -99,32 +100,41 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-    [Header("Door")]
-    [Tooltip("The door which need key")]
-    public Transform _objDoor;
-    public static bool _hasKey = false;
-    public static bool _nearDoor = false;
-    bool _doorOpened = false;
-    Vector3 _targetPosition;
-    bool _pressedE = false;
+    [Header("MiniMap")]
+    [Tooltip("Attack the Mini_Map Camera")]
+    public Camera _camMiniMap;
 
-    void Door()
+    void MiniMap()
     {
-        if (_hasKey && !_doorOpened && Input.GetKeyDown(KeyCode.E))
-        {
-            _pressedE = true;
-        }
-        if(_pressedE)
-        {
-            _objDoor.position = Vector3.Lerp(_objDoor.position, _targetPosition, 2 * Time.deltaTime);
-        }
-        if (_objDoor.position.y >= 4.4f && !_doorOpened)
-        {
-            _pressedE = false;
-            _doorOpened = true;
-            _hasKey = false;
-        }
+        _camMiniMap.transform.position = new Vector3(_playerPos.transform.position.x, _playerPos.transform.position.y + 20f, _playerPos.transform.position.z);
     }
+
+    //[Header("Door")]
+    //[Tooltip("The door which need key")]
+    //public Transform _objDoor;
+    //public static bool _hasKey = false;
+    //public static bool _nearDoor = false;
+    //bool _doorOpened = false;
+    //Vector3 _targetPosition;
+    //bool _pressedE = false;
+
+    //void Door()
+    //{
+    //    if (_hasKey && !_doorOpened && Input.GetKeyDown(KeyCode.E))
+    //    {
+    //        _pressedE = true;
+    //    }
+    //    if(_pressedE)
+    //    {
+    //        _objDoor.position = Vector3.Lerp(_objDoor.position, _targetPosition, 2 * Time.deltaTime);
+    //    }
+    //    if (_objDoor.position.y >= 4.4f && !_doorOpened)
+    //    {
+    //        _pressedE = false;
+    //        _doorOpened = true;
+    //        _hasKey = false;
+    //    }
+    //}
 
     [Header("Crosshair Mech")]
     [Tooltip("Add the Red Crosshair")]

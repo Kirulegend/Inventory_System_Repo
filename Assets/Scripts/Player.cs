@@ -123,9 +123,10 @@ public class Player : MonoBehaviour
     [Tooltip("Select the Ignore Layer Mask")]
     [SerializeField] LayerMask _ignoreLayer;
     Transform _camPos;
-    [HideInInspector] public bool _obj = false;
+    public static bool _obj = false;
     GameObject _item;
-    
+    Item _itemBool = null;
+
     void Crosshair()
     {
         Vector3 baseDirection = Vector3.down;
@@ -133,8 +134,11 @@ public class Player : MonoBehaviour
         Vector3 rotationAxis = _camPos.right * -1;
         Quaternion rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
         Vector3 angledDirection = rotation * transform.forward;
+
+        _item = null;
+        _itemBool = null;
         if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis, ~_ignoreLayer))
-        {
+        {   
             //Debug.Log(hitInfo.collider.gameObject.name);
             if (GameManager._isGun)
             {
@@ -148,8 +152,10 @@ public class Player : MonoBehaviour
                 {
                     UI_Item._isItem = true;
                     _item = hitInfo.collider.gameObject;
-                    
-                    if (Input.GetKeyDown(KeyCode.F))
+                    _itemBool = _item.GetComponent<Item>();
+                    if(_itemBool) _itemBool._isRay = true;
+
+                    if (Input.GetKeyDown(KeyCode.F) && _uiInv._aniIndex != 2)
                     {
                         Inventory._invInstance.AddItem(_item);
                         Destroy(_item);
@@ -159,6 +165,11 @@ public class Player : MonoBehaviour
                     GameManager._blackB = true;
                     GameManager._redB = false;
                     GameManager._greenB = false;
+                }
+                else if(!hitInfo.collider.gameObject.CompareTag("Item"))
+                {
+                    if (_itemBool)_itemBool._isRay = false;
+                    _obj = false;
                 }
                 //else if (hitInfo.collider.gameObject.CompareTag("RopePoint"))
                 //{
@@ -185,23 +196,23 @@ public class Player : MonoBehaviour
                 //    }
                 //    GameManager._isRope = false;
                 //}
-                else if (hitInfo.collider.gameObject.CompareTag("Door"))
-                {
-                    UI_Item._isItem = true;
-                    GameManager._nearDoor = true;
-                    if (!GameManager._hasKey)
-                    {
-                        GameManager._blackB = false;
-                        GameManager._redB = true;
-                        GameManager._greenB = false;
-                    }
-                    if (GameManager._hasKey)
-                    {
-                        GameManager._blackB = false;
-                        GameManager._redB = false;
-                        GameManager._greenB = true;
-                    }
-                }
+                //else if (hitInfo.collider.gameObject.CompareTag("Door"))
+                //{
+                //    UI_Item._isItem = true;
+                //    GameManager._nearDoor = true;
+                //    if (!GameManager._hasKey)
+                //    {
+                //        GameManager._blackB = false;
+                //        GameManager._redB = true;
+                //        GameManager._greenB = false;
+                //    }
+                //    if (GameManager._hasKey)
+                //    {
+                //        GameManager._blackB = false;
+                //        GameManager._redB = false;
+                //        GameManager._greenB = true;
+                //    }
+                //}
                 else if (hitInfo.collider.gameObject.CompareTag("Enemy"))
                 {
                     UI_Item._isItem = true;
@@ -223,7 +234,7 @@ public class Player : MonoBehaviour
                     GameManager._blackB = false;
                     GameManager._redB = false;
                     GameManager._greenB = false;
-                    GameManager._nearDoor = false;
+                    //GameManager._nearDoor = false;
                 }
                 Debug.DrawRay(CamPos, angledDirection * hitInfo.distance, Color.green);
             }
@@ -267,7 +278,7 @@ public class Player : MonoBehaviour
                 _force = 10;
             }
         }
-        if (Input.GetMouseButtonDown(0) && _obj && _uiInv._aniIndex != 2)
+        if (Input.GetMouseButtonDown(0) && _obj && _uiInv._aniIndex != 2 && Cursor.lockState == CursorLockMode.Locked)
         {
             if (!_grabbedRB)
             {

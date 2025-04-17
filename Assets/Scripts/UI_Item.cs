@@ -85,7 +85,7 @@ public class UI_Item : MonoBehaviour
         Item _item = _itemPrefab.GetComponent<Item>();
         if (_item._itemAttribute == "Item")
         {
-            if(!_player._obj && !_tempObj)
+            if(!Player._obj && !_tempObj)
             {
                 Debug.Log("Hello");
                 _tempObj = Instantiate(_itemPrefab, new Vector3(_pos.x, _pos.y + .5f, _pos.z), Quaternion.identity);
@@ -125,12 +125,12 @@ public class UI_Item : MonoBehaviour
                 Debug.Log("Full Attack");
             }
         }
-        else if( _item._itemAttribute == "Key")
-        {
-            if (GameManager._nearDoor)
-            {
-                Inventory._invInstance.RemoveItem(_itemPrefab);
-            }
-        }
+        //else if( _item._itemAttribute == "Key")
+        //{
+        //    if (GameManager._nearDoor)
+        //    {
+        //        Inventory._invInstance.RemoveItem(_itemPrefab);
+        //    }
+        //}
     }
 }
