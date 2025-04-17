@@ -205,8 +205,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943750708}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.2591397, y: 0.15791753, z: -0.042981125, w: 0.9518725}
+  m_LocalPosition: {x: 19.44917, y: 39.878414, z: -0.84522057}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 1351669890}
   - component: {fileID: 1351669889}
   - component: {fileID: 1351669893}
+  - component: {fileID: 1351669897}
   - component: {fileID: 1351669895}
   - component: {fileID: 1351669896}
   m_Layer: 0
@@ -360,13 +361,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351669887}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.33862242, y: -0, z: -0, w: 0.9409223}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 21.880001, y: 37.879997, z: 8.030001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 39.586, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1351669893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,7 +375,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351669887}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6efbd8fe76b576e4381f1c819b0a9199, type: 3}
   m_Name: 
@@ -523,6 +524,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1351669897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351669887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18213c7d83bacfe4da90df01cb2610d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ballPrefab: {fileID: 2071320690149705527, guid: 169c108817dcc834e8420b33385a2b9e, type: 3}
+  _shootPos: {fileID: 0}
+  _maxPower: 0
+  _powerMultiplayer: 0.5
+  _tPoint: 30
+  _timeStamp: 0.1
+  _cam: {fileID: 0}
 --- !u!1 &1674245736
 GameObject:
   m_ObjectHideFlags: 0

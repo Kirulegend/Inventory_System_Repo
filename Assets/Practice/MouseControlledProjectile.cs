@@ -22,6 +22,7 @@ public class MouseControlledProjectile : MonoBehaviour
 
     void Start()
     {
+        _shootPos.position = transform.forward * 2;
         _lineRenderer = GetComponent<LineRenderer>();
         _gravity = Mathf.Abs(Physics.gravity.y);
         if (!_cam)
@@ -56,6 +57,8 @@ public class MouseControlledProjectile : MonoBehaviour
                 Vector3 _direction = _dragStart - _dragEnd;
                 float _power = Mathf.Clamp(_direction.magnitude * _powerMultiplayer, 0f, _maxPower);
                 Vector3 _velocity = _direction.normalized * _power;
+
+                
             }
         }
         if(Input.GetMouseButtonUp(0))
@@ -66,17 +69,27 @@ public class MouseControlledProjectile : MonoBehaviour
             Vector3 _velocity = _direction.normalized * _power;
 
             ShootBall(_velocity);
+            ShowTri(_dragStart, _velocity);
             _lineRenderer.positionCount = 0;
         }
     }
     
     void ShootBall(Vector3 _velocity)
     {
-        
+        GameObject _ball = Instantiate(_ballPrefab, _shootPos.position, Quaternion.identity);
+        Rigidbody _rb = _ball.GetComponent<Rigidbody>();
+        _rb.linearVelocity = _velocity;
     }
 
     void ShowTri(Vector3 _startPos, Vector3 _velocity)
     {
-        
+        _lineRenderer.positionCount = _tPoint;
+        for(int i = 0; i < _tPoint; i++)
+        {
+            float _t = i * _timeStamp;
+            Vector3 _point = _startPos + _velocity * _t;
+            _point.y = _startPos.y + (_velocity.y * _t - 0.5f * _gravity * _t * _t);
+            _lineRenderer.SetPosition(i, _point);
+        }
     }
 }

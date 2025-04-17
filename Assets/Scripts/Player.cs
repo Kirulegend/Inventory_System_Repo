@@ -226,7 +226,7 @@ public class Player : MonoBehaviour
 
     void UpdateGroundNormal()
     {
-        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, 10f))
+        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, 7.5f))
         {
             
             _groundNormal = hitInfo.normal;
