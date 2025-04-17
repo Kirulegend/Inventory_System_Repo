@@ -339,7 +339,7 @@ public class Player : MonoBehaviour
         {
             _tempBulletCount = GameManager._bulletCount;
         }
-        if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0 && GameManager._isGun && !GameManager._telPreview)
+        if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0 && GameManager._isGun && !GameManager._isTel)
         {
             StartCoroutine(DelayedShoot());
         }
@@ -402,7 +402,7 @@ public class Player : MonoBehaviour
     {
         _Hor = Input.GetAxisRaw("Horizontal");
         _Ver = Input.GetAxisRaw("Vertical");
-        if (_Hor != 0 || _Ver != 0)
+        if ((_Hor != 0 || _Ver != 0) && !GameManager._isCam)
         {
             _isMoving = true;
             Vector3 moveDirection = transform.right * _Hor + transform.forward * _Ver;
@@ -429,6 +429,15 @@ public class Player : MonoBehaviour
             dashDirection.Normalize();
             _rb3D.AddForce(dashDirection * 400f, ForceMode.VelocityChange);
         }
+        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Space) && GroundCheck())
+        {
+            _rb3D.AddForce(transform.up * 15f, ForceMode.VelocityChange);
+            StartCoroutine(Drag());
+        }
+        if (GroundCheck())
+        {
+            _rb3D.linearDamping = 0;
+        }
         if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
         {
             _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _jumpForce, _rb3D.linearVelocity.z);
@@ -437,6 +446,12 @@ public class Player : MonoBehaviour
         {
             _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _rb3D.linearVelocity.y, _rb3D.linearVelocity.z);
         }
+    }
+
+    IEnumerator Drag()
+    {
+        yield return new WaitForSeconds(2);
+        _rb3D.linearDamping = 6;
     }
 
     [Header("Ground Dectection")]

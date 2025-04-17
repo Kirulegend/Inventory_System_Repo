@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
         //_lineRen.enabled = false;
         _rb3D = _player.GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.None;
+        _CamBotRigi = _camBot.GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -106,7 +107,14 @@ public class GameManager : MonoBehaviour
 
     void MiniMap()
     {
-        _camMiniMap.transform.position = new Vector3(_playerPos.transform.position.x, _playerPos.transform.position.y + 20f, _playerPos.transform.position.z);
+        if (_isCam)
+        {
+            _camMiniMap.transform.position = new Vector3(_camBot.transform.position.x, _camBot.transform.position.y + 20f, _camBot.transform.position.z);
+        }
+        else
+        {
+            _camMiniMap.transform.position = new Vector3(_playerPos.transform.position.x, _playerPos.transform.position.y + 20f, _playerPos.transform.position.z);
+        }
     }
 
     //[Header("Door")]
@@ -198,13 +206,20 @@ public class GameManager : MonoBehaviour
             CamInputRotation.x += Input.GetAxis("Mouse X");
             CamInputRotation.y += Input.GetAxis("Mouse Y");
             CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -60, 60f);
-            if(Time.timeScale == 0)
+            if (!_isCam)
             {
-                _playerPos.transform.rotation = Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0);
+                if (Time.timeScale == 0)
+                {
+                    _playerPos.transform.rotation = Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0);
+                }
+                if (Time.timeScale == 1)
+                {
+                    _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
+                }
             }
-            if(Time.timeScale == 1)
+            else
             {
-                _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
+                _CamBotRigi.MoveRotation(Quaternion.Euler(0, CamInputRotation.x, 0));
             }
             //_camera.transform.localRotation = Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0);
             //_playerPos.rotation = Quaternion.Euler(0, CamInputRotation.x, 0) * transform.rotation;
@@ -271,7 +286,7 @@ public class GameManager : MonoBehaviour
         _bulletCountText.text = Player._tempBulletCount.ToString();
         if (_uiInv._aniIndex != 2 && !_preview)
         {
-            if ((Input.GetKeyDown(KeyCode.Alpha1) || _telPreview) && _weapon.sprite != _hand)
+            if ((Input.GetKeyDown(KeyCode.Alpha1) || _isTel) && _weapon.sprite != _hand)
             {
                 _isBuild = false;
                 _weapon.sprite = _hand;
@@ -428,7 +443,7 @@ public class GameManager : MonoBehaviour
 
     void Slowmo()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             _time.enabled = _time.enabled == true ? false : true;
         }
@@ -459,10 +474,10 @@ public class GameManager : MonoBehaviour
     public static bool _isTel = false;
     public static bool _isJump = false;
     public static bool _isInv = false;
-    public static bool _telPreview = false;
+    public static bool _isCam = false;
     MeshRenderer _meshRenderer;
     [Tooltip("Add Teleporter Spawn Position")]
-    public Transform _TelTargetPos;
+    public Transform _TargetPos;
     [Tooltip("Add Teleporter Prefab")]
     public GameObject _Teleporter;
     [Tooltip("Add Satchel Prefab")]
@@ -474,6 +489,8 @@ public class GameManager : MonoBehaviour
     Quaternion _rotation;
     Vector3 _shootDirection;
     Vector3 _spawnPosition;
+    [Tooltip("Add CamBot Prefab")]
+    public GameObject _camBot;
     [Tooltip("Add Text Component for Inv Count")]
     public TextMeshProUGUI _invCount;
     [Tooltip("Add Text Component for Jump Count")]
@@ -483,6 +500,8 @@ public class GameManager : MonoBehaviour
     int _invCountNum = 50;
     int _jumpCountNum = 50;
     int _telCountNum = 50;
+    Rigidbody _CamBotRigi;
+    bool _iscam = false;
 
     void Abilities()
     {
@@ -527,29 +546,29 @@ public class GameManager : MonoBehaviour
         }
 
         //Teleporter Logic
-        if (Input.GetKeyDown(KeyCode.E) && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview && !_isScope)
+        if (Input.GetKeyDown(KeyCode.E) && !_Teleporter.activeInHierarchy && _telCountNum >= 1 && !_preview && !_isScope && !_isCam)
         {
             _Teleporter.transform.SetParent(_playerPos);
             _Teleporter.transform.localRotation = Quaternion.identity;
             _tel.color = new Color32(255, 255, 255, 255);
-            _telPreview = true;
+            _isTel = true;
             _Teleporter.SetActive(true);
-            _Teleporter.transform.position = _TelTargetPos.position;
+            _Teleporter.transform.position = _TargetPos.position;
         }
         if (_Teleporter.activeInHierarchy)
         {
             Rigidbody _TeleporterRigi = _Teleporter.GetComponent<Rigidbody>();
             _Teleporter.transform.rotation = Quaternion.Euler(0, _Teleporter.transform.eulerAngles.y, 0);
-            if (Input.GetMouseButtonDown(0) && _telPreview)
+            if (Input.GetMouseButtonDown(0) && _isTel)
             {
                 _TeleporterRigi.useGravity = true;
                 _TeleporterRigi.isKinematic = false;
                 _tel.color = new Color32(45, 45, 45, 125);
                 _Teleporter.transform.SetParent(null);
                 _telCountNum--;
-                _telPreview = false;
+                _isTel = false;
             }
-            if (!_telPreview)
+            if (!_isTel)
             {
                 _TeleporterRigi.AddForce(_Teleporter.transform.forward * .5f, ForceMode.Impulse);
                 if (Input.GetKeyDown(KeyCode.E))
@@ -571,8 +590,39 @@ public class GameManager : MonoBehaviour
             _meshRenderer.enabled = false;
             StartCoroutine(Inv());
         }
+
+        //CamBot Logic
+        if(Input.GetKeyDown(KeyCode.G) && !_camBot.activeInHierarchy && !_isCam && !_isScope && !_isTel && !_preview)
+        {
+            _camBot.transform.rotation = Quaternion.Euler(0, _camBot.transform.eulerAngles.y, 0);
+            _camBot.SetActive(true);
+            _camera.enabled = false;
+            _camBot.transform.position = _TargetPos.position;
+            _CamBotRigi.useGravity = true;
+            _CamBotRigi.isKinematic = false;
+            _isCam = true;
+            _iscam = true;
+        }
+        if (_camBot.activeInHierarchy)
+        {
+            _CamBotRigi.AddForce(_camBot.transform.forward * .5f, ForceMode.Impulse);
+            if (_iscam)
+            {
+                StartCoroutine(Cam(_CamBotRigi));
+            }
+        }
     }
 
+    IEnumerator Cam(Rigidbody _CamBotRigi)
+    {
+        _iscam = false;
+        yield return new WaitForSeconds(15);
+        _CamBotRigi.useGravity = false;
+        _CamBotRigi.isKinematic = true;
+        _camBot.SetActive(false);
+        _camera.enabled = true;
+        _isCam = false;
+    }
     IEnumerator Inv()
     {
         _inv.color = new Color32(255, 255, 255, 255);
