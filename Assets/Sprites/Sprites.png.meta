@@ -689,12 +689,12 @@ TextureImporter:
       name: Sprites_25
       rect:
         serializedVersion: 2
-        x: 1260
+        x: 1189
         y: 52
         width: 100
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -703,6 +703,28 @@ TextureImporter:
       bones: []
       spriteID: 4a131de9018339b48aaef7d3b42f825f
       internalID: -943278745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_26
+      rect:
+        serializedVersion: 2
+        x: 1346
+        y: 46
+        width: 160
+        height: 116
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 092a30703454df04a863a4b1b569f1f8
+      internalID: -905089790
       vertices: []
       indices: 
       edges: []
@@ -740,6 +762,7 @@ TextureImporter:
       Sprites_23: 190925995
       Sprites_24: -802493087
       Sprites_25: -943278745
+      Sprites_26: -905089790
       Sprites_3: 1154998692
       Sprites_4: -9037029
       Sprites_5: -809467753

@@ -193,12 +193,19 @@ public class GameManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
             }
         }
-        if (Count == 1 && Time.timeScale == 1)
+        if (Count == 1)
         {
             CamInputRotation.x += Input.GetAxis("Mouse X");
             CamInputRotation.y += Input.GetAxis("Mouse Y");
             CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -60, 60f);
-            _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
+            if(Time.timeScale == 0)
+            {
+                _playerPos.transform.rotation = Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0);
+            }
+            if(Time.timeScale == 1)
+            {
+                _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
+            }
             //_camera.transform.localRotation = Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0);
             //_playerPos.rotation = Quaternion.Euler(0, CamInputRotation.x, 0) * transform.rotation;
         }
@@ -415,11 +422,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [Header("SlowMo")]
+    [Tooltip("Add Time Image Component")]
+    public Image _time;
+
     void Slowmo()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            if(Time.timeScale == 0)
+            _time.enabled = _time.enabled == true ? false : true;
+        }
+        if (_time.enabled)
+        {
+            if (Player._isMoving)
             {
                 Time.timeScale = 1;
             }
@@ -427,6 +442,10 @@ public class GameManager : MonoBehaviour
             {
                 Time.timeScale = 0;
             }
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
     } 
 

@@ -396,6 +396,7 @@ public class Player : MonoBehaviour
     float _Hor;
     float _Ver;
     Rigidbody _rb3D;
+    public static bool _isMoving = false;
 
     void PlayerMovementKB()
     {
@@ -403,12 +404,14 @@ public class Player : MonoBehaviour
         _Ver = Input.GetAxisRaw("Vertical");
         if (_Hor != 0 || _Ver != 0)
         {
+            _isMoving = true;
             Vector3 moveDirection = transform.right * _Hor + transform.forward * _Ver;
             moveDirection.Normalize();
             _rb3D.linearVelocity = new Vector3(moveDirection.x * _moveSpeed, _rb3D.linearVelocity.y, moveDirection.z * _moveSpeed);
         }
         else
         {
+            _isMoving = false;
             _rb3D.linearVelocity = new Vector3(0, _rb3D.linearVelocity.y, 0);
         }
         if ((Input.GetKeyDown(KeyCode.LeftShift)))
