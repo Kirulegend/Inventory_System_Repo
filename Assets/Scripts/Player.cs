@@ -40,7 +40,30 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
-        UpdateGroundNormal();
+        //UpdateGroundNormal();
+    }
+
+    float _gravityMagnitude = 9.81f;
+    Vector3 _groundNormal = Vector3.up;
+
+    void UpdateGroundNormal()
+    {
+        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, 7.5f))
+        {
+
+            _groundNormal = hitInfo.normal;
+            Debug.Log(_groundNormal);
+            Debug.DrawLine(transform.position, hitInfo.point, Color.red); // Debug line to surface
+            Debug.DrawRay(hitInfo.point, hitInfo.normal * 0.5f, Color.green); // Visualize normal
+        }
+        else
+        {
+            _groundNormal = Vector3.up;
+        }
+        Vector3 gravityDirection = -_groundNormal;
+        _rb3D.AddForce(gravityDirection * _gravityMagnitude, ForceMode.Acceleration);
+        Quaternion rotationDifference = Quaternion.FromToRotation(transform.up, _groundNormal);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationDifference * transform.rotation, Time.deltaTime * 2f);
     }
 
     [Header("Shield")]
@@ -221,29 +244,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    float _gravityMagnitude = 9.81f;
-    Vector3 _groundNormal = Vector3.up;
-
-    void UpdateGroundNormal()
-    {
-        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, 7.5f))
-        {
-            
-            _groundNormal = hitInfo.normal;
-            Debug.Log(_groundNormal);
-            Debug.DrawLine(transform.position, hitInfo.point, Color.red); // Debug line to surface
-            Debug.DrawRay(hitInfo.point, hitInfo.normal * 0.5f, Color.green); // Visualize normal
-        }
-        else
-        {
-            _groundNormal = Vector3.up;
-        }
-        Vector3 gravityDirection = -_groundNormal;
-        _rb3D.AddForce(gravityDirection * _gravityMagnitude, ForceMode.Acceleration);
-        Quaternion rotationDifference = Quaternion.FromToRotation(transform.up, _groundNormal);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotationDifference * transform.rotation, Time.deltaTime * 2f);
-    }
-
     [Header("Pick & Drop (Gravity Gun)")]
     [Tooltip("Attach the Transform for Obj PlaceHolder")]
     [SerializeField] Transform _objectHolder;
@@ -392,7 +392,7 @@ public class Player : MonoBehaviour
         _Ver = Input.GetAxisRaw("Vertical");
         if (_Hor != 0 || _Ver != 0)
         {
-            Vector3 moveDirection = transform.right * -_Hor + transform.forward * -_Ver;
+            Vector3 moveDirection = transform.right * _Hor + transform.forward * _Ver;
             moveDirection.Normalize();
             _rb3D.linearVelocity = new Vector3(moveDirection.x * _moveSpeed, _rb3D.linearVelocity.y, moveDirection.z * _moveSpeed);
         }
@@ -417,7 +417,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
         {
-            _rb3D.AddForce(transform.up * 25, ForceMode.VelocityChange);
+            _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _jumpForce, _rb3D.linearVelocity.z);
         }
         else
         {
@@ -431,8 +431,8 @@ public class Player : MonoBehaviour
 
     bool GroundCheck()
     {
-        //return Physics.BoxCast(transform.position, new Vector3(1, .5f, 1), Vector3.down, Quaternion.identity, 1f, _layerMask);
-        return true;
+        return Physics.BoxCast(transform.position, new Vector3(1, .5f, 1), Vector3.down, Quaternion.identity, 1f, _layerMask);
+        //return true;
     }
 
     //bool isOnSpecialGround = false;
@@ -457,7 +457,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Jumppad"))
         {
-            //_rb3D.AddForce(transform.up * _gm._jumpPadforce * _moveSpeed, ForceMode.Impulse);
+            _rb3D.AddForce(transform.up * _gm._jumpPadforce * _moveSpeed, ForceMode.Impulse);
             Destroy(other.gameObject, .25f);
         }
     }

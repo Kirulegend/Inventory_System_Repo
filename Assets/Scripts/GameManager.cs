@@ -188,7 +188,8 @@ public class GameManager : MonoBehaviour
             CamInputRotation.x += Input.GetAxis("Mouse X");
             CamInputRotation.y += Input.GetAxis("Mouse Y");
             CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -60, 60f);
-            _camera.transform.localRotation = Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0);
+            _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
+            //_camera.transform.localRotation = Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0);
             //_playerPos.rotation = Quaternion.Euler(0, CamInputRotation.x, 0) * transform.rotation;
         }
     }
