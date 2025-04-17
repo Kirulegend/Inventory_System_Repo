@@ -1166,18 +1166,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2591325038909486222, guid: da95c4a9ad16909488cf90bb6416e872, type: 3}
-      propertyPath: _itemName
-      value: Pale
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591325038909486222, guid: da95c4a9ad16909488cf90bb6416e872, type: 3}
-      propertyPath: _itemAttribute
-      value: Item
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591325038909486222, guid: da95c4a9ad16909488cf90bb6416e872, type: 3}
-      propertyPath: _itemDescription
-      value: This is a Basic Pale Cube
-      objectReference: {fileID: 0}
     - target: {fileID: 5376143419705752120, guid: da95c4a9ad16909488cf90bb6416e872, type: 3}
       propertyPath: m_Name
       value: Pale
@@ -3225,22 +3213,6 @@ PrefabInstance:
     - target: {fileID: 4694453179775538213, guid: 97f2b14326fc71b47bdd3e1cadeeb5b9, type: 3}
       propertyPath: m_Name
       value: Teleporter
-      objectReference: {fileID: 0}
-    - target: {fileID: 4694453179775538213, guid: 97f2b14326fc71b47bdd3e1cadeeb5b9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7851622405105076986, guid: 97f2b14326fc71b47bdd3e1cadeeb5b9, type: 3}
-      propertyPath: m_Mass
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7851622405105076986, guid: 97f2b14326fc71b47bdd3e1cadeeb5b9, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7851622405105076986, guid: 97f2b14326fc71b47bdd3e1cadeeb5b9, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
