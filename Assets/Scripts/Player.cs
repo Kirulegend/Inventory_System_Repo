@@ -169,6 +169,9 @@ public class Player : MonoBehaviour
                 else if(!hitInfo.collider.gameObject.CompareTag("Item"))
                 {
                     if (_itemBool)_itemBool._isRay = false;
+                    GameManager._blackB = false;
+                    GameManager._redB = false;
+                    GameManager._greenB = false;
                     _obj = false;
                 }
                 //else if (hitInfo.collider.gameObject.CompareTag("RopePoint"))
@@ -423,14 +426,14 @@ public class Player : MonoBehaviour
         {
             _moveSpeed /= 1.5f;
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !GameManager._isCam)
         {
             Vector3 dashDirection = transform.right * _Hor + transform.forward * _Ver;
             dashDirection.y = 0;
             dashDirection.Normalize();
             _rb3D.AddForce(dashDirection * 400f, ForceMode.VelocityChange);
         }
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Space) && GroundCheck())
+        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Space) && GroundCheck() && !GameManager._isCam)
         {
             _rb3D.AddForce(transform.up * 15f, ForceMode.VelocityChange);
             StartCoroutine(Drag());
@@ -439,7 +442,7 @@ public class Player : MonoBehaviour
         {
             _rb3D.linearDamping = 0;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
+        if (Input.GetKeyDown(KeyCode.Space) && GroundCheck() && !GameManager._isCam)
         {
             _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _jumpForce, _rb3D.linearVelocity.z);
         }

@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         build();
         Slowmo();
         MiniMap();
+        ZipLine();
         //Rope();
     }
 
@@ -144,6 +145,33 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
+    [Header("ZipLine")]
+    [Tooltip("Attach the ZipLine Object")]
+    public static Transform _zipLineStart;
+    public static Transform _zipLineEnd;
+    public static Transform _zipLine;
+    public static bool _isZip = false;
+    float moveDuration = 2f;
+    float elapsedTime = 0f;
+    void ZipLine()
+    {
+        if (_isZip && Input.GetKeyDown(KeyCode.L))
+        {
+            _playerPos.SetParent(_zipLine);
+            _rb3D.isKinematic = true;
+            _playerPos.position = new Vector3(_zipLine.position.x, _zipLine.position.y - 1.5f, _zipLine.position.z);
+            //_zipLine.position = 
+        }
+        if (elapsedTime < moveDuration && _rb3D.isKinematic)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / moveDuration;
+            Vector3 position = Vector3.Lerp(new Vector3(_zipLine.position.x, _zipLine.position.y - 1.5f, _zipLine.position.z), _zipLineStart.position, t);
+            position.y += 10 * 4 * t * (1 - t);
+            _playerPos.position = position;
+        }
+    }
+
     [Header("Crosshair Mech")]
     [Tooltip("Add the Red Crosshair")]
     public Sprite _red;
@@ -204,7 +232,14 @@ public class GameManager : MonoBehaviour
         if (Count == 1)
         {
             CamInputRotation.x += Input.GetAxis("Mouse X");
-            CamInputRotation.y += Input.GetAxis("Mouse Y");
+            if (!_isZip)
+            {
+                CamInputRotation.y += Input.GetAxis("Mouse Y");
+            }
+            else
+            {
+                CamInputRotation.y = 0;
+            }
             CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -60, 60f);
             if (!_isCam)
             {
@@ -605,7 +640,7 @@ public class GameManager : MonoBehaviour
         }
         if (_camBot.activeInHierarchy)
         {
-            _CamBotRigi.AddForce(_camBot.transform.forward * .5f, ForceMode.Impulse);
+            _CamBotRigi.linearVelocity = _camBot.transform.forward * 10;
             if (_iscam)
             {
                 StartCoroutine(Cam(_CamBotRigi));
