@@ -360,6 +360,7 @@ public class Player : MonoBehaviour
         }
         Rigidbody _bulletRigi = _Bullet.GetComponent<Rigidbody>();
         _bulletRigi.AddForce(shootDirection * 5000f, ForceMode.Force);
+        //_camPos.rotation = Quaternion.FromToRotation(new Vector3(_camPos.rotation.x, _camPos.rotation.y, _camPos.rotation.z), new Vector3(_camPos.rotation.x - .5f, _camPos.rotation.y, _camPos.rotation.z));
         Destroy(_Bullet, 3f);
         yield return new WaitForSeconds(.05f);
         _canShoot = true;
