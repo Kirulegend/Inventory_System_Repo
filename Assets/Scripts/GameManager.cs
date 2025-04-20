@@ -155,20 +155,28 @@ public class GameManager : MonoBehaviour
     float elapsedTime = 0f;
     void ZipLine()
     {
-        if (_isZip && Input.GetKeyDown(KeyCode.L))
+        if (_isZip && Input.GetKeyDown(KeyCode.L) && !_rb3D.isKinematic)
         {
             _playerPos.SetParent(_zipLine);
-            _rb3D.isKinematic = true;
             _playerPos.position = new Vector3(_zipLine.position.x, _zipLine.position.y - 1.5f, _zipLine.position.z);
+            _rb3D.isKinematic = true;
             //_zipLine.position = 
         }
-        if (elapsedTime < moveDuration && _rb3D.isKinematic)
+        if (elapsedTime < moveDuration && _rb3D.isKinematic && _isZip)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / moveDuration;
-            Vector3 position = Vector3.Lerp(new Vector3(_zipLine.position.x, _zipLine.position.y - 1.5f, _zipLine.position.z), _zipLineStart.position, t);
-            position.y += 10 * 4 * t * (1 - t);
-            _playerPos.position = position;
+            Vector3 position = Vector3.Lerp(_zipLineStart.position, _zipLineEnd.position, t);
+            position.y += -1 * 3 * t * (1 - t);
+            _zipLine.position = position;
+        }
+        if(elapsedTime >= moveDuration && Input.GetKeyDown(KeyCode.L))
+        {
+            elapsedTime = 0f;
+            _playerPos.SetParent(null);
+            Debug.Log(_playerPos.forward);
+            _playerPos.position = new Vector3(_playerPos.position.x, _playerPos.position.y, _playerPos.position.z + 3);
+            _rb3D.isKinematic = false;
         }
     }
 
