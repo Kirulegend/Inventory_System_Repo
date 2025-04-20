@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -9,6 +10,15 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
+    void Awake()
+    {
+        instance = this;
+        _bullet = Resources.Load<GameObject>("Bullet");
+        SpawnBullet();
+    }
+
     void Start()    
     {
         _player = FindFirstObjectByType<Player>();
@@ -102,6 +112,30 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
+    GameObject _bullet;
+    Queue<GameObject> _bulletPool = new Queue<GameObject>();
+    Transform _bulletSpawner;
+
+    void SpawnBullet()
+    {
+        _bulletSpawner = transform.Find("BulletSpawner");
+        for (int i = 0; i < 30; i++)
+        {
+            GameObject pObj = Instantiate(_bullet, _bulletSpawner);
+            pObj.name = $"Bullet {i}";
+            pObj.SetActive(false);
+            _bulletPool.Enqueue(pObj);
+        }
+    }
+    public GameObject GetBullet()
+    {
+        GameObject bullet = _bulletPool.Dequeue();
+        Debug.Log(bullet.name);
+        bullet.SetActive(true);
+        _bulletPool.Enqueue(bullet);
+        return bullet;
+    }
+
     [Header("MiniMap")]
     [Tooltip("Attack the Mini_Map Camera")]
     public Camera _camMiniMap;
@@ -145,38 +179,38 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-    [Header("ZipLine")]
-    [Tooltip("Attach the ZipLine Object")]
     public static Transform _zipLineStart;
     public static Transform _zipLineEnd;
     public static Transform _zipLine;
     public static bool _isZip = false;
-    float moveDuration = 2f;
-    float elapsedTime = 0f;
+    public static bool _zipTrig = false;
+    float _moveDuration = 2f;
+    float _elapsedTime = 0f;
+
     void ZipLine()
     {
-        if (_isZip && Input.GetKeyDown(KeyCode.L) && !_rb3D.isKinematic)
+        if (_zipTrig && Input.GetKeyDown(KeyCode.L))
         {
+            _isZip = true;
             _playerPos.SetParent(_zipLine);
             _playerPos.position = new Vector3(_zipLine.position.x, _zipLine.position.y - 1.5f, _zipLine.position.z);
             _rb3D.isKinematic = true;
-            //_zipLine.position = 
         }
-        if (elapsedTime < moveDuration && _rb3D.isKinematic && _isZip)
+        if (_elapsedTime < _moveDuration && _isZip)
         {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / moveDuration;
+            _elapsedTime += Time.deltaTime;
+            float t = _elapsedTime / _moveDuration;
             Vector3 position = Vector3.Lerp(_zipLineStart.position, _zipLineEnd.position, t);
             position.y += -1 * 3 * t * (1 - t);
             _zipLine.position = position;
         }
-        if(elapsedTime >= moveDuration && Input.GetKeyDown(KeyCode.L))
+        if(_elapsedTime >= _moveDuration && Input.GetKeyDown(KeyCode.L))
         {
-            elapsedTime = 0f;
+            _elapsedTime = 0f;
             _playerPos.SetParent(null);
-            Debug.Log(_playerPos.forward);
-            _playerPos.position = new Vector3(_playerPos.position.x, _playerPos.position.y, _playerPos.position.z + 3);
+            _playerPos.position += _zipLineEnd.right * 2f;
             _rb3D.isKinematic = false;
+            _isZip = false;
         }
     }
 
@@ -243,19 +277,19 @@ public class GameManager : MonoBehaviour
             if (!_isZip)
             {
                 CamInputRotation.y += Input.GetAxis("Mouse Y");
+                CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -60, 60f);
             }
             else
             {
                 CamInputRotation.y = 0;
             }
-            CamInputRotation.y = Mathf.Clamp(CamInputRotation.y, -60, 60f);
             if (!_isCam)
             {
-                if (Time.timeScale == 0)
+                if (Time.timeScale == 0 || _isZip)
                 {
                     _playerPos.transform.rotation = Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0);
                 }
-                if (Time.timeScale == 1)
+                if (Time.timeScale == 1 || !_isZip)
                 {
                     _rb3D.MoveRotation(Quaternion.Euler(-CamInputRotation.y, CamInputRotation.x, 0));
                 }
@@ -406,7 +440,6 @@ public class GameManager : MonoBehaviour
         if (_isBuild)
         {
             _pos = _player._hitPos;
-            // Debug.Log(pos);
             Vector3 snappedPosition = new Vector3(
             Mathf.Round(_pos.x / _gridSize) * _gridSize,
             Mathf.Round(_pos.y / _gridSize) * _gridSize,

@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: -5810390017054623640}
   - component: {fileID: -3143449082536927864}
   - component: {fileID: 1597278096603424635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Purple
   m_TagString: Item
   m_Icon: {fileID: 0}

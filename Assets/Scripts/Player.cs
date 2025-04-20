@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -16,7 +17,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         //_springJoint = GetComponent<SpringJoint>();
-        _bullet = Resources.Load<GameObject>("Bullet");
         _tempBulletCount = GameManager._bulletCount;
         _camPos = transform.Find("Main Camera").transform;
         _matPlayer = GetComponent<Renderer>();
@@ -317,7 +317,7 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(CamPos, angledDirection, out RaycastHit hitInfo, _dis, ~_ignoreLayer))
         {
             _hitPos = hitInfo.point;
-            if (hitInfo.collider.gameObject.layer == Mathf.Log(_layerMask.value, 2))
+            if (hitInfo.collider.gameObject.layer == Mathf.Log(_layerMask1.value, 2))
             {
                 UI_Item._isItem = false;
             }
@@ -332,12 +332,15 @@ public class Player : MonoBehaviour
     }
 
     bool _canShoot = true;
-    GameObject _bullet;
     GameObject _Bullet;
     public static int _tempBulletCount;
+    Rigidbody _bulletRigi;
 
     void Shoot()
     {
+        Vector3 shootDirection = _camPos.forward.normalized;
+        Vector3 spawnPosition = _camPos.position + shootDirection * 1f;
+        
         if (Input.GetKeyDown(KeyCode.R) || GameManager._unlimitedAmmo)
         {
             _tempBulletCount = GameManager._bulletCount;
@@ -345,27 +348,25 @@ public class Player : MonoBehaviour
         if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0 && GameManager._isGun && !GameManager._isTel)
         {
             StartCoroutine(DelayedShoot());
+            _Bullet = GameManager.instance.GetBullet();
+            if (!_Bullet)
+            {
+                _Bullet.transform.position = spawnPosition;
+                _Bullet.transform.rotation = Quaternion.identity;
+            }
+            if (!GameManager._unlimitedAmmo)
+            {
+                _tempBulletCount--;
+            }
+            Rigidbody _bulletRigi = _Bullet.GetComponent<Rigidbody>();
+            _bulletRigi.AddForce(shootDirection * 5000f, ForceMode.Force);
         }
     }
 
     IEnumerator DelayedShoot()
     {
         _canShoot = false;
-        yield return new WaitForSeconds(.05f);
-        Vector3 rotationAxis = _camPos.right * -1;
-        Quaternion rotation = Quaternion.AngleAxis(_camPos.localRotation.x, rotationAxis);
-        Vector3 shootDirection = rotation * transform.forward;
-        Vector3 spawnPosition = _camPos.position + shootDirection * 1f;
-        _Bullet = Instantiate(_bullet, spawnPosition, Quaternion.LookRotation(shootDirection));
-        if (!GameManager._unlimitedAmmo)
-        {
-            _tempBulletCount--;
-        }
-        Rigidbody _bulletRigi = _Bullet.GetComponent<Rigidbody>();
-        _bulletRigi.AddForce(shootDirection * 5000f, ForceMode.Force);
-        //_camPos.rotation = Quaternion.FromToRotation(new Vector3(_camPos.rotation.x, _camPos.rotation.y, _camPos.rotation.z), new Vector3(_camPos.rotation.x - .5f, _camPos.rotation.y, _camPos.rotation.z));
-        Destroy(_Bullet, 3f);
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSeconds(.1f);
         _canShoot = true;
     }
 
@@ -460,11 +461,13 @@ public class Player : MonoBehaviour
 
     [Header("Ground Dectection")]
     [Tooltip("Select the Ground Layer Mask")]
-    [SerializeField] LayerMask _layerMask;
+    [SerializeField] LayerMask _layerMask1;
+    [SerializeField] LayerMask _layerMask2;
 
     bool GroundCheck()
     {
-        return Physics.BoxCast(transform.position, new Vector3(1, .5f, 1), Vector3.down, Quaternion.identity, 1f, _layerMask);
+        int _groundMask = _layerMask1 | _layerMask2;
+        return Physics.BoxCast(transform.position, new Vector3(1, .5f, 1), Vector3.down, Quaternion.identity, 1f, _groundMask);
         //return true;
     }
 

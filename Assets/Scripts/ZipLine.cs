@@ -9,9 +9,8 @@ public class ZipLine : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log(this.name);
-            GameManager._isZip = true;
-            GameManager._zipLine = _zipLine;     
+            GameManager._zipTrig = true;
+            GameManager._zipLine = _zipLine;
             GameManager._zipLineStart = _zipLineStart;
             GameManager._zipLineEnd = _zipLineEnd;
         }
@@ -20,7 +19,8 @@ public class ZipLine : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            GameManager._isZip = false;
+            GameManager._zipTrig = false;
         }
     }
+
 }
