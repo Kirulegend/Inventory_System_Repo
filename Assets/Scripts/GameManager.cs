@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using static Unity.VisualScripting.Member;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Start()    
-    {
+    {   
         _player = FindFirstObjectByType<Player>();
         _uiInv = FindFirstObjectByType<UI_Inventory>();
         _playerPos = _player.transform;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         _rb3D = _player.GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.None;
         _CamBotRigi = _camBot.GetComponent<Rigidbody>();
+        Spawn();
     }
 
     void Update()
@@ -45,7 +47,39 @@ public class GameManager : MonoBehaviour
         Slowmo();
         MiniMap();
         ZipLine();
+        Icon();
         //Rope();
+    }
+
+    [Header("Spawn")]
+    [Tooltip("Attach The Player Spawn Transform")]
+    public Transform _spawnPos;
+
+    void Spawn()
+    {
+        _playerPos.position = _spawnPos.position;
+    }
+
+    [Header("Icons")]
+    [Tooltip("Attach The Player Icon GameObject")]
+    public Transform _playerIcon;
+    public Transform _camBotIcon;
+
+    void Icon()
+    {
+        _playerIcon.position = _playerPos.position;
+        _playerIcon.rotation = Quaternion.Euler(_playerIcon.rotation.eulerAngles.x, _playerPos.rotation.eulerAngles.y, _playerIcon.rotation.eulerAngles.z);
+
+        if (_camBot.activeInHierarchy)
+        {
+            _camBotIcon.gameObject.SetActive(true);
+            _camBotIcon.position = _camBot.transform.position;
+            _camBotIcon.rotation = Quaternion.Euler(_playerIcon.rotation.eulerAngles.x, _camBot.transform.rotation.eulerAngles.y, _playerIcon.rotation.eulerAngles.z);
+        }
+        else
+        {
+            _camBotIcon.gameObject.SetActive(false);
+        }
     }
 
     //[Header("Grapple Mech")]
@@ -189,7 +223,7 @@ public class GameManager : MonoBehaviour
 
     void ZipLine()
     {
-        if (_zipTrig && Input.GetKeyDown(KeyCode.L))
+        if (_zipTrig && Input.GetKeyDown(KeyCode.CapsLock))
         {
             _isZip = true;
             _playerPos.SetParent(_zipLine);
@@ -204,7 +238,7 @@ public class GameManager : MonoBehaviour
             position.y += -1 * 3 * t * (1 - t);
             _zipLine.position = position;
         }
-        if(_elapsedTime >= _moveDuration && Input.GetKeyDown(KeyCode.L))
+        if(_elapsedTime >= _moveDuration && Input.GetKeyDown(KeyCode.CapsLock))
         {
             _elapsedTime = 0f;
             _playerPos.SetParent(null);
