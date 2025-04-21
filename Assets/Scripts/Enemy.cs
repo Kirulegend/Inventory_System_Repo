@@ -62,6 +62,7 @@ public class Enemy : MonoBehaviour
     void InstantiateBullet()
     {
         _Bullet = Instantiate(_bullet, _instantiatePos.position, Quaternion.identity);
+        _bullet.tag = "Bullet";
         _bulletRigi = _Bullet.GetComponent<Rigidbody>();
         Vector3 direction = _playerPos - _Bullet.transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(direction);

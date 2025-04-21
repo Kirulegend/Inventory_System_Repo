@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         Shield();
         Shoot();
         PickNDrop();
-        SpecialGroundCheck();
+        //SpecialGroundCheck();
         //Spring();
     }
     void FixedUpdate()
@@ -283,7 +283,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0) && _obj && _uiInv._aniIndex != 2 && Cursor.lockState == CursorLockMode.Locked)
         {
-            if (!_grabbedRB)
+            if (!_grabbedRB && !GameManager._isTel)
             {
                 _grabbedRB = _item.GetComponent<Rigidbody>();
                 if (_grabbedRB)
@@ -347,9 +347,8 @@ public class Player : MonoBehaviour
         }
         if(_uiInv._aniIndex != 2 && Input.GetMouseButton(0) && _canShoot && _tempBulletCount !=0 && GameManager._isGun && !GameManager._isTel)
         {
-            StartCoroutine(DelayedShoot());
             _Bullet = GameManager.instance.GetBullet();
-            if (!_Bullet)
+            if (_Bullet)
             {
                 _Bullet.transform.position = spawnPosition;
                 _Bullet.transform.rotation = Quaternion.identity;
@@ -358,8 +357,9 @@ public class Player : MonoBehaviour
             {
                 _tempBulletCount--;
             }
-            Rigidbody _bulletRigi = _Bullet.GetComponent<Rigidbody>();
+            _bulletRigi = _Bullet.GetComponent<Rigidbody>();
             _bulletRigi.AddForce(shootDirection * 5000f, ForceMode.Force);
+            StartCoroutine(DelayedShoot());
         }
     }
 
@@ -407,7 +407,7 @@ public class Player : MonoBehaviour
     {
         _Hor = Input.GetAxisRaw("Horizontal");
         _Ver = Input.GetAxisRaw("Vertical");
-        if ((_Hor != 0 || _Ver != 0) && !GameManager._isCam)
+        if ((_Hor != 0 || _Ver != 0) && !GameManager._isCam && !_rb3D.isKinematic)
         {
             _isMoving = true;
             Vector3 moveDirection = transform.right * _Hor + transform.forward * _Ver;
@@ -417,7 +417,7 @@ public class Player : MonoBehaviour
         else
         {
             _isMoving = false;
-            _rb3D.linearVelocity = new Vector3(0, _rb3D.linearVelocity.y, 0);
+            if(!_rb3D.isKinematic) _rb3D.linearVelocity = new Vector3(0, _rb3D.linearVelocity.y, 0);
         }
         if ((Input.GetKeyDown(KeyCode.LeftShift)))
         {
@@ -449,7 +449,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _rb3D.linearVelocity.y, _rb3D.linearVelocity.z);
+            if(!_rb3D.isKinematic) _rb3D.linearVelocity = new Vector3(_rb3D.linearVelocity.x, _rb3D.linearVelocity.y, _rb3D.linearVelocity.z);
         }
     }
 

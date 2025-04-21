@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("Attach The Player Icon GameObject")]
     public Transform _playerIcon;
     public Transform _camBotIcon;
+    public Transform _TeleporterIcon;
 
     void Icon()
     {
@@ -79,6 +80,17 @@ public class GameManager : MonoBehaviour
         else
         {
             _camBotIcon.gameObject.SetActive(false);
+        }
+
+        if (_Teleporter.activeInHierarchy)
+        {
+            _TeleporterIcon.gameObject.SetActive(true);
+            _TeleporterIcon.position = _Teleporter.transform.position;
+            _TeleporterIcon.rotation = Quaternion.Euler(_TeleporterIcon.rotation.eulerAngles.x, _Teleporter.transform.rotation.eulerAngles.y, _TeleporterIcon.rotation.eulerAngles.z);
+        }
+        else
+        {
+            _TeleporterIcon.gameObject.SetActive(false);
         }
     }
 
@@ -179,10 +191,12 @@ public class GameManager : MonoBehaviour
         if (_isCam)
         {
             _camMiniMap.transform.position = new Vector3(_camBot.transform.position.x, _camBot.transform.position.y + 20f, _camBot.transform.position.z);
+            _camMiniMap.transform.rotation = Quaternion.Euler(_camMiniMap.transform.rotation.eulerAngles.x, _camBot.transform.rotation.eulerAngles.y, _camMiniMap.transform.rotation.eulerAngles.z);
         }
         else
         {
             _camMiniMap.transform.position = new Vector3(_playerPos.transform.position.x, _playerPos.transform.position.y + 20f, _playerPos.transform.position.z);
+            _camMiniMap.transform.rotation = Quaternion.Euler(_camMiniMap.transform.rotation.eulerAngles.x, _playerPos.transform.rotation.eulerAngles.y, _camMiniMap.transform.rotation.eulerAngles.z);
         }
     }
 
