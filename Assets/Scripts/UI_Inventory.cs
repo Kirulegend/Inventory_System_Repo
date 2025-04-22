@@ -34,7 +34,7 @@ public class UI_Inventory : MonoBehaviour
         _sliderHealth.value = Player._healthPower;
         _sliderShield.value = Player._shieldPower;
         _ani.SetFloat("Index", _aniIndex);
-        if (Input.GetKeyUp(KeyCode.Tab) && !GameManager._isScope)
+        if (Input.GetKeyUp(KeyCode.Tab) && !GameManager._isScope && GameManager._isGame)
         {
             OnClickEvent();
         }
@@ -70,7 +70,7 @@ public class UI_Inventory : MonoBehaviour
             slotImage.sprite = item._iconTexture;
             TextMeshProUGUI slotText = slot.transform.Find("Name").GetComponent<TextMeshProUGUI>();
             slotText.text = item._itemName;
-            TextMeshProUGUI slotDescription = slot.transform.Find("Description").GetComponent<TextMeshProUGUI>();
+            TextMeshPro slotDescription = slot.transform.Find("Description").GetComponent<TextMeshPro>();
             slotDescription.text = item._itemDescription;
             TextMeshProUGUI slotQuantity = slot.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
             slotQuantity.text = item._itemQuantity.ToString();

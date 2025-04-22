@@ -433,6 +433,11 @@ public class Player : MonoBehaviour
             dashDirection.y = 0;
             dashDirection.Normalize();
             _rb3D.AddForce(dashDirection * 400f, ForceMode.VelocityChange);
+            float maxSpeed = 10f;
+            if (_rb3D.linearVelocity.magnitude > maxSpeed)
+            {
+                _rb3D.linearVelocity = _rb3D.linearVelocity.normalized * maxSpeed;
+            }
         }
         if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Space) && GroundCheck() && !GameManager._isCam)
         {

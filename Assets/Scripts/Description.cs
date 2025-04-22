@@ -1,20 +1,21 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Description : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI _dec;
+    [SerializeField] TextMeshPro _dec;
 
     void Start()
     {
-        _dec = GetComponent<TextMeshProUGUI>();
+        _dec = GetComponent<TextMeshPro>();
         _dec.enabled = false;
     }
-    void OnMouseEnter()
+    public void OnMouseEnter()
     {
         _dec.enabled = true;
     }
-    void OnMouseExit()
+    public void OnMouseExit()
     {
         _dec.enabled = false;
     }

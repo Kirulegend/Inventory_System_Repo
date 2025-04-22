@@ -31,8 +31,9 @@ public class GameManager : MonoBehaviour
         _rb3D = _player.GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.None;
         _CamBotRigi = _camBot.GetComponent<Rigidbody>();
-        Spawn();
     }
+
+    public static bool _isGame = false;
 
     void Update()
     {
@@ -48,16 +49,23 @@ public class GameManager : MonoBehaviour
         MiniMap();
         ZipLine();
         Icon();
+        Spawn();
         //Rope();
     }
 
     [Header("Spawn")]
     [Tooltip("Attach The Player Spawn Transform")]
     public Transform _spawnPos;
+    bool _spawned = false;
 
     void Spawn()
     {
-        _playerPos.position = _spawnPos.position;
+        if (_isGame && _rb3D.isKinematic && !_spawned)
+        {
+            _playerPos.position = _spawnPos.position;
+            _rb3D.isKinematic = false;
+            _spawned = true;
+        }
     }
 
     [Header("Icons")]
@@ -185,18 +193,36 @@ public class GameManager : MonoBehaviour
     [Header("MiniMap")]
     [Tooltip("Attack the Mini_Map Camera")]
     public Camera _camMiniMap;
+    [SerializeField] Vector2 _clampArea;
+    [SerializeField] bool _clamp = false;
 
     void MiniMap()
     {
         if (_isCam)
         {
-            _camMiniMap.transform.position = new Vector3(_camBot.transform.position.x, _camBot.transform.position.y + 20f, _camBot.transform.position.z);
-            _camMiniMap.transform.rotation = Quaternion.Euler(_camMiniMap.transform.rotation.eulerAngles.x, _camBot.transform.rotation.eulerAngles.y, _camMiniMap.transform.rotation.eulerAngles.z);
+            if( _clamp)
+            {
+                _camMiniMap.transform.position = new Vector3(Mathf.Clamp(_camBot.transform.position.x, _clampArea.x, -_clampArea.x), _camBot.transform.position.y + 20f, Mathf.Clamp(_camBot.transform.position.z, -_clampArea.y, _clampArea.y));
+                _camMiniMap.transform.rotation = Quaternion.Euler(_camMiniMap.transform.rotation.eulerAngles.x, 0, _camMiniMap.transform.rotation.eulerAngles.z);
+            }
+            else
+            {
+                _camMiniMap.transform.position = new Vector3(_camBot.transform.position.x, _camBot.transform.position.y + 20f, _camBot.transform.position.z);
+                _camMiniMap.transform.rotation = Quaternion.Euler(_camMiniMap.transform.rotation.eulerAngles.x, _camBot.transform.rotation.eulerAngles.y, _camMiniMap.transform.rotation.eulerAngles.z);
+            }
         }
         else
         {
-            _camMiniMap.transform.position = new Vector3(_playerPos.transform.position.x, _playerPos.transform.position.y + 20f, _playerPos.transform.position.z);
-            _camMiniMap.transform.rotation = Quaternion.Euler(_camMiniMap.transform.rotation.eulerAngles.x, _playerPos.transform.rotation.eulerAngles.y, _camMiniMap.transform.rotation.eulerAngles.z);
+            if (_clamp)
+            {
+                _camMiniMap.transform.position = new Vector3(Mathf.Clamp(_playerPos.transform.position.x, _clampArea.x, -_clampArea.x), _playerPos.transform.position.y + 20f, Mathf.Clamp(_playerPos.transform.position.z, -_clampArea.y, _clampArea.y));
+                _camMiniMap.transform.rotation = Quaternion.Euler(_camMiniMap.transform.rotation.eulerAngles.x, 0, _camMiniMap.transform.rotation.eulerAngles.z);
+            }
+            else
+            {
+                _camMiniMap.transform.position = new Vector3(_playerPos.transform.position.x, _playerPos.transform.position.y + 20f, _playerPos.transform.position.z);
+                _camMiniMap.transform.rotation = Quaternion.Euler(_camMiniMap.transform.rotation.eulerAngles.x, _playerPos.transform.rotation.eulerAngles.y, _camMiniMap.transform.rotation.eulerAngles.z);
+            }   
         }
     }
 
@@ -306,7 +332,7 @@ public class GameManager : MonoBehaviour
 
     void CameraRot()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Escape))
+        if ((Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Escape)) && _isGame)
         {
             if (Count == 0)
             {
@@ -647,7 +673,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Jump-pad Logic
-        if (Input.GetKeyDown(KeyCode.Q) && !_isJump && _jumpCountNum >= 1 && !_preview)
+        if (Input.GetKeyDown(KeyCode.Q) && !_isJump && _jumpCountNum >= 1 && !_preview && !_isCam)
         {
             _isJump = true;
         }
@@ -707,7 +733,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Invisiable Logic
-        if (Input.GetKeyDown(KeyCode.Z) && !_isInv && _invCountNum >= 1 && !_preview)
+        if (Input.GetKeyDown(KeyCode.Z) && !_isInv && _invCountNum >= 1 && !_preview && !_isCam)
         {
             _inv.color = new Color32(255, 255, 255, 255);
             _meshRenderer =  _playerPos.gameObject.GetComponent<MeshRenderer>();

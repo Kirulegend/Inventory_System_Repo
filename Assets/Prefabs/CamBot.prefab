@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 8480146782410778350}
   - component: {fileID: 3193902711507553602}
   - component: {fileID: 7851622405105076986}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CamBot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
