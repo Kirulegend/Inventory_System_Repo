@@ -655,9 +655,23 @@ public class GameManager : MonoBehaviour
     int _telCountNum = 50;
     Rigidbody _CamBotRigi;
     bool _iscam = false;
+    float _remainingTime = 15;
 
     void Abilities()
     {
+        if (_remainingTime > 0)
+        {
+            _remainingTime -= Time.deltaTime;
+        }
+        else if (_remainingTime < 0)
+        {
+            _remainingTime = 0;
+        }
+
+        int minutes = Mathf.FloorToInt(_remainingTime / 60);
+        int seconds = Mathf.FloorToInt(_remainingTime % 60);
+        _camTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
         //UI count Display
         _invCount.text = _invCountNum.ToString();
         _jumpCount.text = _jumpCountNum.ToString();
@@ -768,10 +782,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Cam(Rigidbody _CamBotRigi)
     {
+        _remainingTime = 15;
         _iscam = false;
         _playerUI.SetActive(false);
         _cambotUI.SetActive(true);
-        _camTimer.text = "00:{}"
         yield return new WaitForSeconds(15);
         _playerUI.SetActive(true);
         _cambotUI.SetActive(false);
