@@ -647,6 +647,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI _jumpCount;
     [Tooltip("Add Text Component for Telporter Count")]
     public TextMeshProUGUI _telCount;
+    public GameObject _playerUI;
+    public GameObject _cambotUI;
+    public TextMeshProUGUI _camTimer;
     int _invCountNum = 50;
     int _jumpCountNum = 50;
     int _telCountNum = 50;
@@ -766,7 +769,12 @@ public class GameManager : MonoBehaviour
     IEnumerator Cam(Rigidbody _CamBotRigi)
     {
         _iscam = false;
+        _playerUI.SetActive(false);
+        _cambotUI.SetActive(true);
+        _camTimer.text = "00:{}"
         yield return new WaitForSeconds(15);
+        _playerUI.SetActive(true);
+        _cambotUI.SetActive(false);
         _CamBotRigi.useGravity = false;
         _CamBotRigi.isKinematic = true;
         _camBot.SetActive(false);
