@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
             _camBotIcon.gameObject.SetActive(true);
             _camBotIcon.position = _camBot.transform.position;
             _camBotIcon.rotation = Quaternion.Euler(_playerIcon.rotation.eulerAngles.x, _camBot.transform.rotation.eulerAngles.y, _playerIcon.rotation.eulerAngles.z);
+            _camBotIcon.position = ClampToMinimap(_camBotIcon.position);
         }
         else
         {
@@ -95,11 +96,25 @@ public class GameManager : MonoBehaviour
             _TeleporterIcon.gameObject.SetActive(true);
             _TeleporterIcon.position = _Teleporter.transform.position;
             _TeleporterIcon.rotation = Quaternion.Euler(_TeleporterIcon.rotation.eulerAngles.x, _Teleporter.transform.rotation.eulerAngles.y, _TeleporterIcon.rotation.eulerAngles.z);
+            _TeleporterIcon.position = ClampToMinimap(_TeleporterIcon.position);
         }
         else
         {
             _TeleporterIcon.gameObject.SetActive(false);
         }
+    }
+
+    [Header("Distance Clamp")]
+    [Tooltip("Enter the Clamp distance")]
+    public float MinimapSize;
+
+    Vector3 ClampToMinimap(Vector3 position)
+    {
+        return new Vector3(
+            Mathf.Clamp(position.x, _camMiniMap.transform.position.x - MinimapSize, _camMiniMap.transform.position.x + MinimapSize),
+            position.y,
+            Mathf.Clamp(position.z, _camMiniMap.transform.position.z - MinimapSize, _camMiniMap.transform.position.z + MinimapSize)
+        );
     }
 
     //[Header("Grapple Mech")]

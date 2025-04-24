@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(_rb3D.linearVelocity);
+        Debug.Log(_rb3D.angularVelocity);
         PlayerMovementKB();
         RayCast();
         Crosshair();
