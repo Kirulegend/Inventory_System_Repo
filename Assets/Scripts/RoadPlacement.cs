@@ -6,124 +6,59 @@ public class RoadPlacement : MonoBehaviour
 {
     Vector3 _hitPos;
     Vector3 _pos;
-    Vector3 _orgin;
     Vector3 _current;
     Vector3 _past;
     public int _gridSize;
-    public GameObject _road;
-    GameObject _tempRoad;
+    public LayerMask _groundLayer;
+    bool _isGrounded = false;
 
-    public bool _left = false;
-    public bool _right = false;
-    public bool _leftO = false;
-    public bool _rightO = false;
-    void Start()
-    {
-        _tempRoad = Instantiate(_road);
-    }
-    // Update is called once per frame
+    public GameObject _road;
+
     void Update()
     {
-        _orgin = new Vector3(_tempRoad.transform.position.x, _tempRoad.transform.position.y * 2, _tempRoad.transform.position.z);
+        MouseCast();
+    }
+
+    GameObject _tempRoad;
+    
+    void MouseCast()
+    {
+        //Debug.Log(_isGrounded);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            _hitPos = hit.point;
+            if(((1 << hit.collider.gameObject.layer) & _groundLayer) != 0)
+            {
+                _hitPos = hit.point;
+                _isGrounded = true;
+            }
+            else
+            {
+                _isGrounded = false;
+            }
         }
-        RayCast();
+        else
+        {
+            _isGrounded = false;
+        }
+        if(_past != _current)
+        {
+            _past = _current;
+        }
         _pos = _hitPos;
         Vector3 snappedPosition = new Vector3(
         Mathf.Round(_pos.x / _gridSize) * _gridSize,
         _pos.y,
         Mathf.Round(_pos.z / _gridSize) * _gridSize
         );
+        _current = snappedPosition;
         if (Input.GetMouseButton(0))
         {
-            _tempRoad.transform.position = snappedPosition;
-        }
-    }
-
-    void RayCast()
-    {
-        if (Physics.Raycast(_orgin, _tempRoad.transform.forward, out RaycastHit AhitInfo, 2))
-        {
-            if (AhitInfo.collider.gameObject.CompareTag("Road"))
+            if (_isGrounded && _past != _current)
             {
-                Debug.Log(AhitInfo);
-                Debug.DrawRay(_orgin, _tempRoad.transform.forward * 10f, Color.green);
-                _left = true;
+                _tempRoad = Instantiate(_road);
+                _tempRoad.transform.position = _current;
             }
-            else
-            {
-                _left = false;
-                Debug.DrawRay(_orgin, _tempRoad.transform.forward * 10f, Color.red);
-            }
-        }
-        else
-        {
-            _left = false;
-            Debug.DrawRay(_orgin, _tempRoad.transform.forward * 10f, Color.red);
-        }
-
-        if (Physics.Raycast(_orgin, -_tempRoad.transform.forward, out RaycastHit BhitInfo, 2))
-        {
-            if (BhitInfo.collider.gameObject.CompareTag("Road"))
-            {
-                Debug.Log(BhitInfo);
-                Debug.DrawRay(_orgin, -_tempRoad.transform.forward * 10f, Color.green);
-                _leftO = true;
-            }
-            else
-            {
-                _leftO = false;
-                Debug.DrawRay(_orgin, -_tempRoad.transform.forward * 10f, Color.red);
-            }
-        }
-        else
-        {
-            _leftO = false;
-            Debug.DrawRay(_orgin, -_tempRoad.transform.forward * 10f, Color.red);
-        }
-
-        if (Physics.Raycast(_orgin, _tempRoad.transform.right, out RaycastHit ChitInfo, 2))
-        {
-            if (ChitInfo.collider.gameObject.CompareTag("Road"))
-            {
-                Debug.Log(ChitInfo);
-                Debug.DrawRay(_orgin, _tempRoad.transform.right * 10f, Color.green);
-                _right = true;
-            }
-            else
-            {
-                _right = false;
-                Debug.DrawRay(_orgin, _tempRoad.transform.right * 10f, Color.red);
-            }
-        }
-        else
-        {
-            _right = false;
-            Debug.DrawRay(_orgin, _tempRoad.transform.right * 10f, Color.red);
-        }
-
-        if (Physics.Raycast(_orgin, -_tempRoad.transform.right, out RaycastHit DhitInfo, 2))
-        {
-            if (DhitInfo.collider.gameObject.CompareTag("Road"))
-            {
-                Debug.Log(DhitInfo);
-                Debug.DrawRay(_orgin, -_tempRoad.transform.right * 10f, Color.green);
-                _rightO = true;
-            }
-            else
-            {
-                _rightO = false;
-                Debug.DrawRay(_orgin, -_tempRoad.transform.right * 10f, Color.red);
-            }
-        }
-        else
-        {
-            _rightO = false;
-            Debug.DrawRay(_orgin, -_tempRoad.transform.right * 10f, Color.red);
         }
     }
 }

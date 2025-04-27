@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &656046029788001255
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6963704132687715639}
+  - component: {fileID: 3598410506522774552}
+  m_Layer: 0
+  m_Name: Placement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6963704132687715639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656046029788001255}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8, y: 0.05, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3598410506522774552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656046029788001255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf65b0d95581dd4eaac04a72d23e57f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _road: {fileID: 908752402643430975, guid: 824b485bdcadc5944bc45f6dcca2b430, type: 3}
+  _road1: {fileID: 8671693983491675108, guid: a74e038591b21ce4bba5ba36679a8845, type: 3}
+  _road2: {fileID: 1431447196324939433, guid: dc5aeac36b98cf64cb9994ff0d851004, type: 3}
+  _road3: {fileID: 3924755056348844512, guid: 7fb7d3be503a2844db23e2c4e2195cf5, type: 3}
+  _road4: {fileID: 7645820905015633206, guid: bc3d2398872ed8b42bd8108e03e6a8e6, type: 3}
+  _roadC: {fileID: 55234712727867349, guid: ba97c0484c83d3f439c699a5b35edd8f, type: 3}
+  _left: 0
+  _right: 0
+  _leftO: 0
+  _rightO: 0
+  _Oroad: {fileID: 0}
+  _Oroad1: {fileID: 0}
+  _Oroad2: {fileID: 0}
+  _Oroad3: {fileID: 0}
+  _Oroad4: {fileID: 0}
+  _OroadC: {fileID: 0}
