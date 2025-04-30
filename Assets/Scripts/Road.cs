@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Road : MonoBehaviour
 {
@@ -30,22 +30,24 @@ public class Road : MonoBehaviour
     }
 
     Vector3 _orgin;
-    public bool _left = false;
-    public bool _right = false;
-    public bool _leftO = false;
-    public bool _rightO = false;
-    public GameObject _Oroad;
-    public GameObject _Oroad1;
-    public GameObject _Oroad2;
-    public GameObject _Oroad3;
-    public GameObject _Oroad4;
-    public GameObject _OroadC;
+    bool _left = false;
+    bool _right = false;
+    bool _leftO = false;
+    bool _rightO = false;
+    GameObject _Oroad;
+    GameObject _Oroad1;
+    GameObject _Oroad2;
+    GameObject _Oroad3;
+    GameObject _Oroad4;
+    GameObject _OroadC;
+    GameObject activeRoad;
+    int trueCount;
 
     void RoadChange()
     {
-        int trueCount = (_left ? 1 : 0) + (_leftO ? 1 : 0) + (_right ? 1 : 0) + (_rightO ? 1 : 0);
+        trueCount = (_left ? 1 : 0) + (_leftO ? 1 : 0) + (_right ? 1 : 0) + (_rightO ? 1 : 0);
 
-        if(trueCount == 0)
+        if (trueCount == 0)
         {
             _Oroad.SetActive(true);
             _Oroad1.SetActive(false);
@@ -53,10 +55,7 @@ public class Road : MonoBehaviour
             _Oroad3.SetActive(false);
             _Oroad4.SetActive(false);
             _OroadC.SetActive(false);
-            if (_left)
-            {
-                transform.Rotate(0, 90, 0);         
-            }
+            activeRoad = _Oroad;
         }
         else if (trueCount == 1)
         {
@@ -66,15 +65,38 @@ public class Road : MonoBehaviour
             _Oroad3.SetActive(false);
             _Oroad4.SetActive(false);
             _OroadC.SetActive(false);
+            activeRoad = _Oroad1;
+            if (_left) activeRoad.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            else if (_right) activeRoad.transform.localRotation = Quaternion.Euler(0, 90, 0);
+            else if (_leftO) activeRoad.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            else if (_rightO) activeRoad.transform.localRotation = Quaternion.Euler(0, -90, 0);
         }
         else if (trueCount == 2)
         {
-            _Oroad.SetActive(false);
-            _Oroad1.SetActive(false);
-            _Oroad2.SetActive(true);
-            _Oroad3.SetActive(false);
-            _Oroad4.SetActive(false);
-            _OroadC.SetActive(false);
+            if ((_left && _right) || (_leftO && _rightO) || (_leftO && _right) || (_left && _rightO))
+            {
+                _Oroad.SetActive(false);
+                _Oroad1.SetActive(false);
+                _Oroad2.SetActive(false);
+                _Oroad3.SetActive(false);
+                _Oroad4.SetActive(false);
+                _OroadC.SetActive(true);
+                activeRoad = _OroadC;
+            }
+            else
+            {
+                _Oroad.SetActive(false);
+                _Oroad1.SetActive(false);
+                _Oroad2.SetActive(true);
+                _Oroad3.SetActive(false);
+                _Oroad4.SetActive(false);
+                _OroadC.SetActive(false);
+                activeRoad = _Oroad2;
+            }
+            if ((_left && _rightO) || (_left && _leftO)) activeRoad.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            else if (_right && _leftO) activeRoad.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            else if (_rightO && _leftO) activeRoad.transform.localRotation = Quaternion.Euler(0, -90, 0);
+            else if ((_right && _left) || (_right && _rightO)) activeRoad.transform.localRotation = Quaternion.Euler(0, 90, 0);
         }
         else if (trueCount == 3)
         {
@@ -84,6 +106,11 @@ public class Road : MonoBehaviour
             _Oroad3.SetActive(true);
             _Oroad4.SetActive(false);
             _OroadC.SetActive(false);
+            activeRoad = _Oroad3;
+            if ((_left && _rightO && _leftO)) activeRoad.transform.localRotation = Quaternion.Euler(0, -90, 0);
+            else if (_right && _leftO && _rightO) activeRoad.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            else if (_left && _right && _leftO) activeRoad.transform.localRotation = Quaternion.Euler(0, 90, 0);
+            else if ((_left && _right && _rightO)) activeRoad.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         else if (trueCount == 4)
         {
@@ -93,15 +120,14 @@ public class Road : MonoBehaviour
             _Oroad3.SetActive(false);
             _Oroad4.SetActive(true);
             _OroadC.SetActive(false);
+            activeRoad = _Oroad4;
         }
     }
     void RayCastCheck()
     {
-        Debug.Log("Hello");
         _orgin = new Vector3(transform.position.x, transform.position.y * 1.5f, transform.position.z);
         if (Physics.Raycast(_orgin, transform.forward, out RaycastHit AhitInfo, 2))
         {
-            Debug.Log("Hello");
             if (AhitInfo.collider.gameObject.CompareTag("Road"))
             {                
                 Debug.DrawRay(_orgin, transform.forward * 2.5f, Color.green);
@@ -110,18 +136,16 @@ public class Road : MonoBehaviour
             else
             {
                 _left = false;
-                Debug.DrawRay(_orgin, transform.forward * 10f, Color.red);
+                //Debug.DrawRay(_orgin, transform.forward * 10f, Color.red);
             }
         }
         else
         {
             _left = false;
-            Debug.DrawRay(_orgin, transform.forward * 10f, Color.red);
+            //Debug.DrawRay(_orgin, transform.forward * 10f, Color.red);
         }
-
         if (Physics.Raycast(_orgin, -transform.forward, out RaycastHit BhitInfo, 2))
         {
-            Debug.Log("Hello");
             if (BhitInfo.collider.gameObject.CompareTag("Road"))
             {
                 Debug.DrawRay(_orgin, -transform.forward * 2.5f, Color.green);
@@ -130,18 +154,16 @@ public class Road : MonoBehaviour
             else
             {
                 _leftO = false;
-                Debug.DrawRay(_orgin, -transform.forward * 10f, Color.red);
+                //Debug.DrawRay(_orgin, -transform.forward * 10f, Color.red);
             }
         }
         else
         {
             _leftO = false;
-            Debug.DrawRay(_orgin, -transform.forward * 10f, Color.red);
+            //Debug.DrawRay(_orgin, -transform.forward * 10f, Color.red);
         }
-
         if (Physics.Raycast(_orgin, transform.right, out RaycastHit ChitInfo, 2))
         {
-            Debug.Log("Hello");
             if (ChitInfo.collider.gameObject.CompareTag("Road"))
             {
                 Debug.DrawRay(_orgin, transform.right * 2.5f, Color.green);
@@ -150,18 +172,16 @@ public class Road : MonoBehaviour
             else
             {
                 _right = false;
-                Debug.DrawRay(_orgin, transform.right * 10f, Color.red);
+                //Debug.DrawRay(_orgin, transform.right * 10f, Color.red);
             }
         }
         else
         {
             _right = false;
-            Debug.DrawRay(_orgin, transform.right * 10f, Color.red);
+            //Debug.DrawRay(_orgin, transform.right * 10f, Color.red);
         }
-
         if (Physics.Raycast(_orgin, -transform.right, out RaycastHit DhitInfo, 2))
         {
-            Debug.Log("Hello");
             if (DhitInfo.collider.gameObject.CompareTag("Road"))
             {
                 Debug.DrawRay(_orgin, -transform.right * 2.5f, Color.green);
@@ -170,13 +190,13 @@ public class Road : MonoBehaviour
             else
             {
                 _rightO = false;
-                Debug.DrawRay(_orgin, -transform.right * 10f, Color.red);
+                //Debug.DrawRay(_orgin, -transform.right * 10f, Color.red);
             }
         }
         else
         {
             _rightO = false;
-            Debug.DrawRay(_orgin, -transform.right * 10f, Color.red);
+            //Debug.DrawRay(_orgin, -transform.right * 10f, Color.red);
         }
     }
 }

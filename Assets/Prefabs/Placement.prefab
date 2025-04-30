@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6963704132687715639}
   - component: {fileID: 3598410506522774552}
-  m_Layer: 0
+  - component: {fileID: 3813652260739202052}
+  m_Layer: 12
   m_Name: Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,13 +51,24 @@ MonoBehaviour:
   _road3: {fileID: 3924755056348844512, guid: 7fb7d3be503a2844db23e2c4e2195cf5, type: 3}
   _road4: {fileID: 7645820905015633206, guid: bc3d2398872ed8b42bd8108e03e6a8e6, type: 3}
   _roadC: {fileID: 55234712727867349, guid: ba97c0484c83d3f439c699a5b35edd8f, type: 3}
-  _left: 0
-  _right: 0
-  _leftO: 0
-  _rightO: 0
-  _Oroad: {fileID: 0}
-  _Oroad1: {fileID: 0}
-  _Oroad2: {fileID: 0}
-  _Oroad3: {fileID: 0}
-  _Oroad4: {fileID: 0}
-  _OroadC: {fileID: 0}
+--- !u!65 &3813652260739202052
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656046029788001255}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.5, y: 0.5, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0}

@@ -50,7 +50,26 @@ public class GameManager : MonoBehaviour
         ZipLine();
         Icon();
         Spawn();
+        Text();
         //Rope();
+    }
+
+    [Header("Key")]
+    [Tooltip("Attach The Text Component Obj")]
+    public TextMeshProUGUI _boxText;
+
+    void Text()
+    {
+        if (Input.anyKeyDown)
+        {
+            foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    _boxText.text = key.ToString();
+                }
+            }
+        }
     }
 
     [Header("Spawn")]
