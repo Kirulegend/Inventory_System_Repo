@@ -359,8 +359,8 @@ TextureImporter:
       name: Sprites001_10
       rect:
         serializedVersion: 2
-        x: 84
-        y: 143
+        x: 26
+        y: 190
         width: 138
         height: 138
       alignment: 0
@@ -381,8 +381,8 @@ TextureImporter:
       name: Sprites001_11
       rect:
         serializedVersion: 2
-        x: 248
-        y: 143
+        x: 190
+        y: 190
         width: 138
         height: 138
       alignment: 0
@@ -403,8 +403,8 @@ TextureImporter:
       name: Sprites001_12
       rect:
         serializedVersion: 2
-        x: 412
-        y: 143
+        x: 354
+        y: 190
         width: 138
         height: 138
       alignment: 0
@@ -425,8 +425,8 @@ TextureImporter:
       name: Sprites001_13
       rect:
         serializedVersion: 2
-        x: 577
-        y: 143
+        x: 518
+        y: 190
         width: 138
         height: 138
       alignment: 0
@@ -447,8 +447,8 @@ TextureImporter:
       name: Sprites001_14
       rect:
         serializedVersion: 2
-        x: 741
-        y: 143
+        x: 682
+        y: 190
         width: 138
         height: 138
       alignment: 0
@@ -469,8 +469,8 @@ TextureImporter:
       name: Sprites001_15
       rect:
         serializedVersion: 2
-        x: 905
-        y: 143
+        x: 847
+        y: 190
         width: 138
         height: 138
       alignment: 0
@@ -483,6 +483,28 @@ TextureImporter:
       bones: []
       spriteID: 3e0e491dec50fce4bb96953441b1e860
       internalID: -1582421598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites001_16
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 190
+        width: 138
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf16a2856df3712428b5f57ec8d98efe
+      internalID: 1748623335
       vertices: []
       indices: 
       edges: []
@@ -509,6 +531,7 @@ TextureImporter:
       Sprites001_13: 536329742
       Sprites001_14: 1395074792
       Sprites001_15: -1582421598
+      Sprites001_16: 1748623335
       Sprites001_2: -1214982235
       Sprites001_3: 345509394
       Sprites001_4: -825159375

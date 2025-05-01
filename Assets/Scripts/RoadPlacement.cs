@@ -11,7 +11,7 @@ public class Placement : MonoBehaviour
     Vector3 _pos;
     Vector3 _current;
     Vector3 _past;
-    public int _gridSize;
+    int _gridSize = 2;
     public LayerMask _groundLayer;
     public LayerMask _roadMask;
     public LayerMask _ignoreMask;
@@ -28,39 +28,76 @@ public class Placement : MonoBehaviour
     }
 
     GameObject _tempRoad;
+    GameObject _editBuildObj;
     bool _roadPlace = false;
-    
+    bool _editBuild = false;
+    float Timer = 0;
+
     void MouseCast()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~_ignoreMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundLayer))
         {
             _hitPos = hit.point;
-            Debug.Log(hit.collider.gameObject.name);
-            if (((1 << hit.collider.gameObject.layer) & _groundLayer) != 0)
+            _pos = _hitPos;
+        }
+        if (Physics.Raycast(ray, out RaycastHit Hit))
+        {
+            if (((1 << Hit.collider.gameObject.layer) & _groundLayer) != 0)
             {
-                _pos = _hitPos;
                 _isGrounded = true;
             }
             else
             {
                 _isGrounded = false;
             }
+            Vector3 _buildPos = Hit.point;
+            if (Hit.collider.gameObject.CompareTag("Build"))
+            {
+                if (Input.GetMouseButton(0) && Timer < .5f && !_editBuild && !_isRoad)
+                {
+                    Timer += Time.deltaTime;
+                }
+                if (Input.GetMouseButtonUp(0) && Timer <= .5f)
+                {
+                    Timer = 0;
+                }
+                if(Timer >= .5f)
+                {
+                    _editBuildObj = Hit.collider.gameObject;
+                    _editBuild = true;
+                    Timer = 0;
+                }
+            }
+            else
+            {
+                Timer = 0;
+            }
         }
         else
         {
             _isGrounded = false;
         }
-        if(_past != _current)
+        if (_editBuild)
         {
-            _past = _current;
+            _editBuildObj.transform.position = new Vector3(BsnappedPosition.x, BsnappedPosition.y + 1, BsnappedPosition.z);
+            Ani = _editBuildObj.GetComponent<Animator>();
+            Debug.Log(_editBuildObj.transform.localRotation.y);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                if (_editBuildObj.transform.rotation.y == 0)
+                    _editBuildObj.transform.Rotate(0, 90, 0);
+                else _editBuildObj.transform.Rotate(0, -90, 0);
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                _editBuildObj.transform.position = new Vector3(BsnappedPosition.x, BsnappedPosition.y, BsnappedPosition.z);
+                Ani.SetTrigger("Place");
+                _editBuildObj = null;
+                _editBuild = false;
+            }
         }
-        Vector3 snappedPosition = new Vector3(
-        Mathf.Round(_pos.x / _gridSize) * _gridSize,
-        _pos.y,
-        Mathf.Round(_pos.z / _gridSize) * _gridSize
-        );
-        _current = snappedPosition;
+        _current = BsnappedPosition;
         if (Input.GetMouseButtonDown(0) && _isRoad)
         {
             _roadPlace = true;
@@ -69,52 +106,31 @@ public class Placement : MonoBehaviour
         {
             _roadPlace = false;
         }
-        if (_isGrounded && _past != _current && !_build && _roadPlace)
+        if (_isGrounded && _past != _current && !_isBuild && _roadPlace)
         {
             _tempRoad = Instantiate(_road);
             _tempRoad.transform.position = _current;
+            if (_past != _current)
+            {
+                _past = _current;
+            }
         }
         if (Input.GetMouseButton(1) && _isRoad)
         {
-            if (((1 << hit.collider.gameObject.layer) & _roadMask) != 0)
+            if (((1 << Hit.collider.gameObject.layer) & _roadMask) != 0)
             {
-                Destroy(hit.collider.gameObject);
+                Destroy(Hit.collider.gameObject);
             }
         }
     }
-    public GameObject Cube1;
-    public GameObject Cube2;
-    public GameObject Cube3;
-    public GameObject Cube4;
-    public GameObject Cube5;
+    public GameObject[] _build;
     GameObject _activeCube = null;
-    bool _build = false;
+    bool _isBuild = false;
 
     public void Build(int Cube)
     {
-        switch (Cube)
-        {
-            case 1:
-                if (!_activeCube) _activeCube = Instantiate(Cube1, _hitPos, Quaternion.identity);
-                StartCoroutine(BuildTimer());
-                break;
-            case 2:
-                if (!_activeCube) _activeCube = Instantiate(Cube2, _hitPos, Quaternion.identity);
-                StartCoroutine(BuildTimer());
-                break;
-            case 3:
-                if (!_activeCube) _activeCube = Instantiate(Cube3, _hitPos, Quaternion.identity);
-                StartCoroutine(BuildTimer());
-                break;
-            case 4:
-                if (!_activeCube) _activeCube = Instantiate(Cube4, _hitPos, Quaternion.identity);
-                StartCoroutine(BuildTimer());
-                break;
-            case 5:
-                if (!_activeCube) _activeCube = Instantiate(Cube5, _hitPos, Quaternion.identity);
-                StartCoroutine(BuildTimer());
-                break;
-        }
+        if (!_activeCube) _activeCube = Instantiate(_build[Cube], _hitPos, Quaternion.identity);
+        StartCoroutine(BuildTimer());
         Ani = _activeCube.GetComponent<Animator>();
     }
     void BuildCheck()
@@ -129,7 +145,7 @@ public class Placement : MonoBehaviour
             _activeCube.transform.position = BsnappedPosition;
             if (Input.GetKeyDown(KeyCode.R))
             {
-                if(_activeCube.transform.rotation.y != 90)
+                if (_activeCube.transform.rotation.y == 0)
                 _activeCube.transform.Rotate(0, 90, 0);
                 else _activeCube.transform.Rotate(0, -90, 0);
             }
@@ -137,14 +153,14 @@ public class Placement : MonoBehaviour
             {
                 Ani.SetTrigger("Place");
                 _activeCube = null;
-                _build = false;
+                _isBuild = false;
             }
         }
     }
     IEnumerator BuildTimer()
     {
         yield return new WaitForSeconds(.25f);
-        _build = true;
+        _isBuild = true;
     }
 
     public static bool _isRoad = false;
