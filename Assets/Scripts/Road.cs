@@ -2,21 +2,18 @@
 
 public class Road : MonoBehaviour
 {
-    public GameObject _road;
-    public GameObject _road1;
-    public GameObject _road2;
-    public GameObject _road3;
-    public GameObject _road4;
-    public GameObject _roadC;
+    [Header("Road Objs")]
+    [Tooltip("Insert all the Road Prefabs")]
+    public GameObject[] _road;
 
     void Start()
     {
-        _Oroad = Instantiate(_road, transform);
-        _Oroad1 = Instantiate(_road1, transform);
-        _Oroad2 = Instantiate(_road2, transform);
-        _Oroad3 = Instantiate(_road3, transform);
-        _Oroad4 = Instantiate(_road4, transform);
-        _OroadC = Instantiate(_roadC, transform);
+        _Oroad = Instantiate(_road[0], transform);
+        _Oroad1 = Instantiate(_road[1], transform);
+        _Oroad2 = Instantiate(_road[2], transform);
+        _Oroad3 = Instantiate(_road[3], transform);
+        _Oroad4 = Instantiate(_road[4], transform);
+        _OroadC = Instantiate(_road[5], transform);
         _Oroad1.SetActive(false);
         _Oroad2.SetActive(false);
         _Oroad3.SetActive(false);

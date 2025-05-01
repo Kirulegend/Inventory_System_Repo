@@ -8,15 +8,18 @@ using UnityEngine.Rendering;
 public class Placement : MonoBehaviour
 {
     Vector3 _hitPos;
-    Vector3 _pos;
     Vector3 _current;
     Vector3 _past;
     int _gridSize = 2;
+    [Header("LayerMasks")]
+    [Tooltip("Select the Ground Layer Mask")]
     public LayerMask _groundLayer;
+    [Tooltip("Select the Road Layer Mask")]
     public LayerMask _roadMask;
-    public LayerMask _ignoreMask;
     bool _isGrounded = false;
 
+    [Header("Road Parent")]
+    [Tooltip("Insert the Road Placement Prefabs")]
     public GameObject _road;
     Vector3 BsnappedPosition;
 
@@ -39,7 +42,6 @@ public class Placement : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundLayer))
         {
             _hitPos = hit.point;
-            _pos = _hitPos;
         }
         if (Physics.Raycast(ray, out RaycastHit Hit))
         {
@@ -123,6 +125,9 @@ public class Placement : MonoBehaviour
             }
         }
     }
+
+    [Header("Build Objs")]
+    [Tooltip("Insert all the Build Prefabs")]
     public GameObject[] _build;
     GameObject _activeCube = null;
     bool _isBuild = false;

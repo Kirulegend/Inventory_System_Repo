@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf65b0d95581dd4eaac04a72d23e57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _road: {fileID: 908752402643430975, guid: 824b485bdcadc5944bc45f6dcca2b430, type: 3}
-  _road1: {fileID: 8671693983491675108, guid: a74e038591b21ce4bba5ba36679a8845, type: 3}
-  _road2: {fileID: 1431447196324939433, guid: dc5aeac36b98cf64cb9994ff0d851004, type: 3}
-  _road3: {fileID: 3924755056348844512, guid: 7fb7d3be503a2844db23e2c4e2195cf5, type: 3}
-  _road4: {fileID: 7645820905015633206, guid: bc3d2398872ed8b42bd8108e03e6a8e6, type: 3}
-  _roadC: {fileID: 55234712727867349, guid: ba97c0484c83d3f439c699a5b35edd8f, type: 3}
+  _road:
+  - {fileID: 908752402643430975, guid: 824b485bdcadc5944bc45f6dcca2b430, type: 3}
+  - {fileID: 8671693983491675108, guid: a74e038591b21ce4bba5ba36679a8845, type: 3}
+  - {fileID: 1431447196324939433, guid: dc5aeac36b98cf64cb9994ff0d851004, type: 3}
+  - {fileID: 3924755056348844512, guid: 7fb7d3be503a2844db23e2c4e2195cf5, type: 3}
+  - {fileID: 7645820905015633206, guid: bc3d2398872ed8b42bd8108e03e6a8e6, type: 3}
+  - {fileID: 55234712727867349, guid: ba97c0484c83d3f439c699a5b35edd8f, type: 3}
 --- !u!65 &3813652260739202052
 BoxCollider:
   m_ObjectHideFlags: 0
