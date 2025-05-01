@@ -14,6 +14,7 @@ TagManager:
   - RopePoint
   - Pole
   - Road
+  - Build
   layers:
   - Default
   - TransparentFX

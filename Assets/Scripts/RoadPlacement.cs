@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Diagnostics.Contracts;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class RoadPlacement : MonoBehaviour
+public class Placement : MonoBehaviour
 {
     Vector3 _hitPos;
     Vector3 _pos;
@@ -19,6 +20,7 @@ public class RoadPlacement : MonoBehaviour
     public GameObject _road;
     Vector3 BsnappedPosition;
 
+    Animator Ani;
     void Update()
     {
         MouseCast();
@@ -26,6 +28,7 @@ public class RoadPlacement : MonoBehaviour
     }
 
     GameObject _tempRoad;
+    bool _roadPlace = false;
     
     void MouseCast()
     {
@@ -33,6 +36,7 @@ public class RoadPlacement : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~_ignoreMask))
         {
             _hitPos = hit.point;
+            Debug.Log(hit.collider.gameObject.name);
             if (((1 << hit.collider.gameObject.layer) & _groundLayer) != 0)
             {
                 _pos = _hitPos;
@@ -57,15 +61,20 @@ public class RoadPlacement : MonoBehaviour
         Mathf.Round(_pos.z / _gridSize) * _gridSize
         );
         _current = snappedPosition;
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0) && _isRoad)
         {
-            if (_isGrounded && _past != _current && !_build)
-            {
-                _tempRoad = Instantiate(_road);
-                _tempRoad.transform.position = _current;
-            }
+            _roadPlace = true;
         }
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonUp(0))
+        {
+            _roadPlace = false;
+        }
+        if (_isGrounded && _past != _current && !_build && _roadPlace)
+        {
+            _tempRoad = Instantiate(_road);
+            _tempRoad.transform.position = _current;
+        }
+        if (Input.GetMouseButton(1) && _isRoad)
         {
             if (((1 << hit.collider.gameObject.layer) & _roadMask) != 0)
             {
@@ -87,7 +96,6 @@ public class RoadPlacement : MonoBehaviour
         {
             case 1:
                 if (!_activeCube) _activeCube = Instantiate(Cube1, _hitPos, Quaternion.identity);
-                _activeCube.layer = _ignoreMask;
                 StartCoroutine(BuildTimer());
                 break;
             case 2:
@@ -107,6 +115,7 @@ public class RoadPlacement : MonoBehaviour
                 StartCoroutine(BuildTimer());
                 break;
         }
+        Ani = _activeCube.GetComponent<Animator>();
     }
     void BuildCheck()
     {
@@ -118,9 +127,15 @@ public class RoadPlacement : MonoBehaviour
         if (_activeCube != null)
         {
             _activeCube.transform.position = BsnappedPosition;
-            if (Input.GetMouseButtonUp(0) && _build)
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                //_activeCube.layer = 0;
+                if(_activeCube.transform.rotation.y != 90)
+                _activeCube.transform.Rotate(0, 90, 0);
+                else _activeCube.transform.Rotate(0, -90, 0);
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ani.SetTrigger("Place");
                 _activeCube = null;
                 _build = false;
             }
@@ -128,7 +143,14 @@ public class RoadPlacement : MonoBehaviour
     }
     IEnumerator BuildTimer()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(.25f);
         _build = true;
+    }
+
+    public static bool _isRoad = false;
+
+    public void Road()
+    {
+        _isRoad = _isRoad ? false : true;
     }
 }
