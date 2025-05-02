@@ -308,7 +308,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'ROAD : 00'
+  m_text: 'ROAD : 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aee4f505ae1ac2343ac21eae34562bfb, type: 2}
   m_sharedMaterial: {fileID: -7474609352011292383, guid: aee4f505ae1ac2343ac21eae34562bfb, type: 2}
@@ -387,6 +387,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 154397368}
   m_CullTransparentMesh: 1
+--- !u!1 &166718540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 166718541}
+  m_Layer: 0
+  m_Name: Builds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &166718541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166718540}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &310283032
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +593,37 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &575254296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 575254297}
+  m_Layer: 0
+  m_Name: Roads
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &575254297
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575254296}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &605174077
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,7 +845,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1349,7 +1411,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'BUILD : 00'
+  m_text: 'BUILD : 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aee4f505ae1ac2343ac21eae34562bfb, type: 2}
   m_sharedMaterial: {fileID: -7474609352011292383, guid: aee4f505ae1ac2343ac21eae34562bfb, type: 2}
@@ -1847,6 +1909,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   _road: {fileID: 656046029788001255, guid: 572e2fcca03ac0a48bcb69711377a798, type: 3}
+  _editBuild: 0
   _build:
   - {fileID: 1555605893105132119, guid: 8bb6ea9009457064fa416286e523002c, type: 3}
   - {fileID: 467522122517610903, guid: 2e631c83f87e8d54797c89cce17b4cdb, type: 3}
@@ -1854,6 +1917,8 @@ MonoBehaviour:
   - {fileID: 4071505873667137352, guid: 2efc04882ea247040809fc470ce64db8, type: 3}
   - {fileID: 1342102150296795800, guid: 25fae3612fa8e4f4397c9cba7548c003, type: 3}
   - {fileID: 2433830997802526791, guid: 9c95fb0b096c0e04692f81bcedee945b, type: 3}
+  _buildParent: {fileID: 166718541}
+  _roadParent: {fileID: 575254297}
 --- !u!65 &1746441867
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2188,3 +2253,5 @@ SceneRoots:
   - {fileID: 1533044905}
   - {fileID: 1605066698}
   - {fileID: 310283034}
+  - {fileID: 166718541}
+  - {fileID: 575254297}

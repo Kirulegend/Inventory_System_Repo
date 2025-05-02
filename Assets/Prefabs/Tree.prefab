@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4455227277420463928}
   - component: {fileID: 2797172316069015031}
   - component: {fileID: 1318131562420729305}
+  - component: {fileID: 6504097767463126951}
   m_Layer: 6
   m_Name: Tree
   m_TagString: Build
@@ -107,8 +108,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 2.1, y: 0.25, z: 2.1}
+  m_Center: {x: 0, y: 0.125, z: 0}
 --- !u!95 &1318131562420729305
 Animator:
   serializedVersion: 7
@@ -131,3 +132,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6504097767463126951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2433830997802526791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43779935ccd29cd429dc500620c2c6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ground:
+    serializedVersion: 2
+    m_Bits: 16
