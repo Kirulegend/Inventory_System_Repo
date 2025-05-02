@@ -1,0 +1,715 @@
+fileFormatVersion: 2
+guid: 63d1a434441d88645a385baef0e466f0
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 2D Iso Sprites_0
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad28e4d38db247f4f9e8237a9060f7bc
+      internalID: 323808107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d772b78ee69c96c448f8fb55d5ff7138
+      internalID: 1579133586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_2
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56a6f27e47519474885274a1082bc777
+      internalID: 193505804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_3
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdd343a244791394bb774d9d0157bdd1
+      internalID: -1805366938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_4
+      rect:
+        serializedVersion: 2
+        x: 1470
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bad71992294296478cbaee66039e8d7
+      internalID: -1959542457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_5
+      rect:
+        serializedVersion: 2
+        x: 1791
+        y: 3887
+        width: 266
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcc86e4a3444b41449f855a72ddbfc9e
+      internalID: 1271495483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_6
+      rect:
+        serializedVersion: 2
+        x: 2109
+        y: 3887
+        width: 269
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 305b10d3bf0ec7a4bb9949c918990fc7
+      internalID: 862833163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_7
+      rect:
+        serializedVersion: 2
+        x: 2428
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f006019fbdab0e5449b489f8fb525c7b
+      internalID: 755731182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_8
+      rect:
+        serializedVersion: 2
+        x: 2749
+        y: 3887
+        width: 266
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c77c5661d824e4a438ab569bf69ee21b
+      internalID: -135339699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_9
+      rect:
+        serializedVersion: 2
+        x: 3068
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e9e31ac16ff3f2469a99e554f9ab5a0
+      internalID: -2068934092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_10
+      rect:
+        serializedVersion: 2
+        x: 3388
+        y: 3887
+        width: 266
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 064bbcd717aca51419703f720feeb8f3
+      internalID: 110148401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_11
+      rect:
+        serializedVersion: 2
+        x: 3707
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 988562ea8f0b88d4bb6448f9b7f40db5
+      internalID: -1626709762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_12
+      rect:
+        serializedVersion: 2
+        x: 4026
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5935a8e25d950445a28bd2cf14553b1
+      internalID: -1816188390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_13
+      rect:
+        serializedVersion: 2
+        x: 4344
+        y: 3887
+        width: 269
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 447058a5dfabc3d4f8762d8e6e04cedf
+      internalID: -1609271344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_14
+      rect:
+        serializedVersion: 2
+        x: 4665
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0036b95597d08524bac5ea09cc8b7322
+      internalID: 1408507020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_15
+      rect:
+        serializedVersion: 2
+        x: 4984
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1898734c8b574e845bab4da375a7d30b
+      internalID: 2082590764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_16
+      rect:
+        serializedVersion: 2
+        x: 5304
+        y: 3887
+        width: 267
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2802dcb5ab994ff429bf37fdacba7816
+      internalID: -264902509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_17
+      rect:
+        serializedVersion: 2
+        x: 5623
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e40f7601dcd13924b9f4e534d9497e02
+      internalID: -1290348953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_18
+      rect:
+        serializedVersion: 2
+        x: 5942
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff7ef302ebbadd146b0b8f73c4191fea
+      internalID: 169981582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_19
+      rect:
+        serializedVersion: 2
+        x: 6261
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 262449dd10a720a48b497fd292392872
+      internalID: 2062721314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_20
+      rect:
+        serializedVersion: 2
+        x: 6581
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7e9c0c3b7ba4ab4496c68b361d3b321
+      internalID: -1975246209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_21
+      rect:
+        serializedVersion: 2
+        x: 6900
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6e0c8aae2afdb641b15656fac7f9268
+      internalID: 488928102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_22
+      rect:
+        serializedVersion: 2
+        x: 7219
+        y: 3887
+        width: 268
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86f84932cd26fc7409fc39140dd41918
+      internalID: -1833106544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_26
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 1830
+        width: 1765
+        height: 1946
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 769648c1ea660f64db22329b68794a01
+      internalID: -1018766406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3a8afb0cc9a4f9f4a919845621a17866
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      2D Iso Sprites_0: 323808107
+      2D Iso Sprites_1: 1579133586
+      2D Iso Sprites_10: 110148401
+      2D Iso Sprites_11: -1626709762
+      2D Iso Sprites_12: -1816188390
+      2D Iso Sprites_13: -1609271344
+      2D Iso Sprites_14: 1408507020
+      2D Iso Sprites_15: 2082590764
+      2D Iso Sprites_16: -264902509
+      2D Iso Sprites_17: -1290348953
+      2D Iso Sprites_18: 169981582
+      2D Iso Sprites_19: 2062721314
+      2D Iso Sprites_2: 193505804
+      2D Iso Sprites_20: -1975246209
+      2D Iso Sprites_21: 488928102
+      2D Iso Sprites_22: -1833106544
+      2D Iso Sprites_23: 808821794
+      2D Iso Sprites_24: 1740603962
+      2D Iso Sprites_25: 677970488
+      2D Iso Sprites_26: -1018766406
+      2D Iso Sprites_27: 1450589681
+      2D Iso Sprites_28: 597996382
+      2D Iso Sprites_29: 274472556
+      2D Iso Sprites_3: -1805366938
+      2D Iso Sprites_30: -1429287728
+      2D Iso Sprites_4: -1959542457
+      2D Iso Sprites_5: 1271495483
+      2D Iso Sprites_6: 862833163
+      2D Iso Sprites_7: 755731182
+      2D Iso Sprites_8: -135339699
+      2D Iso Sprites_9: -2068934092
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

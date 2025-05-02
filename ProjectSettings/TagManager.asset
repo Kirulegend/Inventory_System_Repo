@@ -15,6 +15,7 @@ TagManager:
   - Pole
   - Road
   - Build
+  - Placement
   layers:
   - Default
   - TransparentFX

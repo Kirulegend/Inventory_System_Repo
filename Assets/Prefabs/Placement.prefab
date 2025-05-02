@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3813652260739202052}
   m_Layer: 12
   m_Name: Placement
-  m_TagString: Untagged
+  m_TagString: Placement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,6 +52,9 @@ MonoBehaviour:
   - {fileID: 3924755056348844512, guid: 7fb7d3be503a2844db23e2c4e2195cf5, type: 3}
   - {fileID: 7645820905015633206, guid: bc3d2398872ed8b42bd8108e03e6a8e6, type: 3}
   - {fileID: 55234712727867349, guid: ba97c0484c83d3f439c699a5b35edd8f, type: 3}
+  roadblockLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!65 &3813652260739202052
 BoxCollider:
   m_ObjectHideFlags: 0

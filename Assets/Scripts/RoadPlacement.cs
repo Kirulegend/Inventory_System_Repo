@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Diagnostics.Contracts;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
 public class Placement : MonoBehaviour
@@ -24,6 +24,12 @@ public class Placement : MonoBehaviour
     Vector3 BsnappedPosition;
 
     Animator Ani;
+    public static int _roadCount = 0;
+    public static int _buildCount = 0;
+    void Start()
+    {
+        _roadCount = 0;
+    }
     void Update()
     {
         MouseCast();
@@ -38,11 +44,18 @@ public class Placement : MonoBehaviour
 
     void MouseCast()
     {
+        // for UI check
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+        //Ray for Pos Check only for ground
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundLayer))
         {
             _hitPos = hit.point;
         }
+        //hit check for any obj
         if (Physics.Raycast(ray, out RaycastHit Hit))
         {
             if (((1 << Hit.collider.gameObject.layer) & _groundLayer) != 0)
@@ -93,7 +106,7 @@ public class Placement : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
-                _editBuildObj.transform.position = new Vector3(BsnappedPosition.x, BsnappedPosition.y, BsnappedPosition.z);
+                _editBuildObj.transform.position = BsnappedPosition;
                 Ani.SetTrigger("Place");
                 _editBuildObj = null;
                 _editBuild = false;
@@ -110,17 +123,17 @@ public class Placement : MonoBehaviour
         }
         if (_isGrounded && _past != _current && !_isBuild && _roadPlace)
         {
+            _roadCount++;
             _tempRoad = Instantiate(_road);
             _tempRoad.transform.position = _current;
-            if (_past != _current)
-            {
-                _past = _current;
-            }
+            _past = _current;
         }
         if (Input.GetMouseButton(1) && _isRoad)
         {
             if (((1 << Hit.collider.gameObject.layer) & _roadMask) != 0)
             {
+                _roadCount--;
+                _past = _current;
                 Destroy(Hit.collider.gameObject);
             }
         }
@@ -134,6 +147,7 @@ public class Placement : MonoBehaviour
 
     public void Build(int Cube)
     {
+        _buildCount++;
         if (!_activeCube) _activeCube = Instantiate(_build[Cube], _hitPos, Quaternion.identity);
         StartCoroutine(BuildTimer());
         Ani = _activeCube.GetComponent<Animator>();
@@ -145,7 +159,7 @@ public class Placement : MonoBehaviour
         _hitPos.y,
         Mathf.Round(_hitPos.z / _gridSize) * _gridSize
         );
-        if (_activeCube != null)
+        if (_activeCube)
         {
             _activeCube.transform.position = BsnappedPosition;
             if (Input.GetKeyDown(KeyCode.R))

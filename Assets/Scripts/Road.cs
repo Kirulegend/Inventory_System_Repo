@@ -1,13 +1,28 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class Road : MonoBehaviour
 {
     [Header("Road Objs")]
     [Tooltip("Insert all the Road Prefabs")]
     public GameObject[] _road;
+    [Tooltip("Select the Road Layer")]
+    public LayerMask roadblockLayer;
 
     void Start()
     {
+        Vector3 halfExtents = transform.localScale / 2f * .9f;
+        Collider[] overlaps = Physics.OverlapBox(transform.position, halfExtents, transform.rotation, roadblockLayer);
+
+        foreach (Collider col in overlaps)
+        {
+            if (col.gameObject != gameObject)
+            {
+                //Debug.Log("Overlapping with: " + col.name);
+                Placement._roadCount--;
+                Destroy(col.gameObject);
+            }
+        }
         _Oroad = Instantiate(_road[0], transform);
         _Oroad1 = Instantiate(_road[1], transform);
         _Oroad2 = Instantiate(_road[2], transform);
@@ -126,7 +141,7 @@ public class Road : MonoBehaviour
         if (Physics.Raycast(_orgin, transform.forward, out RaycastHit AhitInfo, 2))
         {
             if (AhitInfo.collider.gameObject.CompareTag("Road"))
-            {                
+            {
                 Debug.DrawRay(_orgin, transform.forward * 2.5f, Color.green);
                 _left = true;
             }
