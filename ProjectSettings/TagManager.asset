@@ -16,6 +16,7 @@ TagManager:
   - Road
   - Build
   - Placement
+  - Nexus
   layers:
   - Default
   - TransparentFX
