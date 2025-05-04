@@ -6,8 +6,6 @@ public class UI : MonoBehaviour
     bool _check = false;
     bool _default = true;
     Animator _ani;
-    public TextMeshProUGUI _road;
-    public TextMeshProUGUI _build;
     
     void Start()
     {
@@ -17,8 +15,6 @@ public class UI : MonoBehaviour
     {
         _ani.SetBool("Check", _check);
         _ani.SetBool("Default", _default);
-        _road.text = "ROADS : " + Placement._roadCount.ToString();
-        _build.text = "BUILD : " + Placement._buildCount.ToString();
     }
     public void Check()
     {
