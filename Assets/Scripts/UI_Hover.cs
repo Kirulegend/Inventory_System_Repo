@@ -14,4 +14,11 @@ public class UI_Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         _hoverData.SetActive(false);
     }
+    void Update()
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            _hoverData.SetActive(false);
+        }
+    }
 }

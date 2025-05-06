@@ -18,8 +18,7 @@ public class Road : MonoBehaviour
         {
             if (col.gameObject != gameObject)
             {
-                //Debug.Log("Overlapping with: " + col.name);
-                Placement._roadCount--;
+                GameData._roadCount--;
                 Destroy(col.gameObject);
             }
         }

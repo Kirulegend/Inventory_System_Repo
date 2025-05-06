@@ -24,12 +24,7 @@ public class Placement : MonoBehaviour
     Vector3 BsnappedPosition;
 
     Animator Ani;
-    public static int _roadCount = 0;
-    public static int _buildCount = 0;
-    void Start()
-    {
-        _roadCount = 0;
-    }
+
     void Update()
     {
         MouseCast();
@@ -125,7 +120,7 @@ public class Placement : MonoBehaviour
         }
         if (_isGrounded && _past != _current && !_isBuild && _roadPlace)
         {
-            _roadCount++;
+            GameData._roadCount++;
             _tempRoad = Instantiate(_road, _roadParent);
             _tempRoad.transform.position = _current;
             _past = _current;
@@ -134,7 +129,7 @@ public class Placement : MonoBehaviour
         {
             if (((1 << Hit.collider.gameObject.layer) & _roadMask) != 0)
             {
-                _roadCount--;
+                GameData._roadCount--;
                 _past = _current;
                 Destroy(Hit.collider.gameObject);
             }
@@ -174,7 +169,7 @@ public class Placement : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0) && BuildObj._isGround)
             {
-                _buildCount++;
+                GameData._buildCount++;
                 _activeCube.transform.position = BsnappedPosition;
                 Ani.SetTrigger("Place");
                 _activeCube = null;

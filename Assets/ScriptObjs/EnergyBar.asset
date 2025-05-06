@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377972689f0ec1340bfb38f708209df5, type: 3}
+  m_Name: EnergyBar
+  m_EditorClassIdentifier: 
+  _name: Energy Bar
+  _fabricatingQuantity: 3
+  _fabricatingImage: {fileID: 0}
+  _fabricatingImageBg: {fileID: 0}
+  _fabricatingAvaliableQuantity: 0
+  _fabricatingTime: 0
+  _NeedImage: {fileID: 0}
+  _needQuantity: 0200000001000000
+  _needAvaliableQuantity: 0000000000000000
+  _data: {fileID: 11400000, guid: 9d394ebc884f3cd49a5224de528ec2be, type: 2}
+  _selection: 0

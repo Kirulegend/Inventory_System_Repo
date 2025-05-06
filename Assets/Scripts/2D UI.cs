@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
@@ -15,6 +17,10 @@ public class UI : MonoBehaviour
     {
         _ani.SetBool("Check", _check);
         _ani.SetBool("Default", _default);
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && _check)
+        {
+            Check();
+        }
     }
     public void Check()
     {

@@ -14,7 +14,7 @@ public class Pod : MonoBehaviour
     public bool Start = false;
     float Timer = 0;
     public bool _cropReady = false;
-    public static int _cropCount = 0;
+
     public int _cropTimer = 5;
 
     void Awake()
@@ -35,7 +35,7 @@ public class Pod : MonoBehaviour
             }
             if (Bio_Luminary)
             {
-                _activeCrop = "Nutri-Algae";
+                _activeCrop = "Bio_Luminary";
                 _cropTimer *= 2;
                 Start = true;
                 Click = false;
@@ -54,7 +54,7 @@ public class Pod : MonoBehaviour
                 Start = false;
                 Timer = 0;
                 _cropReady = true;
-                _activeCrop = string.Empty;
+                //_activeCrop = string.Empty;
             }
         }
     }

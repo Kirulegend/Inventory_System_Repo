@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c98ae81d48114f469b3a6d34780713e, type: 3}
+  m_Name: Sprite Data
+  m_EditorClassIdentifier: 
+  _nutri_Algae: {fileID: -135339699, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+  _bio_Luminary: {fileID: -2068934092, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+  _energy_Bar: {fileID: 110148401, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+  _energy_Meal: {fileID: -1626709762, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+  _energy_Bar_NOBG: {fileID: 1997311406, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
+  _energy_Meal_NOBG: {fileID: -1458418055, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
+  _button: {fileID: 832210206097340355, guid: b33522f5cba348b49a4db867ef4d9c66, type: 3}

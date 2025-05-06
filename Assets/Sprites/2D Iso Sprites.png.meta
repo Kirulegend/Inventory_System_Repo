@@ -843,12 +843,12 @@ TextureImporter:
       name: 2D Iso Sprites_29
       rect:
         serializedVersion: 2
-        x: 1277
-        y: 50
+        x: 1074
+        y: 53
         width: 1122
         height: 1128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -857,6 +857,50 @@ TextureImporter:
       bones: []
       spriteID: 14f4b7e5a14af624e9aa83fee8c628f3
       internalID: 274472556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_32
+      rect:
+        serializedVersion: 2
+        x: 5901
+        y: 1833
+        width: 593
+        height: 1719
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4adb1cb9938d21c4a86fe545751fbcee
+      internalID: 1985437092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_34
+      rect:
+        serializedVersion: 2
+        x: 2285
+        y: 53
+        width: 1122
+        height: 1128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79cf4d2060d9dcf40ae4689325b6b92b
+      internalID: 277458490
       vertices: []
       indices: 
       edges: []
