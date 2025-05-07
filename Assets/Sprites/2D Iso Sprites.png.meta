@@ -668,7 +668,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2084
-        y: 1823
+        y: 2710
         width: 2154
         height: 843
       alignment: 0
@@ -689,10 +689,10 @@ TextureImporter:
       name: 2D Iso Sprites_23
       rect:
         serializedVersion: 2
-        x: 2084
-        y: 2710
-        width: 2154
-        height: 843
+        x: 2178
+        y: 2269
+        width: 269
+        height: 297
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -733,8 +733,8 @@ TextureImporter:
       name: 2D Iso Sprites_25
       rect:
         serializedVersion: 2
-        x: 5330
-        y: 3270
+        x: 2676
+        y: 2317
         width: 418
         height: 219
       alignment: 0
@@ -755,8 +755,8 @@ TextureImporter:
       name: 2D Iso Sprites_27
       rect:
         serializedVersion: 2
-        x: 5330
-        y: 2915
+        x: 3324
+        y: 2317
         width: 418
         height: 219
       alignment: 0
@@ -840,35 +840,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 2D Iso Sprites_29
-      rect:
-        serializedVersion: 2
-        x: 1074
-        y: 53
-        width: 1122
-        height: 1128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 14f4b7e5a14af624e9aa83fee8c628f3
-      internalID: 274472556
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: 2D Iso Sprites_32
       rect:
         serializedVersion: 2
-        x: 5901
-        y: 1833
-        width: 593
-        height: 1719
+        x: 3952
+        y: 2152
+        width: 199
+        height: 535
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -887,10 +865,10 @@ TextureImporter:
       name: 2D Iso Sprites_34
       rect:
         serializedVersion: 2
-        x: 2285
-        y: 53
-        width: 1122
-        height: 1128
+        x: 2143
+        y: 19
+        width: 2099
+        height: 2142
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -901,6 +879,28 @@ TextureImporter:
       bones: []
       spriteID: 79cf4d2060d9dcf40ae4689325b6b92b
       internalID: 277458490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_35
+      rect:
+        serializedVersion: 2
+        x: 5249
+        y: 3206
+        width: 2355
+        height: 460
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74534da4054c3d7458c7425c916ca812
+      internalID: 1348470310
       vertices: []
       indices: 
       edges: []
