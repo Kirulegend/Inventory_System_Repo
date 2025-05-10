@@ -7,9 +7,10 @@ public class GameData : MonoBehaviour
     public static float _xp = 0;
     public static int _roadCount = 0;
     public static int _buildCount = 0;
-    public static int _crop_Nutri_Algae = 0;
-    public static int _crop_Bio_Luminary = 0;
+    public static int _nutriAlgaeCrop = 0;
+    public static int _bioLuminaryCount = 0;
     public static int _energyBarCount = 0;
+    public static int _energyMealCount = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

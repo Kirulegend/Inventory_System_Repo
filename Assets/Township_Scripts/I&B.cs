@@ -9,7 +9,7 @@ public class IB : MonoBehaviour
 
     private void Awake()
     {
-        GameManagerTS.OnDirectiveChanged += CheckDirective;
+        //GameManagerTS.OnDirectiveChanged += CheckDirective;
         //for(int i = 0; i < _buildB.Length; i++)
         //{
         //    _buildB[i] = false;
@@ -31,5 +31,4 @@ public class IB : MonoBehaviour
                 break;
         }
     }
-
 }

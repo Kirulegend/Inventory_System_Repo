@@ -71,11 +71,11 @@ public class GameManagerTS : MonoBehaviour
                         Debug.Log("Crop Collected");
                         if (_activePod._activeCrop == "Nutri-Algae")
                         {
-                            GameData._crop_Nutri_Algae++;
+                            GameData._nutriAlgaeCrop++;
                         }
                         if (_activePod._activeCrop == "Bio_Luminary")
                         {
-                            GameData._crop_Bio_Luminary++;
+                            GameData._bioLuminaryCount++;
                         }
                         _activePod._activeCrop = string.Empty;
                         _activePod._cropReady = false;

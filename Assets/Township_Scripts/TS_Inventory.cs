@@ -1,24 +1,52 @@
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class TS_Inventory : MonoBehaviour
 {
-    public Canvas _canvas;
+    void Start()
+    {
+        _canvas.enabled = false;
+    }
+    void Update()
+    {
+        AutoClose();
+    }
     void OnMouseDown()
     {
-        Debug.Log("Hello");
-        _canvas.enabled = true;
-    }
-    void Close()
-    {
-        if (!EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0) && _canvas.enabled)
+        if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("Hello");
-            _canvas.enabled = false;
+            _canvas.enabled = true;
+            wasOpenedThisFrame = true;
         }
     }
-    private void Update()
+    public Canvas _canvas;
+    bool wasOpenedThisFrame;
+    void AutoClose()
     {
-        Close();
+        if (_canvas.enabled)
+        {
+            if (wasOpenedThisFrame)
+            {
+                wasOpenedThisFrame = false;
+                return;
+            }
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+            {
+                _canvas.enabled = false;
+            }
+        }
+    }
+    public void ManualClose()
+    {
+        _canvas.enabled = false;
+    }
+    void Plus()
+    {
+
+    }
+    void Minus()
+    {
+
     }
 }

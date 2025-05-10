@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI : MonoBehaviour
+public class UIAni : MonoBehaviour
 {
     bool _check = false;
     bool _default = true;
     Animator _ani;
+    public Button _back;
     
     void Start()
     {
@@ -30,5 +31,6 @@ public class UI : MonoBehaviour
     public void Default()
     {
         _default = true;
+        _back.onClick.Invoke();
     }
 }

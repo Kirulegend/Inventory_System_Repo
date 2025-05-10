@@ -6,28 +6,37 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "New Data", menuName = "Scriptable Objects/PanelData")]
-public class PanelData : ScriptableObject
+public class PanelData : MonoBehaviour
 {
-    public string _name;
-    public int _fabricatingQuantity;
-    public Sprite _fabricatingImage;
-    public Sprite _fabricatingImageBg;
-    public int _fabricatingAvaliableQuantity;
-    public int _fabricatingTime;
-    public Sprite _NeedImage;
-    public int[] _needQuantity;
-    public int[] _needAvaliableQuantity;
-    public Data _data;
-    GameObject _button;
-    private void OnEnable()
+    public enum Type
     {
-        _button = _data._button;
+        Store, Inventory, Farm, Unit, 
     }
-    public enum FabricationItem
+
+    public Type _type;
+    [HideInInspector]public GameObject _panel;
+    public GameObject[] _panelPrefab;
+
+    public void setvalue()
     {
-        EnergyBar,
-        EnergyMeal
+        switch (_type)
+        {
+            case Type.Store:
+                _panel = Instantiate(_panelPrefab[0]);
+                break;
+            case Type.Inventory:
+                _panel = Instantiate(_panelPrefab[1]);
+                break;
+            case Type.Farm:
+                _panel = Instantiate(_panelPrefab[2]);
+                break;
+            case Type.Unit:
+                _panel = Instantiate(_panelPrefab[3]);
+                break;
+        }
     }
-    public FabricationItem _selection;
+    void Awake()
+    {
+        Debug.Log("Hi");
+    }
 }

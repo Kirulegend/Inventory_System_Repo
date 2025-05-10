@@ -54,15 +54,15 @@ public class FabricatorUnit : MonoBehaviour
     }
     public void FabricatorStart()
     {
-        if(_nutri_Algae.activeInHierarchy && !_start && !_ready && GameData._crop_Nutri_Algae >= 2)
+        if(_nutri_Algae.activeInHierarchy && !_start && !_ready && GameData._nutriAlgaeCrop >= 2)
         {
-            GameData._crop_Nutri_Algae -= 2;
+            GameData._nutriAlgaeCrop -= 2;
             _start = true;
             GameData._qc -= 25;
         }
-        else if (_bio_Luminary.activeInHierarchy && !_start && !_ready && GameData._crop_Bio_Luminary >= 1)
+        else if (_bio_Luminary.activeInHierarchy && !_start && !_ready && GameData._bioLuminaryCount >= 1)
         {
-            GameData._crop_Bio_Luminary--;
+            GameData._bioLuminaryCount--;
             _start = true;
             GameData._qc -= 50;
             _timer *= 2;
@@ -84,8 +84,8 @@ public class FabricatorUnit : MonoBehaviour
             {
                 if (!_start)
                 {
-                    _nutri_Algae.SetActive(false);
-                    _bio_Luminary.SetActive(false);
+                    //_nutri_Algae.SetActive(false);
+                    //_bio_Luminary.SetActive(false);
                 }
                 _canvas.enabled = false;
             }
