@@ -64,7 +64,7 @@ public class Isocamera : MonoBehaviour
     }
 
     public float panSpeed = 10f;
-    public float minX, maxX, minY, maxY;
+    public float minX = -99f, maxX = 79.5f, minY = -87.5f, maxY = 67.5f;
 
     Camera cam;
 

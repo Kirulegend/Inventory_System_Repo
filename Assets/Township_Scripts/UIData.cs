@@ -21,7 +21,7 @@ public class UIData : MonoBehaviour
         _road.text = "ROADS : " + GameData._roadCount.ToString();
         _build.text = "BUILD : " + GameData._buildCount.ToString();
         _podCrop.text = "A : " + GameData._nutriAlgaeCrop.ToString() + " L : " + GameData._bioLuminaryCount.ToString();
-        _energyBar.text = "BARS : " + GameData._energyBarCount.ToString();
+        _energyBar.text = "B : " + GameData._energyBarCount + " M : " + GameData._energyMealCount;
 
         _qcText.text = GameData._qc.ToString();
 

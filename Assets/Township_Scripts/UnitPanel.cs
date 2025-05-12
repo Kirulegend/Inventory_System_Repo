@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +25,7 @@ public class UnitPanel : MonoBehaviour
         _energyMeal
     }
     public Item _item;
+    public Sprite _unit;
     string _name;
     int _avaliableQuantity = 0;
     public int _time;
@@ -30,7 +33,6 @@ public class UnitPanel : MonoBehaviour
     TextMeshProUGUI _Name;
     TextMeshProUGUI _AvaliableQuantity;
     TextMeshProUGUI _Time;
-    TextMeshProUGUI[] _NeedQuantity;
     Transform[] _NeedPanel;
     public Transform _unitPanel;
     RectTransform _need;
@@ -43,18 +45,18 @@ public class UnitPanel : MonoBehaviour
         _Name = _unitPanel.Find("Name").GetComponent<TextMeshProUGUI>();
         _Name.text = _name + " X" + _creatingQuantity;
         _AvaliableQuantity = _unitPanel.Find("Available").GetComponent<TextMeshProUGUI>();
-        if(_item == Item._energyBar)
+        _Time = _unitPanel.Find("Time").GetComponent<TextMeshProUGUI>();
+        _Time.text = _time + " SEC";
+        _need = _unitPanel.Find("Need").GetComponent<RectTransform>();
+        if (_item == Item._energyBar)
         {
             _avaliableQuantity = GameData._energyBarCount;
         }
-        else if(_item == Item._energyMeal)
+        else if (_item == Item._energyMeal)
         {
             _avaliableQuantity = GameData._energyMealCount;
         }
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
-        _Time = _unitPanel.Find("Time").GetComponent<TextMeshProUGUI>();
-        _Time.text = _time + " SEC";
-        _need = _unitPanel.Find("Need").GetComponent<RectTransform>();
         for (int i = 0; i < slots.Length; i++)
         {
             _NeedPanel[i] = Instantiate(_needPanel, _need);
@@ -69,6 +71,82 @@ public class UnitPanel : MonoBehaviour
             _NeedPanel[i].GetComponent<Image>().sprite = slots[i]._neededItem;
             _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
         }
+    }
+    void Update()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
+            {
+                slots[i]._avaliableQuantity = GameData._nutriAlgaeCrop;
+            }
+            else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
+            {
+                slots[i]._avaliableQuantity = GameData._bioLuminaryCount;
+            }
+            _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
+        }
+        if (_item == Item._energyBar)
+        {
+            _avaliableQuantity = GameData._energyBarCount;
+        }
+        else if (_item == Item._energyMeal)
+        {
+            _avaliableQuantity = GameData._energyMealCount;
+        }
+        _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
+    }
+    bool _dataUpdate = false;
+    public void DataUpdate()
+    {
+        if (!_dataUpdate)
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
+                {
+                    GameData._nutriAlgaeCrop -= slots[i]._neededQuantity;
+                }
+                else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
+                {
+                    GameData._bioLuminaryCount -= slots[i]._neededQuantity;
+                }
+            }
+            _dataUpdate = true;
+        }
+        else
+        {
+            if (_item == Item._energyBar)
+            {
+                GameData._energyBarCount += _creatingQuantity;
+            }
+            else if (_item == Item._energyMeal)
+            {
+                GameData._energyMealCount += _creatingQuantity;
+            }
+            _dataUpdate = false;
+        }
+    }
+    public void FabricatorData()
+    {
+        if (Check())
+        {
+            FabricatorUnit Temp = GetComponentInParent<FabricatorUnit>();
+            Temp._fabricatingObj.sprite = _unit;
+            Temp._fabricatingObj.transform.Find("BG").GetComponent<Image>().sprite = _unit;
+            Temp._fabricatingObj.gameObject.SetActive(true);
+            Temp._timer = _time;
+            Temp._name = _name;
+            Temp._button = transform;
+        }
+    }
+    bool Check()
+    {
+        if (slots.Length > 1)
+        {
+            return slots[0]._avaliableQuantity >= slots[0]._neededQuantity && slots[1]._avaliableQuantity >= slots[1]._neededQuantity;
+        }
+        else return slots[0]._avaliableQuantity >= slots[0]._neededQuantity;
     }
 
     [SerializeField]

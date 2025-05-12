@@ -1,4 +1,5 @@
 using System.Threading;
+using Unity.Hierarchy;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -6,105 +7,104 @@ using UnityEngine.UIElements.Experimental;
 
 public class FabricatorUnit : MonoBehaviour
 {
-    public GameObject _nutri_Algae;
-    public GameObject _bio_Luminary;
-
-    public Image _energyBar;
+    public Image _fabricatingObj;
+    public string _name = null;    
 
     Canvas _canvas;
+    public GameObject _buttonParent;
 
-    float _timer = 25;
+    [HideInInspector] public float _timer;
+    [HideInInspector] public Transform _button;
     float _tempTimer = 0;
+
 
     public bool _start = false;
     public bool _ready = false;
 
-
-
     void Awake()
     {
         _canvas = GetComponentInChildren<Canvas>();
-    }
-    public void Check(int Num)
-    {
-        switch (Num)
-        {
-            case 0:
-                _nutri_Algae.SetActive(true);
-                _bio_Luminary.SetActive(false);
-                break;
-            case 1:
-                _bio_Luminary.SetActive(true);
-                _nutri_Algae.SetActive(false);
-                break;
-        }
+        _fabricatingObj.gameObject.SetActive(false);
     }
     public void FabricatorClose()
     {
-        if (!_start)
+        if (!_start && !_ready)
         {
-            _nutri_Algae.SetActive(false);
-            _bio_Luminary.SetActive(false);
+            _fabricatingObj.gameObject.SetActive(false);
         }
         _canvas.enabled = false;
     }
-    void OnMouseUp()
+    //void OnMouseUp()
+    //{
+    //    if(!Placement._buildCheck) _canvas.enabled = true;
+    //}
+    void OnMouseDown()
     {
-        if(!Placement._buildCheck) _canvas.enabled = true;
-    }
-    public void FabricatorStart()
-    {
-        if(_nutri_Algae.activeInHierarchy && !_start && !_ready && GameData._nutriAlgaeCrop >= 2)
+        if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject())
         {
-            GameData._nutriAlgaeCrop -= 2;
-            _start = true;
-            GameData._qc -= 25;
-        }
-        else if (_bio_Luminary.activeInHierarchy && !_start && !_ready && GameData._bioLuminaryCount >= 1)
-        {
-            GameData._bioLuminaryCount--;
-            _start = true;
-            GameData._qc -= 50;
-            _timer *= 2;
-        }
-        else if (_ready)
-        {
-            GameData._xp += 10;
-            GameData._energyBarCount++;
-            _ready = false;
-            _nutri_Algae.SetActive(false);
-            _bio_Luminary.SetActive(false);
+            _canvas.enabled = true;
+            wasOpenedThisFrame = true;
         }
     }
-    void FabricatorRunning()
+    bool wasOpenedThisFrame;
+    void AutoClose()
     {
-        if (Input.GetMouseButtonDown(0) && _canvas.enabled)
+        if (_canvas.enabled)
         {
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (wasOpenedThisFrame)
             {
-                if (!_start)
+                wasOpenedThisFrame = false;
+                return;
+            }
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+            {
+                if (!_start && !_ready)
                 {
-                    //_nutri_Algae.SetActive(false);
-                    //_bio_Luminary.SetActive(false);
+                    _fabricatingObj.gameObject.SetActive(false);
                 }
                 _canvas.enabled = false;
             }
         }
-        if (_start && _tempTimer < _timer && !_ready)
+    }
+    public void FabricatorStart()
+    {
+        if (!_start && _name != null && !_ready && _fabricatingObj.gameObject.activeInHierarchy)
         {
-            Debug.Log("Hello");
-            _tempTimer += Time.deltaTime;
-            _energyBar.fillAmount = _tempTimer / _timer;
-            if(_tempTimer >= _timer)
+            _start = true;
+            _buttonParent.SetActive(false);
+            _button.GetComponent<UnitPanel>().DataUpdate();
+        }
+        else if (_ready)
+        {
+            _fabricatingObj.gameObject.SetActive(false);
+            Debug.Log(_name);
+            _button.GetComponent<UnitPanel>().DataUpdate();
+            _name = null;
+            _buttonParent.SetActive(true);
+            _ready = false;
+            _button = null;
+        }
+    }
+    void FabricatorRunning()
+    {
+        if (_start)
+        {
+            if (_tempTimer < _timer && !_ready)
             {
-                _start = false;
-                _tempTimer = 0;
-                _ready = true;
+                _tempTimer += Time.deltaTime;
+                _fabricatingObj.fillAmount = _tempTimer / _timer;
+                if (_tempTimer >= _timer)
+                {
+                    _start = false;
+                    _ready = true;
+                    _tempTimer = 0;
+                }
             }
         }
     }
     void Update()
     {
+        AutoClose();
         FabricatorRunning();
     }
 }
