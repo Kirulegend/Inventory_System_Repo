@@ -1256,10 +1256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0723b2d10320db49a3b99949ffd76ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _crop: 1
-  _time: 10
-  _creatingQuantity: 3
-  _price: 10
 --- !u!1 &279470117
 GameObject:
   m_ObjectHideFlags: 0
@@ -5640,10 +5636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0723b2d10320db49a3b99949ffd76ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _crop: 0
-  _time: 5
-  _creatingQuantity: 3
-  _price: 5
 --- !u!1001 &1412147843
 PrefabInstance:
   m_ObjectHideFlags: 0
