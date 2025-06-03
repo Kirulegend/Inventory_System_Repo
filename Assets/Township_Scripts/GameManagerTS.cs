@@ -47,7 +47,7 @@ public class GameManagerTS : MonoBehaviour
     void Update()
     {
         PodCode();
-        //FabCode();
+        FabCode();
         if (start)
         {
             Directive();
@@ -144,7 +144,7 @@ public class GameManagerTS : MonoBehaviour
     }
     public LayerMask _fab;
     public Canvas _canvasFab;
-    FabricatorUnit _activeFab;
+    public FabricatorUnit _activeFab;
     void FabCode()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -160,7 +160,7 @@ public class GameManagerTS : MonoBehaviour
                         _canvasFab.enabled = true;
                         FabricatorUnit.Click = true;
                     }
-                    //if (_activePod._cropReady)
+                    //if (_activeFab._energyReady)
                     //{
                     //    GameData._instance._xp += 5;
                     //    Debug.Log("Crop Collected");

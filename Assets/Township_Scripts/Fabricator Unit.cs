@@ -7,6 +7,7 @@ using UnityEngine.UIElements.Experimental;
 
 public class FabricatorUnit : MonoBehaviour
 {
+    public static FabricatorUnit Instance;
     public Image _fabricatingObj;
     public string _name = null;    
 
@@ -17,17 +18,15 @@ public class FabricatorUnit : MonoBehaviour
     [HideInInspector] public Transform _button;
     float _tempTimer = 0;
 
-
     public bool _start = false;
     public bool _ready = false;
     public static bool Click = false;
 
-    void Awake()
-    {
-        //_fabricatingObj = GameObject.FindGameObjectsWithTag("Fabricating_Obj_BG")<Image>();
-        _canvas = GetComponentInChildren<Canvas>();
-        _fabricatingObj.gameObject.SetActive(false);
-    }
+    //void Awake()
+    //{
+    //    _fabricatingObj = GameObject.FindGameObjectsWithTag("Fabricating_Obj_BG")<Image>();
+    //    _fabricatingObj.gameObject.SetActive(false);
+    //}
     public void FabricatorClose()
     {
         if (!_start && !_ready)

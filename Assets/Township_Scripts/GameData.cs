@@ -19,7 +19,17 @@ public class GameData : MonoBehaviour
     public int _energyMealCount = 10;
     private void Awake()
     {
-        _instance = this;
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+            Debug.Log("GameData instance initialized on " + gameObject.name);
+        }
+        else
+        {
+            Debug.LogWarning("Duplicate GameData instance found on " + gameObject.name + ". Destroying.");
+            Destroy(gameObject);
+        }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

@@ -14,7 +14,7 @@ public class IntSpriteSlot
     }
     public Item _item;
     public int _neededQuantity;
-    public int _avaliableQuantity;
+    [HideInInspector]public int _avaliableQuantity;
     public Sprite _neededItem;
 }
 public class UnitPanel : MonoBehaviour
