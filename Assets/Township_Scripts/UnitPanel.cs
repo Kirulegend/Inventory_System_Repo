@@ -50,11 +50,11 @@ public class UnitPanel : MonoBehaviour
         _need = _unitPanel.Find("Need").GetComponent<RectTransform>();
         if (_item == Item._energyBar)
         {
-            _avaliableQuantity = GameData._energyBarCount;
+            _avaliableQuantity = GameData._instance._energyBarCount;
         }
         else if (_item == Item._energyMeal)
         {
-            _avaliableQuantity = GameData._energyMealCount;
+            _avaliableQuantity = GameData._instance._energyMealCount;
         }
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
         for (int i = 0; i < slots.Length; i++)
@@ -62,11 +62,11 @@ public class UnitPanel : MonoBehaviour
             _NeedPanel[i] = Instantiate(_needPanel, _need);
             if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
             {
-                slots[i]._avaliableQuantity = GameData._nutriAlgaeCrop;
+                slots[i]._avaliableQuantity = GameData._instance._nutriAlgaeCrop;
             }
             else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
             {
-                slots[i]._avaliableQuantity = GameData._bioLuminaryCount;
+                slots[i]._avaliableQuantity = GameData._instance._bioLuminaryCount;
             }
             _NeedPanel[i].GetComponent<Image>().sprite = slots[i]._neededItem;
             _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
@@ -78,21 +78,21 @@ public class UnitPanel : MonoBehaviour
         {
             if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
             {
-                slots[i]._avaliableQuantity = GameData._nutriAlgaeCrop;
+                slots[i]._avaliableQuantity = GameData._instance._nutriAlgaeCrop;
             }
             else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
             {
-                slots[i]._avaliableQuantity = GameData._bioLuminaryCount;
+                slots[i]._avaliableQuantity = GameData._instance._bioLuminaryCount;
             }
             _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
         }
         if (_item == Item._energyBar)
         {
-            _avaliableQuantity = GameData._energyBarCount;
+            _avaliableQuantity = GameData._instance._energyBarCount;
         }
         else if (_item == Item._energyMeal)
         {
-            _avaliableQuantity = GameData._energyMealCount;
+            _avaliableQuantity = GameData._instance._energyMealCount;
         }
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
     }
@@ -105,11 +105,11 @@ public class UnitPanel : MonoBehaviour
             {
                 if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
                 {
-                    GameData._nutriAlgaeCrop -= slots[i]._neededQuantity;
+                    GameData._instance._nutriAlgaeCrop -= slots[i]._neededQuantity;
                 }
                 else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
                 {
-                    GameData._bioLuminaryCount -= slots[i]._neededQuantity;
+                    GameData._instance._bioLuminaryCount -= slots[i]._neededQuantity;
                 }
             }
             _dataUpdate = true;
@@ -118,11 +118,11 @@ public class UnitPanel : MonoBehaviour
         {
             if (_item == Item._energyBar)
             {
-                GameData._energyBarCount += _creatingQuantity;
+                GameData._instance._energyBarCount += _creatingQuantity;
             }
             else if (_item == Item._energyMeal)
             {
-                GameData._energyMealCount += _creatingQuantity;
+                GameData._instance._energyMealCount += _creatingQuantity;
             }
             _dataUpdate = false;
         }

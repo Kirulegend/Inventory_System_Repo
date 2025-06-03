@@ -1,7 +1,5 @@
-using JetBrains.Annotations;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Pod : MonoBehaviour
 {
@@ -43,6 +41,7 @@ public class Pod : MonoBehaviour
             }
         }
     }
+    
     void Rot()
     {
         if (Start && Timer < _cropTimer)
@@ -54,7 +53,18 @@ public class Pod : MonoBehaviour
                 Start = false;
                 Timer = 0;
                 _cropReady = true;
-                //_activeCrop = string.Empty;
+                GameData._instance._xp += 5;
+                Debug.Log("Crop Collected");
+                if (_activeCrop == "Nutri-Algae")
+                {
+                    GameData._instance._nutriAlgaeCrop++;
+                }
+                if (_activeCrop == "Bio_Luminary")
+                {
+                    GameData._instance._bioLuminaryCount++;
+                }
+                _activeCrop = string.Empty;
+                _cropReady = false;
             }
         }
     }

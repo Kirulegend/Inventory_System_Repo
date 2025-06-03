@@ -14,7 +14,7 @@ public enum Directive
 public class GameManagerTS : MonoBehaviour
 {
     public Canvas _canvas;
-    public Canvas _canvasPod;
+    
     public static bool _nexusClick = false;
     public DText _dialogue;
     public GameObject _arrow;
@@ -23,8 +23,7 @@ public class GameManagerTS : MonoBehaviour
     public Transform[] _directivePos;
     Transform _campos;
     Camera _camera;
-    public LayerMask _pod;
-    Pod _activePod;
+    
     public static Directive _currentDirective;
     public static GameManagerTS _gm;
 
@@ -44,57 +43,18 @@ public class GameManagerTS : MonoBehaviour
         }
     }
     float _size = 20;
+    public bool start = false;
     void Update()
     {
-        Pod();
-        Directive();
-    }
-
-    void Pod()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit Hit))
+        PodCode();
+        //FabCode();
+        if (start)
         {
-            if (((1 << Hit.collider.gameObject.layer) & _pod) != 0)
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    _activePod = Hit.collider.gameObject.GetComponent<Pod>();
-                    if (!global::Pod.Click && !_activePod._cropReady && !_activePod.Start)
-                    {
-                        _canvasPod.enabled = true;
-                        global::Pod.Click = true;
-                    }
-                    if (_activePod._cropReady)
-                    {
-                        GameData._xp += 5;
-                        Debug.Log("Crop Collected");
-                        if (_activePod._activeCrop == "Nutri-Algae")
-                        {
-                            GameData._nutriAlgaeCrop++;
-                        }
-                        if (_activePod._activeCrop == "Bio_Luminary")
-                        {
-                            GameData._bioLuminaryCount++;
-                        }
-                        _activePod._activeCrop = string.Empty;
-                        _activePod._cropReady = false;
-                    }
-                }
-            }
-            else
-            {
-                if (Input.GetMouseButtonDown(0) && _canvasPod.enabled)
-                {
-                    if (!EventSystem.current.IsPointerOverGameObject())
-                    {
-                        global::Pod.Click = false;
-                        _canvasPod.enabled = false;
-                    }
-                }
-            }
+            Directive();
         }
     }
+
+    
 
     void Directive()
     {
@@ -131,7 +91,7 @@ public class GameManagerTS : MonoBehaviour
            _campos.position = Vector3.MoveTowards(_campos.position, _directivePos[1].position, Time.deltaTime * 10);
             if (_campos.position == _directivePos[1].position)
             {
-                GameData._xp += 20;
+                GameData._instance._xp += 20;
                 ChangeDirective(global::Directive._directive2);
                 _dialogue.StartDialogue();
                 _directive[1] = true;
@@ -149,22 +109,105 @@ public class GameManagerTS : MonoBehaviour
         _currentDirective = newDirective;
         OnDirectiveChanged?.Invoke(_currentDirective);
     }
+    public LayerMask _pod;
+    public Canvas _canvasPod;
+    Pod _activePod;
+    void PodCode()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit Hit))
+        {
+            if (((1 << Hit.collider.gameObject.layer) & _pod) != 0)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _activePod = Hit.collider.gameObject.GetComponent<Pod>();
+                    if (!Pod.Click && !_activePod._cropReady && !_activePod.Start)
+                    {
+                        _canvasPod.enabled = true;
+                        Pod.Click = true;
+                    }
+                }
+            }
+            else
+            {
+                if (Input.GetMouseButtonDown(0) && _canvasPod.enabled)
+                {
+                    if (!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        Pod.Click = false;
+                        _canvasPod.enabled = false;
+                    }
+                }
+            }
+        }
+    }
+    public LayerMask _fab;
+    public Canvas _canvasFab;
+    FabricatorUnit _activeFab;
+    void FabCode()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit Hit))
+        {
+            if (((1 << Hit.collider.gameObject.layer) & _fab) != 0)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _activeFab = Hit.collider.gameObject.GetComponent<FabricatorUnit>();
+                    if (!FabricatorUnit.Click && !_activeFab._start && !_activeFab._ready)
+                    {
+                        _canvasFab.enabled = true;
+                        FabricatorUnit.Click = true;
+                    }
+                    //if (_activePod._cropReady)
+                    //{
+                    //    GameData._instance._xp += 5;
+                    //    Debug.Log("Crop Collected");
+                    //    if (_activePod._activeCrop == "Nutri-Algae")
+                    //    {
+                    //        GameData._instance._nutriAlgaeCrop++;
+                    //    }
+                    //    if (_activePod._activeCrop == "Bio_Luminary")
+                    //    {
+                    //        GameData._instance._bioLuminaryCount++;
+                    //    }
+                    //    _activePod._activeCrop = string.Empty;
+                    //    _activePod._cropReady = false;
+                    //}
+                }
+            }
+            else
+            {
+                if (Input.GetMouseButtonDown(0) && _canvasFab.enabled)
+                {
+                    if (!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        FabricatorUnit.Click = false;
+                        _canvasFab.enabled = false;
+                        if (!_activeFab._start && !_activeFab._ready)
+                        {
+                            _activeFab._fabricatingObj.gameObject.SetActive(false);
+                        }
+                    }
+                }
+            }
+        }
+    }
     IEnumerator Timer(bool Check)
     {
         yield return new WaitForSeconds(2);
         Check = true;
     }
-    public int Nutri_Algae = 25;
-    public int Bio_Luminary = 50;
     public void Farm(int crop)
     {
         switch (crop)
         {
             case 0:
-                if(GameData._qc >= Nutri_Algae)
+                if(GameData._instance._qc >= GameData._instance._nutriAlgaePrice)
                 {
                     _activePod.Nutri_Algae = true;
-                    GameData._qc -= Nutri_Algae;
+                    GameData._instance._qc -= GameData._instance._nutriAlgaePrice;
                     _canvasPod.enabled = false;
                 }
                 else
@@ -173,10 +216,10 @@ public class GameManagerTS : MonoBehaviour
                 }
                 break;
             case 1:
-                if (GameData._qc >= Bio_Luminary)
+                if (GameData._instance._qc >= GameData._instance._bioLuminaryPrice)
                 {
                     _activePod.Bio_Luminary = true;
-                    GameData._qc -= Bio_Luminary;
+                    GameData._instance._qc -= GameData._instance._bioLuminaryPrice;
                     _canvasPod.enabled = false; 
                 }
                 else

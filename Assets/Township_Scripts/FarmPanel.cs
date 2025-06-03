@@ -14,7 +14,7 @@ public class FarmPanel : MonoBehaviour
     int _avaliableQuantity = 0;
     public int _time;
     public int _creatingQuantity;
-    public int _price;
+    int _price;
     TextMeshProUGUI _Name;
     TextMeshProUGUI _AvaliableQuantity;
     TextMeshProUGUI _Time;
@@ -30,7 +30,6 @@ public class FarmPanel : MonoBehaviour
         _Time = _farmPanel.Find("Time").GetComponent<TextMeshProUGUI>();
         _Time.text = _time + " SEC";
         _Price = _farmPanel.Find("Price").GetComponent<TextMeshProUGUI>();
-        _Price.text = _price.ToString();
         DynamicData();
     }
     void Update()
@@ -41,12 +40,15 @@ public class FarmPanel : MonoBehaviour
     {
         if (_crop == Crop._nutriAlgae)
         {
-            _avaliableQuantity = GameData._nutriAlgaeCrop;
+            _avaliableQuantity = GameData._instance._nutriAlgaeCrop;
+            _price = GameData._instance._nutriAlgaePrice;
         }
         else if (_crop == Crop._bioLuminary)
         {
-            _avaliableQuantity = GameData._bioLuminaryCount;
+            _avaliableQuantity = GameData._instance._bioLuminaryCount;
+            _price = GameData._instance._bioLuminaryPrice;
         }
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
+        _Price.text = _price.ToString();
     }
 }

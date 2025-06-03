@@ -18,7 +18,7 @@ public class Road : MonoBehaviour
         {
             if (col.gameObject != gameObject)
             {
-                GameData._roadCount--;
+                GameData._instance._roadCount--;
                 Destroy(col.gameObject);
             }
         }

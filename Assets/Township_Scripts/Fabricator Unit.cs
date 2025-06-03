@@ -20,9 +20,11 @@ public class FabricatorUnit : MonoBehaviour
 
     public bool _start = false;
     public bool _ready = false;
+    public static bool Click = false;
 
     void Awake()
     {
+        //_fabricatingObj = GameObject.FindGameObjectsWithTag("Fabricating_Obj_BG")<Image>();
         _canvas = GetComponentInChildren<Canvas>();
         _fabricatingObj.gameObject.SetActive(false);
     }
@@ -38,34 +40,34 @@ public class FabricatorUnit : MonoBehaviour
     //{
     //    if(!Placement._buildCheck) _canvas.enabled = true;
     //}
-    void OnMouseDown()
-    {
-        if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject())
-        {
-            _canvas.enabled = true;
-            wasOpenedThisFrame = true;
-        }
-    }
+    //void OnMouseDown()
+    //{
+    //    if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject())
+    //    {
+    //        _canvas.enabled = true;
+    //        wasOpenedThisFrame = true;
+    //    }
+    //}
     bool wasOpenedThisFrame;
-    void AutoClose()
-    {
-        if (_canvas.enabled)
-        {
-            if (wasOpenedThisFrame)
-            {
-                wasOpenedThisFrame = false;
-                return;
-            }
-            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-            {
-                if (!_start && !_ready)
-                {
-                    _fabricatingObj.gameObject.SetActive(false);
-                }
-                _canvas.enabled = false;
-            }
-        }
-    }
+    //void AutoClose()
+    //{
+    //    if (_canvas.enabled)
+    //    {
+    //        if (wasOpenedThisFrame)
+    //        {
+    //            wasOpenedThisFrame = false;
+    //            return;
+    //        }
+    //        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+    //        {
+    //            if (!_start && !_ready)
+    //            {
+    //                _fabricatingObj.gameObject.SetActive(false);
+    //            }
+    //            _canvas.enabled = false;
+    //        }
+    //    }
+    //}
     public void FabricatorStart()
     {
         if (!_start && _name != null && !_ready && _fabricatingObj.gameObject.activeInHierarchy)
@@ -73,7 +75,7 @@ public class FabricatorUnit : MonoBehaviour
             _start = true;
             _buttonParent.SetActive(false);
             _button.GetComponent<UnitPanel>().DataUpdate();
-        }
+        }   
         else if (_ready)
         {
             _fabricatingObj.gameObject.SetActive(false);
@@ -104,7 +106,7 @@ public class FabricatorUnit : MonoBehaviour
     }
     void Update()
     {
-        AutoClose();
+        //AutoClose();
         FabricatorRunning();
     }
 }

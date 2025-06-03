@@ -18,16 +18,16 @@ public class UIData : MonoBehaviour
     }
     void UI()
     {
-        _road.text = "ROADS : " + GameData._roadCount.ToString();
-        _build.text = "BUILD : " + GameData._buildCount.ToString();
-        _podCrop.text = "A : " + GameData._nutriAlgaeCrop.ToString() + " L : " + GameData._bioLuminaryCount.ToString();
-        _energyBar.text = "B : " + GameData._energyBarCount + " M : " + GameData._energyMealCount;
+        _road.text = "ROADS : " + GameData._instance._roadCount.ToString();
+        _build.text = "BUILD : " + GameData._instance._buildCount.ToString();
+        _podCrop.text = "A : " + GameData._instance._nutriAlgaeCrop.ToString() + " L : " + GameData._instance._bioLuminaryCount.ToString();
+        _energyBar.text = "B : " + GameData._instance._energyBarCount + " M : " + GameData._instance._energyMealCount;
 
-        _qcText.text = GameData._qc.ToString();
+        _qcText.text = GameData._instance._qc.ToString();
 
-        _levelText.text = "LEVEL : " + GameData._level.ToString();
+        _levelText.text = "LEVEL : " + GameData._instance._level.ToString();
 
-        _xpSlider.maxValue = GameData._level;
-        _xpSlider.value = GameData._xp / 10;
+        _xpSlider.maxValue = GameData._instance._level;
+        _xpSlider.value = GameData._instance._xp / 10;
     }
 }

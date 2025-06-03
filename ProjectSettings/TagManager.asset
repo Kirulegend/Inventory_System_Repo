@@ -17,6 +17,7 @@ TagManager:
   - Build
   - Placement
   - Nexus
+  - Fabricating_Obj_BG
   layers:
   - Default
   - TransparentFX
@@ -32,7 +33,7 @@ TagManager:
   - CamBot
   - Road
   - Pod
-  - 
+  - Fab
   - 
   - 
   - 

@@ -10,7 +10,7 @@ public class Isocamera : MonoBehaviour
     Transform xMaxTrans;
     [SerializeField] float zoomMin = 5f;
     [SerializeField] float zoomMax = 11f;
-    public static bool _moveCam = false;
+    public static bool _moveCam = true;
 
 
     void Update()
