@@ -41,6 +41,7 @@ public class GameManagerTS : MonoBehaviour
         {
             _checks[i] = false;
         }
+        _fabricatingObj = _canvasFab.gameObject.transform.Find("Fabricating_Obj").GetComponent<Image>();
     }
     float _size = 20;
     public bool start = false;
@@ -145,6 +146,7 @@ public class GameManagerTS : MonoBehaviour
     public LayerMask _fab;
     public Canvas _canvasFab;
     public FabricatorUnit _activeFab;
+    public Image _fabricatingObj;
     void FabCode()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -183,15 +185,19 @@ public class GameManagerTS : MonoBehaviour
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        FabricatorUnit.Click = false;
-                        _canvasFab.enabled = false;
-                        if (!_activeFab._start && !_activeFab._ready)
-                        {
-                            _activeFab._fabricatingObj.gameObject.SetActive(false);
-                        }
+                        FabricatorClose();
                     }
                 }
             }
+        }
+    }
+    public void FabricatorClose()
+    {
+        _canvasFab.enabled = false;
+        if (!_activeFab._start && !_activeFab._ready)
+        {
+            FabricatorUnit.Click = false;
+            _activeFab._fabricatingObj.gameObject.SetActive(false);
         }
     }
     IEnumerator Timer(bool Check)

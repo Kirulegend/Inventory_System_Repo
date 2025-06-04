@@ -132,7 +132,7 @@ public class UnitPanel : MonoBehaviour
         if (Check())
         {
             FabricatorUnit Temp = GetComponentInParent<FabricatorUnit>();
-            Temp._fabricatingObj.sprite = _unit;
+            Temp._fabricatingObjSprite = _unit;
             Temp._fabricatingObj.transform.Find("BG").GetComponent<Image>().sprite = _unit;
             Temp._fabricatingObj.gameObject.SetActive(true);
             Temp._timer = _time;

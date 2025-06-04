@@ -9,6 +9,7 @@ public class FabricatorUnit : MonoBehaviour
 {
     public static FabricatorUnit Instance;
     public Image _fabricatingObj;
+    public Sprite _fabricatingObjSprite;
     public string _name = null;    
 
     Canvas _canvas;
@@ -27,14 +28,6 @@ public class FabricatorUnit : MonoBehaviour
     //    _fabricatingObj = GameObject.FindGameObjectsWithTag("Fabricating_Obj_BG")<Image>();
     //    _fabricatingObj.gameObject.SetActive(false);
     //}
-    public void FabricatorClose()
-    {
-        if (!_start && !_ready)
-        {
-            _fabricatingObj.gameObject.SetActive(false);
-        }
-        _canvas.enabled = false;
-    }
     //void OnMouseUp()
     //{
     //    if(!Placement._buildCheck) _canvas.enabled = true;
@@ -72,7 +65,7 @@ public class FabricatorUnit : MonoBehaviour
         if (!_start && _name != null && !_ready && _fabricatingObj.gameObject.activeInHierarchy)
         {
             _start = true;
-            _buttonParent.SetActive(false);
+            //_buttonParent.SetActive(false);
             _button.GetComponent<UnitPanel>().DataUpdate();
         }   
         else if (_ready)
@@ -81,7 +74,7 @@ public class FabricatorUnit : MonoBehaviour
             Debug.Log(_name);
             _button.GetComponent<UnitPanel>().DataUpdate();
             _name = null;
-            _buttonParent.SetActive(true);
+            //_buttonParent.SetActive(true);
             _ready = false;
             _button = null;
         }
@@ -96,9 +89,9 @@ public class FabricatorUnit : MonoBehaviour
                 _fabricatingObj.fillAmount = _tempTimer / _timer;
                 if (_tempTimer >= _timer)
                 {
-                    _start = false;
                     _ready = true;
                     _tempTimer = 0;
+                    _start = false;
                 }
             }
         }
