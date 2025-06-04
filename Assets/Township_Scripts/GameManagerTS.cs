@@ -42,6 +42,7 @@ public class GameManagerTS : MonoBehaviour
             _checks[i] = false;
         }
         _fabricatingObj = _canvasFab.gameObject.transform.Find("Fabricating_Obj").GetComponent<Image>();
+        _fabButtons = _canvasFab.gameObject.transform.Find("Buttons").GetComponent<GameObject>();
     }
     float _size = 20;
     public bool start = false;
@@ -147,6 +148,7 @@ public class GameManagerTS : MonoBehaviour
     public Canvas _canvasFab;
     public FabricatorUnit _activeFab;
     public Image _fabricatingObj;
+    GameObject _fabButtons;
     void FabCode()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -157,10 +159,14 @@ public class GameManagerTS : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     _activeFab = Hit.collider.gameObject.GetComponent<FabricatorUnit>();
-                    if (!FabricatorUnit.Click && !_activeFab._start && !_activeFab._ready)
+                    if (!FabricatorUnit.Click)
                     {
                         _canvasFab.enabled = true;
                         FabricatorUnit.Click = true;
+                        if(!_activeFab._start && !_activeFab._ready)
+                        {
+                             
+                        }
                     }
                     //if (_activeFab._energyReady)
                     //{
