@@ -42,6 +42,7 @@ public class GameManagerTS : MonoBehaviour
             _checks[i] = false;
         }
         _fabricatingObj = _canvasFab.gameObject.transform.Find("Fabricating_Obj").GetComponent<Image>();
+        _fabricatingObj.gameObject.SetActive(false);
         _fabButtons = _canvasFab.gameObject.transform.Find("Buttons").GetComponent<GameObject>();
     }
     float _size = 20;
@@ -147,7 +148,7 @@ public class GameManagerTS : MonoBehaviour
     public LayerMask _fab;
     public Canvas _canvasFab;
     public FabricatorUnit _activeFab;
-    public Image _fabricatingObj;
+    public static Image _fabricatingObj;
     GameObject _fabButtons;
     void FabCode()
     {
@@ -203,7 +204,7 @@ public class GameManagerTS : MonoBehaviour
         if (!_activeFab._start && !_activeFab._ready)
         {
             FabricatorUnit.Click = false;
-            _activeFab._fabricatingObj.gameObject.SetActive(false);
+            _fabricatingObj.gameObject.SetActive(false);
         }
     }
     IEnumerator Timer(bool Check)

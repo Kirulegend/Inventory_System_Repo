@@ -39,6 +39,7 @@ public class UnitPanel : MonoBehaviour
     public Transform _needPanel;
     void Start()
     {
+        _gmTS = GameObject.Find("GameManager")?.GetComponent<GameManagerTS>();
         _NeedPanel = new Transform[slots.Length];
         _unitPanel = transform.Find("Unit Panel").GetComponent<Transform>();
         _name = gameObject.name;
@@ -127,19 +128,48 @@ public class UnitPanel : MonoBehaviour
             _dataUpdate = false;
         }
     }
+    public GameManagerTS _gmTS;
     public void FabricatorData()
     {
         if (Check())
         {
-            FabricatorUnit Temp = GetComponentInParent<FabricatorUnit>();
+            FabricatorUnit Temp = _gmTS._activeFab;
+
+            if (Temp == null)
+            {
+                Debug.LogError("FabricatorUnit is null!");
+                return;
+            }
+
+            if (Temp._fabricatingObj == null)
+            {
+                Debug.LogError("FabricatorUnit._fabricatingObj is null!");
+                return;
+            }
+
+            Transform bg = Temp._fabricatingObj.transform.Find("BG");
+            if (bg == null)
+            {
+                Debug.LogError("BG child not found in _fabricatingObj!");
+                return;
+            }
+
+            Image bgImage = bg.GetComponent<Image>();
+            if (bgImage == null)
+            {
+                Debug.LogError("Image component not found in BG!");
+                return;
+            }
+
             Temp._fabricatingObjSprite = _unit;
-            Temp._fabricatingObj.transform.Find("BG").GetComponent<Image>().sprite = _unit;
+            bgImage.sprite = _unit;
             Temp._fabricatingObj.gameObject.SetActive(true);
             Temp._timer = _time;
             Temp._name = _name;
             Temp._button = transform;
         }
     }
+
     bool Check()
     {
         if (slots.Length > 1)

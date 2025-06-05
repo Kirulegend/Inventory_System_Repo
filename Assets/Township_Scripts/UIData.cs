@@ -18,6 +18,7 @@ public class UIData : MonoBehaviour
     }
     void UI()
     {
+        if (GameData._instance == null) return;
         _road.text = "ROADS : " + GameData._instance._roadCount.ToString();
         _build.text = "BUILD : " + GameData._instance._buildCount.ToString();
         _podCrop.text = "A : " + GameData._instance._nutriAlgaeCrop.ToString() + " L : " + GameData._instance._bioLuminaryCount.ToString();
