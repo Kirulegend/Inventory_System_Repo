@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Playables;
 
 public class Pod : MonoBehaviour
 {
@@ -12,11 +13,12 @@ public class Pod : MonoBehaviour
     public bool Start = false;
     float Timer = 0;
     public bool _cropReady = false;
-
-    public int _cropTimer = 5;
+    GameData _gameData;
+    int _cropTimer;
 
     void Awake()
     {
+        _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _pod = transform.Find("Pod");
         Instance = this;
     }
@@ -30,11 +32,12 @@ public class Pod : MonoBehaviour
                 Start = true;
                 Click = false;
                 Nutri_Algae = false;
+                _cropTimer = _gameData._nutriAlgaeTime;
             }
             if (Bio_Luminary)
             {
                 _activeCrop = "Bio_Luminary";
-                _cropTimer *= 2;
+                _cropTimer = _gameData._bioLuminaryTime;
                 Start = true;
                 Click = false;
                 Bio_Luminary = false;
@@ -53,15 +56,15 @@ public class Pod : MonoBehaviour
                 Start = false;
                 Timer = 0;
                 _cropReady = true;
-                GameData._instance._xp += 5;
+                _gameData._xp += 5;
                 Debug.Log("Crop Collected");
                 if (_activeCrop == "Nutri-Algae")
                 {
-                    GameData._instance._nutriAlgaeCrop++;
+                    _gameData._nutriAlgaeCrop++;
                 }
                 if (_activeCrop == "Bio_Luminary")
                 {
-                    GameData._instance._bioLuminaryCount++;
+                    _gameData._bioLuminaryCount++;
                 }
                 _activeCrop = string.Empty;
                 _cropReady = false;

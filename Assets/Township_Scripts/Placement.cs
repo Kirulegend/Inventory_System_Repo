@@ -25,6 +25,11 @@ public class Placement : MonoBehaviour
 
     Animator Ani;
 
+    GameData _gameData;
+    void Awake()
+    {
+        _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
+    }
     void Update()
     {
         MouseCast();
@@ -120,7 +125,7 @@ public class Placement : MonoBehaviour
         }
         if (_isGrounded && _past != _current && !_isBuild && _roadPlace)
         {
-            GameData._instance._roadCount++;
+            _gameData._roadCount++;
             _tempRoad = Instantiate(_road, _roadParent);
             _tempRoad.transform.position = _current;
             _past = _current;
@@ -129,7 +134,7 @@ public class Placement : MonoBehaviour
         {
             if (((1 << Hit.collider.gameObject.layer) & _roadMask) != 0)
             {
-                GameData._instance._roadCount--;
+                _gameData._roadCount--;
                 _past = _current;
                 Destroy(Hit.collider.gameObject);
             }
@@ -169,7 +174,7 @@ public class Placement : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0) && BuildObj._isGround)
             {
-                GameData._instance._buildCount++;
+                _gameData._buildCount++;
                 _activeCube.transform.position = BsnappedPosition;
                 Ani.SetTrigger("Place");
                 _activeCube = null;
@@ -193,6 +198,6 @@ public class Placement : MonoBehaviour
 
     public void OnDestroy()
     {
-        GameData._instance._roadCount--;
+        _gameData._roadCount--;
     }
 }

@@ -28,7 +28,7 @@ public class UIData : MonoBehaviour
 
         _levelText.text = "LEVEL : " + GameData._instance._level.ToString();
 
-        _xpSlider.maxValue = GameData._instance._level;
-        _xpSlider.value = GameData._instance._xp / 10;
+        _xpSlider.maxValue = GameData._instance._level * 100;
+        _xpSlider.value = GameData._instance._xp;
     }
 }

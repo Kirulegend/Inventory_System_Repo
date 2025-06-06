@@ -26,10 +26,12 @@ public class GameManagerTS : MonoBehaviour
     
     public static Directive _currentDirective;
     public static GameManagerTS _gm;
+    GameData _gameData;
 
     
     void Awake()
     {
+        _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _camera = Camera.main;
         _campos = GameObject.Find("Cam").transform;
         _campos.position = _directivePos[0].position;
@@ -43,7 +45,8 @@ public class GameManagerTS : MonoBehaviour
         }
         _fabricatingObj = _canvasFab.gameObject.transform.Find("Fabricating_Obj").GetComponent<Image>();
         _fabricatingObj.gameObject.SetActive(false);
-        _fabButtons = _canvasFab.gameObject.transform.Find("Buttons").GetComponent<GameObject>();
+        _start = _canvasFab.gameObject.transform.Find("Start").GetComponent<Button>();
+        _canvasFab.enabled = false;
     }
     float _size = 20;
     public bool start = false;
@@ -55,6 +58,7 @@ public class GameManagerTS : MonoBehaviour
         {
             Directive();
         }
+        Level();
     }
 
     
@@ -94,7 +98,7 @@ public class GameManagerTS : MonoBehaviour
            _campos.position = Vector3.MoveTowards(_campos.position, _directivePos[1].position, Time.deltaTime * 10);
             if (_campos.position == _directivePos[1].position)
             {
-                GameData._instance._xp += 20;
+                _gameData._xp += 20;
                 ChangeDirective(global::Directive._directive2);
                 _dialogue.StartDialogue();
                 _directive[1] = true;
@@ -148,10 +152,17 @@ public class GameManagerTS : MonoBehaviour
     public LayerMask _fab;
     public Canvas _canvasFab;
     public FabricatorUnit _activeFab;
-    public static Image _fabricatingObj;
-    GameObject _fabButtons;
+    FabricatorUnit _temp;
+    public Image _fabricatingObj;
+    public GameObject _fabButtons;
+    public Button _start;
     void FabCode()
     {
+        if (_activeFab)
+        {
+            _fabricatingObj.fillAmount = _activeFab._currentTimer;
+            Debug.Log(_activeFab.name);
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit Hit))
         {
@@ -159,31 +170,32 @@ public class GameManagerTS : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    if (_activeFab) _temp = _activeFab;
                     _activeFab = Hit.collider.gameObject.GetComponent<FabricatorUnit>();
+                    if (_temp && _temp != _activeFab)
+                    {
+                        _canvasFab.enabled = false;
+                        FabricatorUnit.Click = false;
+                        Debug.Log(_temp.name);
+                    }
                     if (!FabricatorUnit.Click)
                     {
+                        _fabricatingObj.sprite = _activeFab._fabricatingObjSprite;
+                        _fabricatingObj.transform.Find("BG").GetComponent<Image>().sprite = _activeFab._fabricatingObjSprite;
                         _canvasFab.enabled = true;
-                        FabricatorUnit.Click = true;
-                        if(!_activeFab._start && !_activeFab._ready)
+                        _start.onClick.AddListener(_activeFab.FabricatorStart);
+                        if (!_activeFab._start || !_activeFab._ready)
                         {
-                             
+                            _fabricatingObj.gameObject.SetActive(false);
+                            _fabButtons.SetActive(true);        
                         }
+                        if (_activeFab._start || _activeFab._ready)
+                        {
+                            _fabricatingObj.gameObject.SetActive(true);
+                            _fabButtons.SetActive(false);
+                        }
+                        FabricatorUnit.Click = true;
                     }
-                    //if (_activeFab._energyReady)
-                    //{
-                    //    GameData._instance._xp += 5;
-                    //    Debug.Log("Crop Collected");
-                    //    if (_activePod._activeCrop == "Nutri-Algae")
-                    //    {
-                    //        GameData._instance._nutriAlgaeCrop++;
-                    //    }
-                    //    if (_activePod._activeCrop == "Bio_Luminary")
-                    //    {
-                    //        GameData._instance._bioLuminaryCount++;
-                    //    }
-                    //    _activePod._activeCrop = string.Empty;
-                    //    _activePod._cropReady = false;
-                    //}
                 }
             }
             else
@@ -201,11 +213,10 @@ public class GameManagerTS : MonoBehaviour
     public void FabricatorClose()
     {
         _canvasFab.enabled = false;
-        if (!_activeFab._start && !_activeFab._ready)
-        {
-            FabricatorUnit.Click = false;
-            _fabricatingObj.gameObject.SetActive(false);
-        }
+        FabricatorUnit.Click = false;
+        if (!_activeFab._start && !_activeFab._ready) _fabricatingObj.gameObject.SetActive(false);
+        _start.onClick.RemoveAllListeners();
+        _activeFab = null;
     }
     IEnumerator Timer(bool Check)
     {
@@ -217,10 +228,10 @@ public class GameManagerTS : MonoBehaviour
         switch (crop)
         {
             case 0:
-                if(GameData._instance._qc >= GameData._instance._nutriAlgaePrice)
+                if(_gameData._qc >= _gameData._nutriAlgaePrice)
                 {
                     _activePod.Nutri_Algae = true;
-                    GameData._instance._qc -= GameData._instance._nutriAlgaePrice;
+                    _gameData._qc -= _gameData._nutriAlgaePrice;
                     _canvasPod.enabled = false;
                 }
                 else
@@ -229,10 +240,10 @@ public class GameManagerTS : MonoBehaviour
                 }
                 break;
             case 1:
-                if (GameData._instance._qc >= GameData._instance._bioLuminaryPrice)
+                if (_gameData._qc >= _gameData._bioLuminaryPrice)
                 {
                     _activePod.Bio_Luminary = true;
-                    GameData._instance._qc -= GameData._instance._bioLuminaryPrice;
+                    _gameData._qc -= _gameData._bioLuminaryPrice;
                     _canvasPod.enabled = false; 
                 }
                 else
@@ -240,6 +251,13 @@ public class GameManagerTS : MonoBehaviour
                     Debug.Log("Insufficent Funds!");
                 }
                 break;
+        }
+    }
+    void Level()
+    {
+        if(_gameData._level * 100 == _gameData._xp)
+        {
+            _gameData._level++;
         }
     }
 }

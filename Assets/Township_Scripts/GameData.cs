@@ -13,23 +13,15 @@ public class GameData : MonoBehaviour
     public int _buildCount = 0;
     public int _nutriAlgaeCrop = 10;
     public int _nutriAlgaePrice = 10;
+    public int _nutriAlgaeTime = 5;
     public int _bioLuminaryCount = 10;
     public int _bioLuminaryPrice = 20;
+    public int _bioLuminaryTime = 10;
     public int _energyBarCount = 10;
     public int _energyMealCount = 10;
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-            Debug.Log("GameData instance initialized on " + gameObject.name);
-        }
-        else
-        {
-            Debug.LogWarning("Duplicate GameData instance found on " + gameObject.name + ". Destroying.");
-            Destroy(gameObject);
-        }
+        _instance = this;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,6 +32,6 @@ public class GameData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

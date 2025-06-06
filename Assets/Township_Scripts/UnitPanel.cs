@@ -2,6 +2,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -37,8 +38,10 @@ public class UnitPanel : MonoBehaviour
     public Transform _unitPanel;
     RectTransform _need;
     public Transform _needPanel;
+    GameData _gameData;
     void Start()
     {
+        _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _gmTS = GameObject.Find("GameManager")?.GetComponent<GameManagerTS>();
         _NeedPanel = new Transform[slots.Length];
         _unitPanel = transform.Find("Unit Panel").GetComponent<Transform>();
@@ -51,11 +54,11 @@ public class UnitPanel : MonoBehaviour
         _need = _unitPanel.Find("Need").GetComponent<RectTransform>();
         if (_item == Item._energyBar)
         {
-            _avaliableQuantity = GameData._instance._energyBarCount;
+            _avaliableQuantity = _gameData._energyBarCount;
         }
         else if (_item == Item._energyMeal)
         {
-            _avaliableQuantity = GameData._instance._energyMealCount;
+            _avaliableQuantity = _gameData._energyMealCount;
         }
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
         for (int i = 0; i < slots.Length; i++)
@@ -63,11 +66,11 @@ public class UnitPanel : MonoBehaviour
             _NeedPanel[i] = Instantiate(_needPanel, _need);
             if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
             {
-                slots[i]._avaliableQuantity = GameData._instance._nutriAlgaeCrop;
+                slots[i]._avaliableQuantity = _gameData._nutriAlgaeCrop;
             }
             else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
             {
-                slots[i]._avaliableQuantity = GameData._instance._bioLuminaryCount;
+                slots[i]._avaliableQuantity = _gameData._bioLuminaryCount;
             }
             _NeedPanel[i].GetComponent<Image>().sprite = slots[i]._neededItem;
             _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
@@ -79,21 +82,21 @@ public class UnitPanel : MonoBehaviour
         {
             if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
             {
-                slots[i]._avaliableQuantity = GameData._instance._nutriAlgaeCrop;
+                slots[i]._avaliableQuantity = _gameData._nutriAlgaeCrop;
             }
             else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
             {
-                slots[i]._avaliableQuantity = GameData._instance._bioLuminaryCount;
+                slots[i]._avaliableQuantity = _gameData._bioLuminaryCount;
             }
             _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
         }
         if (_item == Item._energyBar)
         {
-            _avaliableQuantity = GameData._instance._energyBarCount;
+            _avaliableQuantity = _gameData._energyBarCount;
         }
         else if (_item == Item._energyMeal)
         {
-            _avaliableQuantity = GameData._instance._energyMealCount;
+            _avaliableQuantity = _gameData._energyMealCount;
         }
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
     }
@@ -106,11 +109,11 @@ public class UnitPanel : MonoBehaviour
             {
                 if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
                 {
-                    GameData._instance._nutriAlgaeCrop -= slots[i]._neededQuantity;
+                    _gameData._nutriAlgaeCrop -= slots[i]._neededQuantity;
                 }
                 else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
                 {
-                    GameData._instance._bioLuminaryCount -= slots[i]._neededQuantity;
+                    _gameData._bioLuminaryCount -= slots[i]._neededQuantity;
                 }
             }
             _dataUpdate = true;
@@ -119,11 +122,11 @@ public class UnitPanel : MonoBehaviour
         {
             if (_item == Item._energyBar)
             {
-                GameData._instance._energyBarCount += _creatingQuantity;
+                _gameData._energyBarCount += _creatingQuantity;
             }
             else if (_item == Item._energyMeal)
             {
-                GameData._instance._energyMealCount += _creatingQuantity;
+                _gameData._energyMealCount += _creatingQuantity;
             }
             _dataUpdate = false;
         }
@@ -133,40 +136,14 @@ public class UnitPanel : MonoBehaviour
     {
         if (Check())
         {
-            FabricatorUnit Temp = _gmTS._activeFab;
-
-            if (Temp == null)
-            {
-                Debug.LogError("FabricatorUnit is null!");
-                return;
-            }
-
-            if (Temp._fabricatingObj == null)
-            {
-                Debug.LogError("FabricatorUnit._fabricatingObj is null!");
-                return;
-            }
-
-            Transform bg = Temp._fabricatingObj.transform.Find("BG");
-            if (bg == null)
-            {
-                Debug.LogError("BG child not found in _fabricatingObj!");
-                return;
-            }
-
-            Image bgImage = bg.GetComponent<Image>();
-            if (bgImage == null)
-            {
-                Debug.LogError("Image component not found in BG!");
-                return;
-            }
-
-            Temp._fabricatingObjSprite = _unit;
-            bgImage.sprite = _unit;
-            Temp._fabricatingObj.gameObject.SetActive(true);
-            Temp._timer = _time;
-            Temp._name = _name;
-            Temp._button = transform;
+            _gmTS._fabricatingObj.gameObject.SetActive(true);
+            Debug.Log(gameObject.name);
+            _gmTS._activeFab._fabricatingObjSprite = _unit;
+            _gmTS._fabricatingObj.sprite = _unit;
+            _gmTS._fabricatingObj.transform.Find("BG").GetComponent<Image>().sprite = _unit;
+            _gmTS._activeFab._timer = _time;
+            _gmTS._activeFab._name = _name;
+            _gmTS._activeFab._button = transform;
         }
     }
 

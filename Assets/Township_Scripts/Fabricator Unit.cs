@@ -8,74 +8,45 @@ using UnityEngine.UIElements.Experimental;
 public class FabricatorUnit : MonoBehaviour
 {
     public static FabricatorUnit Instance;
-    public Image _fabricatingObj;
     public Sprite _fabricatingObjSprite;
     public string _name = null;    
 
-    Canvas _canvas;
     public GameObject _buttonParent;
 
     [HideInInspector] public float _timer;
-    [HideInInspector] public Transform _button;
+    public float _currentTimer = 0;
+    public Transform _button;
     float _tempTimer = 0;
 
     public bool _start = false;
     public bool _ready = false;
     public static bool Click = false;
 
-    //void Awake()
-    //{
-    //    _fabricatingObj = GameObject.FindGameObjectsWithTag("Fabricating_Obj_BG")<Image>();
-    //    _fabricatingObj.gameObject.SetActive(false);
-    //}
-    //void OnMouseUp()
-    //{
-    //    if(!Placement._buildCheck) _canvas.enabled = true;
-    //}
-    //void OnMouseDown()
-    //{
-    //    if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject())
-    //    {
-    //        _canvas.enabled = true;
-    //        wasOpenedThisFrame = true;
-    //    }
-    //}
-    bool wasOpenedThisFrame;
-    //void AutoClose()
-    //{
-    //    if (_canvas.enabled)
-    //    {
-    //        if (wasOpenedThisFrame)
-    //        {
-    //            wasOpenedThisFrame = false;
-    //            return;
-    //        }
-    //        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-    //        {
-    //            if (!_start && !_ready)
-    //            {
-    //                _fabricatingObj.gameObject.SetActive(false);
-    //            }
-    //            _canvas.enabled = false;
-    //        }
-    //    }
-    //}
+    GameManagerTS _gmTS;
+    void Start()
+    {
+        _gmTS = GameObject.Find("GameManager")?.GetComponent<GameManagerTS>();
+    }
     public void FabricatorStart()
     {
-        if (!_start && _name != null && !_ready && _fabricatingObj.gameObject.activeInHierarchy)
+        if (!_start && !_ready && _gmTS._fabricatingObj.gameObject.activeInHierarchy)
         {
+            Debug.Log("Hello");
             _start = true;
-            //_buttonParent.SetActive(false);
+            _gmTS._fabButtons.SetActive(false);
             _button.GetComponent<UnitPanel>().DataUpdate();
         }   
         else if (_ready)
         {
-            _fabricatingObj.gameObject.SetActive(false);
+            _currentTimer = 0;
+            _fabricatingObjSprite = null;
+            _gmTS._fabricatingObj.gameObject.SetActive(false);
+            _gmTS._fabButtons.SetActive(true);
             Debug.Log(_name);
             _button.GetComponent<UnitPanel>().DataUpdate();
             _name = null;
-            //_buttonParent.SetActive(true);
             _ready = false;
+            _start = false;
             _button = null;
         }
     }
@@ -86,19 +57,17 @@ public class FabricatorUnit : MonoBehaviour
             if (_tempTimer < _timer && !_ready)
             {
                 _tempTimer += Time.deltaTime;
-                _fabricatingObj.fillAmount = _tempTimer / _timer;
+                _currentTimer = _tempTimer / _timer;
                 if (_tempTimer >= _timer)
                 {
                     _ready = true;
                     _tempTimer = 0;
-                    _start = false;
                 }
             }
         }
     }
     void Update()
     {
-        //AutoClose();
         FabricatorRunning();
     }
 }
