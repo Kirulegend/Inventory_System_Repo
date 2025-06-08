@@ -1,27 +1,41 @@
-using UnityEngine;
-using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
+[System.Serializable]
+public class InventoryItem
+{
+    public string name;
+    public int quantity;
+    public int price;
+    public int time;
+    public Sprite icon;
+
+    public InventoryItem(string name, int quantity, int price, int time, Sprite icon)
+    {
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+        this.time = time;
+        this.icon = icon;
+    }
+}
 public class GameData : MonoBehaviour
 {
+    public List<InventoryItem> _invI = new List<InventoryItem>();
     public static GameData _instance;
     public int _level = 1;
     public int _qc = 500;
     public float _xp = 0;
     public int _roadCount = 0;
     public int _buildCount = 0;
-    public int _nutriAlgaeCrop = 10;
-    public int _nutriAlgaePrice = 10;
-    public int _nutriAlgaeTime = 5;
-    public int _bioLuminaryCount = 10;
-    public int _bioLuminaryPrice = 20;
-    public int _bioLuminaryTime = 10;
-    public int _energyBarCount = 10;
-    public int _energyMealCount = 10;
+    TS_Inventory _inv;
     private void Awake()
     {
         _instance = this;
+        _inv = GameObject.Find("Inventory")?.GetComponent<TS_Inventory>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

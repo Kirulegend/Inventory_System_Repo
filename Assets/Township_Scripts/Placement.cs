@@ -26,6 +26,8 @@ public class Placement : MonoBehaviour
     Animator Ani;
 
     GameData _gameData;
+    public Material _editMaterial;
+    Material _defaultMaterial;
     void Awake()
     {
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
@@ -96,6 +98,11 @@ public class Placement : MonoBehaviour
         }
         if (_editBuild)
         {
+            if (!_defaultMaterial)
+            {
+                _defaultMaterial = _editBuildObj.GetComponent<MeshRenderer>().material;
+                _editBuildObj.GetComponent<MeshRenderer>().material = _editMaterial;
+            }
             _buildCheck = true;
             _editBuildObj.transform.position = new Vector3(BsnappedPosition.x, BsnappedPosition.y + 1, BsnappedPosition.z);
             Ani = _editBuildObj.GetComponent<Animator>();
@@ -107,6 +114,11 @@ public class Placement : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0) && BuildObj._isGround)
             {
+                if (_defaultMaterial)
+                {
+                    _editBuildObj.GetComponent<MeshRenderer>().material = _defaultMaterial;
+                    _defaultMaterial = null;
+                }
                 _editBuildObj.transform.position = BsnappedPosition;
                 Ani.SetTrigger("Place");
                 _editBuildObj = null;
@@ -152,6 +164,13 @@ public class Placement : MonoBehaviour
     public void Build(int Cube)
     {
         if (!_activeCube) _activeCube = Instantiate(_build[Cube],_hitPos, Quaternion.identity, _buildParent);
+        if (!_defaultMaterial)
+        {
+            _defaultMaterial = _activeCube.GetComponent<MeshRenderer>().material;
+            _activeCube.GetComponent<MeshRenderer>().material = _editMaterial;
+        }
+        
+
         StartCoroutine(BuildTimer());
         Ani = _activeCube.GetComponent<Animator>();
     }
@@ -174,6 +193,11 @@ public class Placement : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0) && BuildObj._isGround)
             {
+                if (_defaultMaterial)
+                {
+                    _activeCube.GetComponent<MeshRenderer>().material = _defaultMaterial;
+                    _defaultMaterial = null;
+                }
                 _gameData._buildCount++;
                 _activeCube.transform.position = BsnappedPosition;
                 Ani.SetTrigger("Place");

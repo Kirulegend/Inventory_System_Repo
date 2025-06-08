@@ -21,8 +21,8 @@ public class UIData : MonoBehaviour
         if (GameData._instance == null) return;
         _road.text = "ROADS : " + GameData._instance._roadCount.ToString();
         _build.text = "BUILD : " + GameData._instance._buildCount.ToString();
-        _podCrop.text = "A : " + GameData._instance._nutriAlgaeCrop.ToString() + " L : " + GameData._instance._bioLuminaryCount.ToString();
-        _energyBar.text = "B : " + GameData._instance._energyBarCount + " M : " + GameData._instance._energyMealCount;
+        _podCrop.text = "A : " + GameData._instance._invI.Find(item => item.name == "NutriAlgae").quantity + " L : " + GameData._instance._invI.Find(item => item.name == "BioLuminary").quantity;
+        _energyBar.text = "B : " + GameData._instance._invI.Find(item => item.name == "EnergyBar").quantity + " M : " + GameData._instance._invI.Find(item => item.name == "EnergyMeal").quantity;
 
         _qcText.text = GameData._instance._qc.ToString();
 

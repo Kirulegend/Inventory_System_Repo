@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,7 +12,7 @@ public enum Directive
 public class GameManagerTS : MonoBehaviour
 {
     public Canvas _canvas;
-    
+    Placement _placement;
     public static bool _nexusClick = false;
     public DText _dialogue;
     public GameObject _arrow;
@@ -31,6 +29,7 @@ public class GameManagerTS : MonoBehaviour
     
     void Awake()
     {
+        _placement = GameObject.Find("Ground")?.GetComponent<Placement>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _camera = Camera.main;
         _campos = GameObject.Find("Cam").transform;
@@ -161,14 +160,13 @@ public class GameManagerTS : MonoBehaviour
         if (_activeFab)
         {
             _fabricatingObj.fillAmount = _activeFab._currentTimer;
-            Debug.Log(_activeFab.name);
         }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit Hit))
         {
             if (((1 << Hit.collider.gameObject.layer) & _fab) != 0)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonUp(0) && !_placement._editBuild)
                 {
                     if (_activeFab) _temp = _activeFab;
                     _activeFab = Hit.collider.gameObject.GetComponent<FabricatorUnit>();
@@ -176,7 +174,6 @@ public class GameManagerTS : MonoBehaviour
                     {
                         _canvasFab.enabled = false;
                         FabricatorUnit.Click = false;
-                        Debug.Log(_temp.name);
                     }
                     if (!FabricatorUnit.Click)
                     {
@@ -223,35 +220,15 @@ public class GameManagerTS : MonoBehaviour
         yield return new WaitForSeconds(2);
         Check = true;
     }
-    public void Farm(int crop)
+    public void Farm(string crop)
     {
-        switch (crop)
+        if (_gameData._qc >= _gameData._invI.Find(item => item.name == crop).price)
         {
-            case 0:
-                if(_gameData._qc >= _gameData._nutriAlgaePrice)
-                {
-                    _activePod.Nutri_Algae = true;
-                    _gameData._qc -= _gameData._nutriAlgaePrice;
-                    _canvasPod.enabled = false;
-                }
-                else
-                {
-                    Debug.Log("Insufficent Funds!");
-                }
-                break;
-            case 1:
-                if (_gameData._qc >= _gameData._bioLuminaryPrice)
-                {
-                    _activePod.Bio_Luminary = true;
-                    _gameData._qc -= _gameData._bioLuminaryPrice;
-                    _canvasPod.enabled = false; 
-                }
-                else
-                {
-                    Debug.Log("Insufficent Funds!");
-                }
-                break;
+            _activePod._activeCrop = crop;
+            _gameData._qc -= _gameData._invI.Find(item => item.name == crop).price;
+            _canvasPod.enabled = false;
         }
+        else Debug.Log("Insufficent Funds!");
     }
     void Level()
     {

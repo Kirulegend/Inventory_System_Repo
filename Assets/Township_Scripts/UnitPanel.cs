@@ -4,14 +4,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
+using static FarmPanel;
 
 [System.Serializable]
 public class IntSpriteSlot
 {
     public enum Item
     {
-        _nutriAlgae,
-        _bioLuminary
+        NutriAlgae,
+        BioLuminary
     }
     public Item _item;
     public int _neededQuantity;
@@ -22,8 +23,8 @@ public class UnitPanel : MonoBehaviour
 {
     public enum Item
     {
-        _energyBar,
-        _energyMeal
+        EnergyBar,
+        EnergyMeal
     }
     public Item _item;
     public Sprite _unit;
@@ -52,26 +53,12 @@ public class UnitPanel : MonoBehaviour
         _Time = _unitPanel.Find("Time").GetComponent<TextMeshProUGUI>();
         _Time.text = _time + " SEC";
         _need = _unitPanel.Find("Need").GetComponent<RectTransform>();
-        if (_item == Item._energyBar)
-        {
-            _avaliableQuantity = _gameData._energyBarCount;
-        }
-        else if (_item == Item._energyMeal)
-        {
-            _avaliableQuantity = _gameData._energyMealCount;
-        }
+        _avaliableQuantity = _gameData._invI.Find(item => item.name == _item.ToString()).quantity;
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
         for (int i = 0; i < slots.Length; i++)
         {
             _NeedPanel[i] = Instantiate(_needPanel, _need);
-            if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
-            {
-                slots[i]._avaliableQuantity = _gameData._nutriAlgaeCrop;
-            }
-            else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
-            {
-                slots[i]._avaliableQuantity = _gameData._bioLuminaryCount;
-            }
+            slots[i]._avaliableQuantity = _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity;
             _NeedPanel[i].GetComponent<Image>().sprite = slots[i]._neededItem;
             _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
         }
@@ -80,24 +67,10 @@ public class UnitPanel : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
-            {
-                slots[i]._avaliableQuantity = _gameData._nutriAlgaeCrop;
-            }
-            else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
-            {
-                slots[i]._avaliableQuantity = _gameData._bioLuminaryCount;
-            }
+            slots[i]._avaliableQuantity = _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity;
             _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
         }
-        if (_item == Item._energyBar)
-        {
-            _avaliableQuantity = _gameData._energyBarCount;
-        }
-        else if (_item == Item._energyMeal)
-        {
-            _avaliableQuantity = _gameData._energyMealCount;
-        }
+        _avaliableQuantity = _gameData._invI.Find(item => item.name == _item.ToString()).quantity;
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
     }
     bool _dataUpdate = false;
@@ -107,27 +80,13 @@ public class UnitPanel : MonoBehaviour
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (slots[i]._item == IntSpriteSlot.Item._nutriAlgae)
-                {
-                    _gameData._nutriAlgaeCrop -= slots[i]._neededQuantity;
-                }
-                else if (slots[i]._item == IntSpriteSlot.Item._bioLuminary)
-                {
-                    _gameData._bioLuminaryCount -= slots[i]._neededQuantity;
-                }
+                _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity -= slots[i]._neededQuantity;
             }
             _dataUpdate = true;
         }
         else
         {
-            if (_item == Item._energyBar)
-            {
-                _gameData._energyBarCount += _creatingQuantity;
-            }
-            else if (_item == Item._energyMeal)
-            {
-                _gameData._energyMealCount += _creatingQuantity;
-            }
+            _gameData._invI.Find(item => item.name == _item.ToString()).quantity += _creatingQuantity;
             _dataUpdate = false;
         }
     }
@@ -137,7 +96,6 @@ public class UnitPanel : MonoBehaviour
         if (Check())
         {
             _gmTS._fabricatingObj.gameObject.SetActive(true);
-            Debug.Log(gameObject.name);
             _gmTS._activeFab._fabricatingObjSprite = _unit;
             _gmTS._fabricatingObj.sprite = _unit;
             _gmTS._fabricatingObj.transform.Find("BG").GetComponent<Image>().sprite = _unit;

@@ -31,7 +31,6 @@ public class FabricatorUnit : MonoBehaviour
     {
         if (!_start && !_ready && _gmTS._fabricatingObj.gameObject.activeInHierarchy)
         {
-            Debug.Log("Hello");
             _start = true;
             _gmTS._fabButtons.SetActive(false);
             _button.GetComponent<UnitPanel>().DataUpdate();

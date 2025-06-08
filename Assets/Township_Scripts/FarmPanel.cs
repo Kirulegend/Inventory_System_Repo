@@ -7,8 +7,8 @@ public class FarmPanel : MonoBehaviour
 {
     public enum Crop
     {
-        _nutriAlgae,
-        _bioLuminary
+        NutriAlgae,
+        BioLuminary
     }
     public Crop _crop;
     string _name;
@@ -40,18 +40,9 @@ public class FarmPanel : MonoBehaviour
     }
     void DynamicData()
     {
-        if (_crop == Crop._nutriAlgae)
-        {
-            _avaliableQuantity = _gameData._nutriAlgaeCrop;
-            _price = _gameData._nutriAlgaePrice;
-            _time = _gameData._nutriAlgaeTime;
-        }
-        if (_crop == Crop._bioLuminary)
-        {
-            _avaliableQuantity = _gameData._bioLuminaryCount;
-            _price = _gameData._bioLuminaryPrice;
-            _time = _gameData._bioLuminaryTime;
-        }
+        _avaliableQuantity = _gameData._invI.Find(item => item.name == _crop.ToString()).quantity;
+        _price = _gameData._invI.Find(item => item.name == _crop.ToString()).price;
+        _time = _gameData._invI.Find(item => item.name == _crop.ToString()).time;
         _Time.text = _time + " SEC";
         _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
         _Price.text = _price.ToString();
