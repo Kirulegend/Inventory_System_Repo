@@ -41,7 +41,6 @@ public class FabricatorUnit : MonoBehaviour
             _fabricatingObjSprite = null;
             _gmTS._fabricatingObj.gameObject.SetActive(false);
             _gmTS._fabButtons.SetActive(true);
-            Debug.Log(_name);
             _button.GetComponent<UnitPanel>().DataUpdate();
             _name = null;
             _ready = false;

@@ -64,27 +64,30 @@ public class BuildObj : MonoBehaviour
                     }
                 }
             }
-            else
+            if (_bc.size.z == 20f)
             {
+                bool allHitGround = true;
                 for (int i = 0; i < _bc.size.z / 2; i++)
                 {
                     for (int j = 0; j < _bc.size.z / 2; j++)
                     {
-                        Vector3 Pos = new Vector3(transform.position.x + i * 2, transform.position.y, transform.position.z + j * 2);
-                        if (Physics.Raycast(Pos, -transform.up, out RaycastHit hitInfo))
+                        Vector3 pos = new Vector3(transform.position.x + i * 2, transform.position.y, transform.position.z + j * 2);
+                        if (Physics.Raycast(pos, -transform.up, out RaycastHit hitInfo))
                         {
                             if (((1 << hitInfo.collider.gameObject.layer) & _ground) != 0)
                             {
-                                _isGround = true;
-                                Debug.DrawRay(Pos, -transform.up * 10, Color.green);
-                            }
-                            else
-                            {
-                                _isGround = false;
+                                //Debug.DrawRay(pos, -transform.up * 10, Color.green);
+                                continue;
                             }
                         }
+                        //Debug.DrawRay(pos, -transform.up * 10, Color.red);
+                        allHitGround = false;
+                        break;
                     }
+                    if (!allHitGround)
+                    break;
                 }
+                _isGround = allHitGround;
             }
         }
     }

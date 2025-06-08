@@ -13,9 +13,11 @@ public class Pod : MonoBehaviour
     public bool _cropReady = false;
     GameData _gameData;
     int _cropTimer;
+    TS_Inventory _inv;
 
     void Awake()
     {
+        _inv = GameObject.Find("Inventory")?.GetComponent<TS_Inventory>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _pod = transform.Find("Pod");
         Instance = this;
@@ -44,6 +46,7 @@ public class Pod : MonoBehaviour
                 _gameData._xp += 5;
                 Debug.Log("Crop Collected");
                 _gameData._invI.Find(item => item.name == _activeCrop).quantity++;
+                _inv.AddItem(_activeCrop, 1);
                 _activeCrop = string.Empty;
                 _cropReady = false;
             }

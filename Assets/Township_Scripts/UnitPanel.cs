@@ -40,8 +40,10 @@ public class UnitPanel : MonoBehaviour
     RectTransform _need;
     public Transform _needPanel;
     GameData _gameData;
+    TS_Inventory _inv;
     void Start()
     {
+        _inv = GameObject.Find("Inventory")?.GetComponent<TS_Inventory>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _gmTS = GameObject.Find("GameManager")?.GetComponent<GameManagerTS>();
         _NeedPanel = new Transform[slots.Length];
@@ -81,12 +83,14 @@ public class UnitPanel : MonoBehaviour
             for (int i = 0; i < slots.Length; i++)
             {
                 _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity -= slots[i]._neededQuantity;
+                _inv.RemoveItem(slots[i]._item.ToString(), slots[i]._neededQuantity);
             }
             _dataUpdate = true;
         }
         else
         {
             _gameData._invI.Find(item => item.name == _item.ToString()).quantity += _creatingQuantity;
+            _inv.AddItem(_item.ToString(), _creatingQuantity);
             _dataUpdate = false;
         }
     }

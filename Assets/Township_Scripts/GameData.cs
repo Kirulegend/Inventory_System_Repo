@@ -41,6 +41,14 @@ public class GameData : MonoBehaviour
     void Start()
     {
         _roadCount = 0;
+        for (int i = 0; i < _invI.Count; i++)
+        {
+            //Debug.Log(_invI[i].name);
+            if (_invI[i].quantity > 0)
+            {
+                _inv.AddItem(_invI[i].name, _invI[i].quantity);
+            }
+        }
     }
 
     // Update is called once per frame

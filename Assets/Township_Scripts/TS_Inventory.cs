@@ -15,29 +15,37 @@ public class TS_Inventory : MonoBehaviour
         _placement = GameObject.Find("Ground")?.GetComponent<Placement>();
         _canvas.enabled = false;
     }
-    List<InventoryItem> _items  = new List<InventoryItem>();
-    [SerializeField] public List<InventoryItem> items = new List<InventoryItem>();
     Dictionary<string, GameObject> _uiPanel = new Dictionary<string, GameObject>();
 
     public void AddItem(string name, int quantity)
     {
-        InventoryItem existingItem = _items.Find(item => item.name == name);
-        InventoryItem _refItem = items.Find(item => item.name == name);
-        if (existingItem != null)
+        InventoryItem existingItem = GameData._instance._invI.Find(item => item.name == name);
+        if (_uiPanel.ContainsKey(name))
         {
             existingItem.quantity += quantity;
-            _uiPanel.TryGetValue(name, out GameObject UIPanel);
-            UIPanel.transform.Find("Quantity").GetComponent<TextMeshProUGUI>().text = existingItem.quantity.ToString();
+            _uiPanel[name].transform.Find("Quantity").GetComponent<TextMeshProUGUI>().text = existingItem.quantity.ToString();
         }
         else
         {
-            InventoryItem newItem = new InventoryItem(name, quantity, _refItem.price, _refItem.time, _refItem.icon);
             GameObject UIPanel = Instantiate(_invPanel, _invPanelParent);
             UIPanel.transform.Find("Quantity").GetComponent<TextMeshProUGUI>().text = quantity.ToString();
             UIPanel.transform.Find("Inventory Panel").Find("Name").GetComponent<TextMeshProUGUI>().text = name;
-            UIPanel.transform.Find("Inventory Panel").Find("Item").GetComponent<Image>().sprite = _refItem.icon;
-            _items.Add(newItem);
+            UIPanel.transform.Find("Inventory Panel").Find("Item").GetComponent<Image>().sprite = existingItem.icon;
+            UIPanel.GetComponent<Image>().sprite = existingItem.icon;
             _uiPanel.Add(name, UIPanel);  
+        }
+    }
+    public void RemoveItem(string name, int quantity)
+    {
+        InventoryItem existingItem = GameData._instance._invI.Find(item => item.name == name);
+        if (_uiPanel.ContainsKey(name))
+        {
+            if (existingItem.quantity <= 0) _uiPanel.Remove(name);
+            else
+            {
+                existingItem.quantity -= quantity;
+                _uiPanel[name].transform.Find("Quantity").GetComponent<TextMeshProUGUI>().text = existingItem.quantity.ToString();
+            }
         }
     }
     void Update()
