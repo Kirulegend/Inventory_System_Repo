@@ -1089,8 +1089,8 @@ GameObject:
   - component: {fileID: 234217391}
   - component: {fileID: 234217396}
   m_Layer: 5
-  m_Name: Bio-Luminary
-  m_TagString: Untagged
+  m_Name: BioLuminary
+  m_TagString: Farm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1256,7 +1256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _crop: 1
-  _creatingQuantity: 3
 --- !u!1 &278663136
 GameObject:
   m_ObjectHideFlags: 0
@@ -5907,8 +5906,8 @@ GameObject:
   - component: {fileID: 1389610725}
   - component: {fileID: 1389610726}
   m_Layer: 5
-  m_Name: Nutri-Algae
-  m_TagString: Untagged
+  m_Name: NutriAlgae
+  m_TagString: Farm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6074,7 +6073,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _crop: 0
-  _creatingQuantity: 3
 --- !u!1001 &1412147843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7162,7 +7160,7 @@ MonoBehaviour:
   _directivePos:
   - {fileID: 1994606250}
   - {fileID: 502616595}
-  start: 0
+  start: 1
   _pod:
     serializedVersion: 2
     m_Bits: 8192

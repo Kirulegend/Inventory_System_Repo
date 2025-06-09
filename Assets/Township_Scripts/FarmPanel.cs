@@ -14,7 +14,7 @@ public class FarmPanel : MonoBehaviour
     string _name;
     int _avaliableQuantity = 0;
     int _time;
-    public int _creatingQuantity;
+    public static int _creatingQuantity = 3;
     int _price;
     TextMeshProUGUI _Name;
     TextMeshProUGUI _AvaliableQuantity;

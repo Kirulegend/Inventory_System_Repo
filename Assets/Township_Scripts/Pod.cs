@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Playables;
@@ -22,12 +23,12 @@ public class Pod : MonoBehaviour
         _pod = transform.Find("Pod");
         Instance = this;
     }
-    void Check()
+    public void Check()
     {
         if (Click)
         {
             Start = true;
-            if(_activeCrop == null) _cropTimer = _gameData._invI.Find(item => item.name == _activeCrop).time;
+            if(_activeCrop != null) _cropTimer = _gameData._invI.Find(item => item.name == _activeCrop).time;
             Click = false;
         }
     }
@@ -45,8 +46,8 @@ public class Pod : MonoBehaviour
                 _cropReady = true;
                 _gameData._xp += 5;
                 Debug.Log("Crop Collected");
-                _gameData._invI.Find(item => item.name == _activeCrop).quantity++;
-                _inv.AddItem(_activeCrop, 1);
+                //_gameData._invI.Find(item => item.name == _activeCrop).quantity += FarmPanel._creatingQuantity;
+                _inv.AddItem(_activeCrop, FarmPanel._creatingQuantity);
                 _activeCrop = string.Empty;
                 _cropReady = false;
             }
@@ -54,7 +55,7 @@ public class Pod : MonoBehaviour
     }
     void Update()
     {
-        Check();
+        //Check();
         Rot();
     }
 }

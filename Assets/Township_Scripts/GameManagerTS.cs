@@ -222,11 +222,13 @@ public class GameManagerTS : MonoBehaviour
     }
     public void Farm(string crop)
     {
+        Debug.Log(crop);
         if (_gameData._qc >= _gameData._invI.Find(item => item.name == crop).price)
         {
             _activePod._activeCrop = crop;
             _gameData._qc -= _gameData._invI.Find(item => item.name == crop).price;
             _canvasPod.enabled = false;
+            _activePod.Check();
         }
         else Debug.Log("Insufficent Funds!");
     }

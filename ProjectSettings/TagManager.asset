@@ -18,6 +18,7 @@ TagManager:
   - Placement
   - Nexus
   - Fabricating_Obj_BG
+  - Farm
   layers:
   - Default
   - TransparentFX
