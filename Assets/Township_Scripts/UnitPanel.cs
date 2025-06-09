@@ -82,14 +82,12 @@ public class UnitPanel : MonoBehaviour
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity -= slots[i]._neededQuantity;
                 _inv.RemoveItem(slots[i]._item.ToString(), slots[i]._neededQuantity);
             }
             _dataUpdate = true;
         }
         else
         {
-            _gameData._invI.Find(item => item.name == _item.ToString()).quantity += _creatingQuantity;
             _inv.AddItem(_item.ToString(), _creatingQuantity);
             _dataUpdate = false;
         }

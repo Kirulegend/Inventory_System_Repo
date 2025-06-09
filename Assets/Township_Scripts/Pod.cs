@@ -2,6 +2,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Playables;
+using UnityEngine.UI;
+using static FarmPanel;
 
 public class Pod : MonoBehaviour
 {
@@ -15,20 +17,33 @@ public class Pod : MonoBehaviour
     GameData _gameData;
     int _cropTimer;
     TS_Inventory _inv;
+    public Slider _timerslider;
+    public Image _crop;
+    public Canvas _cropCanvas;
 
     void Awake()
     {
+        _cropCanvas = transform.Find("Canvas").GetComponent<Canvas>();
+        _timerslider = transform.Find("Canvas").Find("Timer").GetComponent<Slider>();
+        _crop = transform.Find("Canvas").Find("Timer").Find("Crop").GetComponent<Image>();
         _inv = GameObject.Find("Inventory")?.GetComponent<TS_Inventory>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _pod = transform.Find("Pod");
         Instance = this;
+        _cropCanvas.enabled = false;
     }
     public void Check()
     {
         if (Click)
         {
             Start = true;
-            if(_activeCrop != null) _cropTimer = _gameData._invI.Find(item => item.name == _activeCrop).time;
+            _cropCanvas.enabled = true;
+            if (_activeCrop != null) 
+            {
+                _cropTimer = _gameData._invI.Find(item => item.name == _activeCrop).time;
+                _timerslider.maxValue = _cropTimer;
+                _crop.sprite = _gameData._invI.Find(item => item.name == _activeCrop).icon;
+            }
             Click = false;
         }
     }
@@ -37,6 +52,7 @@ public class Pod : MonoBehaviour
     {
         if (Start && Timer < _cropTimer)
         {
+            _timerslider.value = Timer;
             Timer += Time.deltaTime;
             _pod.Rotate(0, 50 * Time.deltaTime, 0);
             if(Timer >= _cropTimer)
@@ -50,6 +66,8 @@ public class Pod : MonoBehaviour
                 _inv.AddItem(_activeCrop, FarmPanel._creatingQuantity);
                 _activeCrop = string.Empty;
                 _cropReady = false;
+                _cropCanvas.enabled = false;
+                _timerslider.value = 0;
             }
         }
     }
