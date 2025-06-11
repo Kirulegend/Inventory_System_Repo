@@ -7,7 +7,7 @@ using static FarmPanel;
 
 public class Pod : MonoBehaviour
 {
-    public static Pod Instance;
+    public static Pod _instance;
     public static bool Click = false;
     public string _activeCrop;
     Transform _pod;
@@ -23,13 +23,13 @@ public class Pod : MonoBehaviour
 
     void Awake()
     {
+        //_instance = this;
         _cropCanvas = transform.Find("Canvas").GetComponent<Canvas>();
         _timerslider = transform.Find("Canvas").Find("Timer").GetComponent<Slider>();
         _crop = transform.Find("Canvas").Find("Timer").Find("Crop").GetComponent<Image>();
         _inv = GameObject.Find("Inventory")?.GetComponent<TS_Inventory>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _pod = transform.Find("Pod");
-        Instance = this;
         _cropCanvas.enabled = false;
         _crop.sprite = _gameData._invI.Find(item => item.name == _activeCrop).iconBG;
     }

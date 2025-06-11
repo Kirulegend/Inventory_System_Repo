@@ -13,13 +13,14 @@ public class InventoryItem
     public Sprite icon;
     public Sprite iconBG;
 
-    public InventoryItem(string name, int quantity, int price, int time, Sprite icon)
+    public InventoryItem(string name, int quantity, int price, int time, Sprite icon, Sprite iconBG)
     {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.time = time;
         this.icon = icon;
+        this.iconBG = iconBG;
     }
 }
 public class GameData : MonoBehaviour
