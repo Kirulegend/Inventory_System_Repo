@@ -5949,6 +5949,18 @@ MonoBehaviour:
     time: 40
     icon: {fileID: -1626709762, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
     iconBG: {fileID: -1458418055, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
+  - name: EnergyBowl
+    quantity: 5
+    price: 50
+    time: 50
+    icon: {fileID: -1816188390, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+    iconBG: {fileID: -1448952269, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
+  - name: Phycophyta
+    quantity: 10
+    price: 15
+    time: 15
+    icon: {fileID: -1609271344, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+    iconBG: {fileID: -499282783, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
   _level: 1
   _qc: 500
   _xp: 0
