@@ -56,7 +56,7 @@ public class TS_Inventory : MonoBehaviour
     }
     void OnMouseUp()
     {
-        if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject() && !_placement._editBuild)
+        if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject() && !_placement._editBuild && !Placement._placed)
         {
             _canvas.enabled = true;
             wasOpenedThisFrame = true;

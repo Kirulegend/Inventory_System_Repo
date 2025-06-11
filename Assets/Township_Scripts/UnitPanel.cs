@@ -17,7 +17,6 @@ public class IntSpriteSlot
     public Item _item;
     public int _neededQuantity;
     [HideInInspector]public int _avaliableQuantity;
-    public Sprite _neededItem;
 }
 public class UnitPanel : MonoBehaviour
 {
@@ -27,10 +26,10 @@ public class UnitPanel : MonoBehaviour
         EnergyMeal
     }
     public Item _item;
-    public Sprite _unit;
+    Sprite _unit;
     string _name;
     int _avaliableQuantity = 0;
-    public int _time;
+    int _time;
     public int _creatingQuantity;
     TextMeshProUGUI _Name;
     TextMeshProUGUI _AvaliableQuantity;
@@ -61,19 +60,19 @@ public class UnitPanel : MonoBehaviour
         {
             _NeedPanel[i] = Instantiate(_needPanel, _need);
             slots[i]._avaliableQuantity = _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity;
-            _NeedPanel[i].GetComponent<Image>().sprite = slots[i]._neededItem;
+            _NeedPanel[i].GetComponent<Image>().sprite = _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).icon;
             _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
         }
+        _unit = _gameData._invI.Find(item => item.name == _item.ToString()).iconBG;
+        _time = _gameData._invI.Find(item => item.name == _item.ToString()).time;
     }
     void Update()
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            slots[i]._avaliableQuantity = _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity;
-            _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
+            _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity;
         }
-        _avaliableQuantity = _gameData._invI.Find(item => item.name == _item.ToString()).quantity;
-        _AvaliableQuantity.text = _avaliableQuantity + " Avaliable";
+        _AvaliableQuantity.text = _gameData._invI.Find(item => item.name == _item.ToString()).quantity.ToString() + " Avaliable";
     }
     bool _dataUpdate = false;
     public void DataUpdate()
@@ -93,7 +92,7 @@ public class UnitPanel : MonoBehaviour
             _dataUpdate = false;
         }
     }
-    public GameManagerTS _gmTS;
+    GameManagerTS _gmTS;
     public void FabricatorData()
     {
         if (Check())

@@ -41,17 +41,18 @@ public class Placement : MonoBehaviour
     GameObject _tempRoad;
     GameObject _editBuildObj;
     bool _roadPlace = false;
-    public static bool _buildCheck = false;
+    public bool _buildCheck = false;
+    public static bool _placed = false;
     public bool _editBuild = false;
     float Timer = 0;
 
     void MouseCast()
     {
         // for UI check
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
-        }
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //{
+        //    return;
+        //}
         //Ray for Pos Check only for ground
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundLayer))
@@ -83,6 +84,7 @@ public class Placement : MonoBehaviour
                 if(Timer >= .5f)
                 {
                     _editBuildObj = Hit.collider.gameObject;
+                    _placed = false;
                     _editBuild = true;
                     Timer = 0;
                 }
@@ -157,7 +159,7 @@ public class Placement : MonoBehaviour
     [Tooltip("Insert all the Build Prefabs")]
     public GameObject[] _build;
     GameObject _activeCube = null;
-    bool _isBuild = false;
+    public static bool _isBuild = false;
     public Transform _buildParent;
     public Transform _roadParent;
 
@@ -169,8 +171,7 @@ public class Placement : MonoBehaviour
             _defaultMaterial = _activeCube.GetComponent<MeshRenderer>().material;
             _activeCube.GetComponent<MeshRenderer>().material = _editMaterial;
         }
-        
-
+        _placed = false;
         StartCoroutine(BuildTimer());
         Ani = _activeCube.GetComponent<Animator>();
     }
@@ -202,6 +203,7 @@ public class Placement : MonoBehaviour
                 _activeCube.transform.position = BsnappedPosition;
                 Ani.SetTrigger("Place");
                 _activeCube = null;
+                _placed = true;
                 _isBuild = false;
                 _buildCheck = false;
             }

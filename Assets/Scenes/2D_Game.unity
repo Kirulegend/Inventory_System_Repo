@@ -5930,21 +5930,25 @@ MonoBehaviour:
     price: 5
     time: 5
     icon: {fileID: -135339699, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+    iconBG: {fileID: -2109305432, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
   - name: BioLuminary
     quantity: 10
     price: 10
     time: 10
     icon: {fileID: -2068934092, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+    iconBG: {fileID: -130264350, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
   - name: EnergyBar
     quantity: 5
     price: 20
     time: 20
     icon: {fileID: 110148401, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+    iconBG: {fileID: 1997311406, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
   - name: EnergyMeal
     quantity: 5
     price: 40
     time: 40
     icon: {fileID: -1626709762, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
+    iconBG: {fileID: -1458418055, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
   _level: 1
   _qc: 500
   _xp: 0
@@ -6694,22 +6698,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _item: 0
-  _unit: {fileID: 1997311406, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
-  _time: 20
   _creatingQuantity: 1
   _unitPanel: {fileID: 877750303}
   _needPanel: {fileID: 6865069060450234577, guid: 1d4c87265c7e721469bb327d54e46b91, type: 3}
-  _gmTS: {fileID: 0}
   slotCount: 2
   slots:
   - _item: 0
     _neededQuantity: 2
     _avaliableQuantity: 0
-    _neededItem: {fileID: -135339699, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
   - _item: 1
     _neededQuantity: 3
     _avaliableQuantity: 0
-    _neededItem: {fileID: -2068934092, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
 --- !u!114 &1493202739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8005,22 +8004,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _item: 1
-  _unit: {fileID: -1458418055, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
-  _time: 40
   _creatingQuantity: 1
   _unitPanel: {fileID: 661532547}
   _needPanel: {fileID: 6865069060450234577, guid: 1d4c87265c7e721469bb327d54e46b91, type: 3}
-  _gmTS: {fileID: 0}
   slotCount: 2
   slots:
   - _item: 0
     _neededQuantity: 3
     _avaliableQuantity: 0
-    _neededItem: {fileID: -135339699, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
   - _item: 1
     _neededQuantity: 2
     _avaliableQuantity: 0
-    _neededItem: {fileID: -2068934092, guid: 63d1a434441d88645a385baef0e466f0, type: 3}
 --- !u!114 &1682161386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8272,6 +8266,7 @@ MonoBehaviour:
     m_Bits: 4096
   _road: {fileID: 656046029788001255, guid: 572e2fcca03ac0a48bcb69711377a798, type: 3}
   _editMaterial: {fileID: 2100000, guid: 33030027105e7d643a0752e5f1fc0310, type: 2}
+  _buildCheck: 0
   _editBuild: 0
   _build:
   - {fileID: 1555605893105132119, guid: 8bb6ea9009457064fa416286e523002c, type: 3}

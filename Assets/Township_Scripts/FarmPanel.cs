@@ -10,6 +10,7 @@ public class FarmPanel : MonoBehaviour
         NutriAlgae,
         BioLuminary
     }
+    [Tooltip("Select the Crop for this panel")]
     public Crop _crop;
     string _name;
     int _avaliableQuantity = 0;

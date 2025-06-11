@@ -125,7 +125,7 @@ public class GameManagerTS : MonoBehaviour
         {
             if (((1 << Hit.collider.gameObject.layer) & _pod) != 0)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && !Placement._placed)
                 {
                     _activePod = Hit.collider.gameObject.GetComponent<Pod>();
                     if (!Pod.Click && !_activePod._cropReady && !_activePod.Start)
@@ -166,7 +166,7 @@ public class GameManagerTS : MonoBehaviour
         {
             if (((1 << Hit.collider.gameObject.layer) & _fab) != 0)
             {
-                if (Input.GetMouseButtonUp(0) && !_placement._editBuild)
+                if (Input.GetMouseButtonUp(0) && !_placement._editBuild && !Placement._placed)
                 {
                     if (_activeFab) _temp = _activeFab;
                     _activeFab = Hit.collider.gameObject.GetComponent<FabricatorUnit>();

@@ -5,7 +5,8 @@ using UnityEngine.UIElements;
 
 public class UI_Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-
+    [Header("Panel")]
+    [Tooltip("Select the panel for hover display")]
     public GameObject _hoverData;
     public void OnPointerEnter(PointerEventData eventData)
     {

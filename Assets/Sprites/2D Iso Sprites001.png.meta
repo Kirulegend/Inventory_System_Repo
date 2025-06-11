@@ -223,6 +223,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites001_4
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 2174
+        width: 426
+        height: 425
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed9f01f8e0bc7fa4c803cda9632e1ccf
+      internalID: -130264350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites001_5
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 2175
+        width: 426
+        height: 425
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c37d295cab3f1d4cbcdb1e6ff338456
+      internalID: -2109305432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -241,6 +285,8 @@ TextureImporter:
       2D Iso Sprites001_1: -1458418055
       2D Iso Sprites001_2: -832266726
       2D Iso Sprites001_3: 1997311406
+      2D Iso Sprites001_4: -130264350
+      2D Iso Sprites001_5: -2109305432
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

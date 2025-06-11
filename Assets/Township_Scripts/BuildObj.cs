@@ -5,6 +5,8 @@ using UnityEngine;
 public class BuildObj : MonoBehaviour
 {
     public static bool _isGround = false;
+    [Header("LayerMasks")]
+    [Tooltip("Select the Ground Layer Mask")]
     public LayerMask _ground;
     BoxCollider _bc;
     void Start()
@@ -17,7 +19,7 @@ public class BuildObj : MonoBehaviour
     }
     void RayCast()
     {
-        if (Placement._buildCheck)
+        if (!Placement._placed)
         {
             if (_bc.size.z == 2.1f)
             {

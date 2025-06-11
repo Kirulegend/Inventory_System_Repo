@@ -31,6 +31,7 @@ public class Pod : MonoBehaviour
         _pod = transform.Find("Pod");
         Instance = this;
         _cropCanvas.enabled = false;
+        _crop.sprite = _gameData._invI.Find(item => item.name == _activeCrop).iconBG;
     }
     public void Check()
     {
@@ -42,7 +43,6 @@ public class Pod : MonoBehaviour
             {
                 _cropTimer = _gameData._invI.Find(item => item.name == _activeCrop).time;
                 _timerslider.maxValue = _cropTimer;
-                _crop.sprite = _gameData._invI.Find(item => item.name == _activeCrop).icon;
             }
             Click = false;
         }

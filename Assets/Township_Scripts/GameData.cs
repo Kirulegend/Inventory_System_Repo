@@ -11,6 +11,7 @@ public class InventoryItem
     public int price;
     public int time;
     public Sprite icon;
+    public Sprite iconBG;
 
     public InventoryItem(string name, int quantity, int price, int time, Sprite icon)
     {

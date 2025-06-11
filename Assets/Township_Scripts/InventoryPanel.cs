@@ -8,7 +8,6 @@ public class InventoryPanel : MonoBehaviour
     public TextMeshProUGUI _sellPrice;
     public int _price;
     public int _quantity;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _name = transform.Find("Inventory Panel").Find("Name").GetComponent<TextMeshProUGUI>().text;
@@ -17,7 +16,6 @@ public class InventoryPanel : MonoBehaviour
         _sellPrice = transform.Find("Inventory Panel").Find("Sell").Find("Price").GetComponent<TextMeshProUGUI>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         _sellDes.text = $"Sell {_quantity} For";
