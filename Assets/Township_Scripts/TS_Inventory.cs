@@ -7,11 +7,13 @@ using UnityEngine.UI;
 
 public class TS_Inventory : MonoBehaviour
 {
+    public static TS_Inventory _inv;
     public GameObject _invPanel;
     public Transform _invPanelParent;
     Placement _placement;
     void Start()
     {
+        _inv = this;
         _placement = GameObject.Find("Ground")?.GetComponent<Placement>();
         _canvas.enabled = false;
     }

@@ -33,7 +33,7 @@ public class GameManagerTS : MonoBehaviour
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _camera = Camera.main;
         _campos = GameObject.Find("Cam").transform;
-        _campos.position = _directivePos[0].position;
+        //_campos.position = _directivePos[0].position;
         for (int i = 0; i < _directive.Length; i++)
         {
             _directive[i] = false;

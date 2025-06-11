@@ -41,7 +41,7 @@ public class InventoryPanel : MonoBehaviour
     }
     public void Sell()
     {
-        GameData._instance._invI.Find(item => item.name == _name).quantity -= _quantity;
+        TS_Inventory._inv.RemoveItem(_name, _quantity);
         GameData._instance._qc += _price * _quantity;
         _quantity = 0;
     }

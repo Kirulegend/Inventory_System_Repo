@@ -22,4 +22,9 @@ public class StorePanel : MonoBehaviour
         _Price = _storePanel.Find("Price").GetComponent<TextMeshProUGUI>();
         _Price.text = _price.ToString();
     }
+    
+    public void Select()
+    {
+        GameData._instance._qc -= _price;
+    }
 }

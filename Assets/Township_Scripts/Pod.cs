@@ -62,7 +62,6 @@ public class Pod : MonoBehaviour
                 _cropReady = true;
                 _gameData._xp += 5;
                 Debug.Log("Crop Collected");
-                //_gameData._invI.Find(item => item.name == _activeCrop).quantity += FarmPanel._creatingQuantity;
                 _inv.AddItem(_activeCrop, FarmPanel._creatingQuantity);
                 _activeCrop = string.Empty;
                 _cropReady = false;

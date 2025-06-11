@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEditor.Timeline.Actions.MenuPriority;
 
 [System.Serializable]
 public class InventoryItem

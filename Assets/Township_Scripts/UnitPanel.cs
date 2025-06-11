@@ -89,6 +89,7 @@ public class UnitPanel : MonoBehaviour
         else
         {
             _inv.AddItem(_item.ToString(), _creatingQuantity);
+            _gameData._xp += 10;
             _dataUpdate = false;
         }
     }
