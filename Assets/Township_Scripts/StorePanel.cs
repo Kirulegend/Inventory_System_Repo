@@ -10,9 +10,11 @@ public class StorePanel : MonoBehaviour
     TextMeshProUGUI _Name;
     TextMeshProUGUI _Quantity;
     TextMeshProUGUI _Price;
+    Placement _placement;
 
     void Start()
     {
+        _placement = GameObject.Find("Ground")?.GetComponent<Placement>();
         _storePanel = transform.Find("Store Panel").GetComponent<Transform>();
         _name = gameObject.name;
         _Name = _storePanel.Find("Name").GetComponent<TextMeshProUGUI>();
@@ -25,6 +27,10 @@ public class StorePanel : MonoBehaviour
     
     public void Select()
     {
-        GameData._instance._qc -= _price;
+        if(GameData._instance._qc >= _price)
+        {
+            GameData._instance._qc -= _price;
+            _placement.Build(gameObject.name);
+        }
     }
 }

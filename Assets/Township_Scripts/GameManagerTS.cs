@@ -25,10 +25,12 @@ public class GameManagerTS : MonoBehaviour
     public static Directive _currentDirective;
     public static GameManagerTS _gm;
     GameData _gameData;
+    public GameObject _bullet;
 
     
     void Awake()
     {
+        _bullet = Resources.Load<GameObject>("Bullet");
         _placement = GameObject.Find("Ground")?.GetComponent<Placement>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _camera = Camera.main;
@@ -125,7 +127,7 @@ public class GameManagerTS : MonoBehaviour
         {
             if (((1 << Hit.collider.gameObject.layer) & _pod) != 0)
             {
-                if (Input.GetMouseButtonDown(0) && !Placement._placed)
+                if (Input.GetMouseButtonDown(0))
                 {
                     _activePod = Hit.collider.gameObject.GetComponent<Pod>();
                     if (!Pod.Click && !_activePod._cropReady && !_activePod.Start)
@@ -166,14 +168,15 @@ public class GameManagerTS : MonoBehaviour
         {
             if (((1 << Hit.collider.gameObject.layer) & _fab) != 0)
             {
-                if (Input.GetMouseButtonUp(0) && !_placement._editBuild && !Placement._placed)
+                if (Input.GetMouseButtonUp(0) && !_placement._editBuild)
                 {
                     if (_activeFab) _temp = _activeFab;
                     _activeFab = Hit.collider.gameObject.GetComponent<FabricatorUnit>();
-                    if (_temp && _temp != _activeFab)
+                    if (_temp && _temp != _activeFab && _canvasFab.enabled)
                     {
                         _canvasFab.enabled = false;
                         FabricatorUnit.Click = false;
+                        return;
                     }
                     if (!FabricatorUnit.Click)
                     {
@@ -222,7 +225,6 @@ public class GameManagerTS : MonoBehaviour
     }
     public void Farm(string crop)
     {
-        Debug.Log(crop);
         if (_gameData._qc >= _gameData._invI.Find(item => item.name == crop).price)
         {
             _activePod._activeCrop = crop;

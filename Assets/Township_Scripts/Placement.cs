@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 public class Placement : MonoBehaviour
 {
@@ -18,19 +19,23 @@ public class Placement : MonoBehaviour
     public LayerMask _roadMask;
     bool _isGrounded = false;
 
-    [Header("Road Parent")]
-    [Tooltip("Insert the Road Placement Prefabs")]
-    public GameObject _road;
+    GameObject _road;
     Vector3 BsnappedPosition;
 
     Animator Ani;
 
     GameData _gameData;
-    public Material _editMaterial;
+    Material _editMaterial;
+    Material _editMaterialR;
     Material _defaultMaterial;
     void Awake()
     {
+        _editMaterial = Resources.Load<Material>("Holo");
+        _editMaterialR = Resources.Load<Material>("Holo Red");
+        _road = Resources.Load<GameObject>("Placement");
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
+        _buildParent = GameObject.Find("Builds")?.GetComponent<Transform>();
+        _roadParent = GameObject.Find("Roads")?.GetComponent<Transform>();
     }
     void Update()
     {
@@ -41,18 +46,13 @@ public class Placement : MonoBehaviour
     GameObject _tempRoad;
     GameObject _editBuildObj;
     bool _roadPlace = false;
-    public bool _buildCheck = false;
+    [HideInInspector] public bool _buildCheck = false;
     public static bool _placed = false;
-    public bool _editBuild = false;
+    [HideInInspector]public bool _editBuild = false;
     float Timer = 0;
 
     void MouseCast()
     {
-        // for UI check
-        //if (EventSystem.current.IsPointerOverGameObject())
-        //{
-        //    return;
-        //}
         //Ray for Pos Check only for ground
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundLayer))
@@ -105,6 +105,9 @@ public class Placement : MonoBehaviour
                 _defaultMaterial = _editBuildObj.GetComponent<MeshRenderer>().material;
                 _editBuildObj.GetComponent<MeshRenderer>().material = _editMaterial;
             }
+            if (BuildObj._isGround) _editBuildObj.GetComponent<MeshRenderer>().material = _editMaterial;
+            else _editBuildObj.GetComponent<MeshRenderer>().material = _editMaterialR;
+            _buildCheck = true;
             _buildCheck = true;
             _editBuildObj.transform.position = new Vector3(BsnappedPosition.x, BsnappedPosition.y + 1, BsnappedPosition.z);
             Ani = _editBuildObj.GetComponent<Animator>();
@@ -129,7 +132,7 @@ public class Placement : MonoBehaviour
             }
         }
         _current = BsnappedPosition;
-        if (Input.GetMouseButtonDown(0) && _isRoad)
+        if (Input.GetMouseButtonDown(0) && _isRoad && !EventSystem.current.IsPointerOverGameObject())
         {
             _roadPlace = true;
         }
@@ -155,17 +158,14 @@ public class Placement : MonoBehaviour
         }
     }
 
-    [Header("Build Objs")]
-    [Tooltip("Insert all the Build Prefabs")]
-    public GameObject[] _build;
     GameObject _activeCube = null;
     public static bool _isBuild = false;
-    public Transform _buildParent;
-    public Transform _roadParent;
+    Transform _buildParent;
+    Transform _roadParent;
 
-    public void Build(int Cube)
+    public void Build(string Build)
     {
-        if (!_activeCube) _activeCube = Instantiate(_build[Cube],_hitPos, Quaternion.identity, _buildParent);
+        if (!_activeCube) _activeCube = Instantiate(Resources.Load<GameObject>(Build), _hitPos, Quaternion.identity, _buildParent);
         if (!_defaultMaterial)
         {
             _defaultMaterial = _activeCube.GetComponent<MeshRenderer>().material;
@@ -184,6 +184,8 @@ public class Placement : MonoBehaviour
         );
         if (_activeCube)
         {
+            if (BuildObj._isGround) _activeCube.GetComponent<MeshRenderer>().material = _editMaterial;
+            else _activeCube.GetComponent<MeshRenderer>().material = _editMaterialR;
             _buildCheck = true;
             _activeCube.transform.position = new Vector3(BsnappedPosition.x, BsnappedPosition.y + 1, BsnappedPosition.z);
             if (Input.GetKeyDown(KeyCode.R))
@@ -220,10 +222,5 @@ public class Placement : MonoBehaviour
     public void Road()
     {
         _isRoad = _isRoad ? false : true;
-    }
-
-    public void OnDestroy()
-    {
-        _gameData._roadCount--;
     }
 }

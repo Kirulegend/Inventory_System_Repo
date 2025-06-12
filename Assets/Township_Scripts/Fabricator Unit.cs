@@ -20,6 +20,7 @@ public class FabricatorUnit : MonoBehaviour
 
     public bool _start = false;
     public bool _ready = false;
+    public bool _click = false;
     public static bool Click = false;
 
     GameManagerTS _gmTS;
@@ -33,7 +34,7 @@ public class FabricatorUnit : MonoBehaviour
         {
             _start = true;
             _gmTS._fabButtons.SetActive(false);
-            _button.GetComponent<UnitPanel>().DataUpdate();
+            _button.GetComponent<UnitPanel>().DataUpdate(true);
         }   
         else if (_ready)
         {
@@ -41,7 +42,7 @@ public class FabricatorUnit : MonoBehaviour
             _fabricatingObjSprite = null;
             _gmTS._fabricatingObj.gameObject.SetActive(false);
             _gmTS._fabButtons.SetActive(true);
-            _button.GetComponent<UnitPanel>().DataUpdate();
+            _button.GetComponent<UnitPanel>().DataUpdate(false);
             _name = null;
             _ready = false;
             _start = false;

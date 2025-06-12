@@ -1,8 +1,5 @@
-using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Playables;
 using UnityEngine.UI;
 using static FarmPanel;
 
@@ -12,7 +9,8 @@ public class IntSpriteSlot
     public enum Item
     {
         NutriAlgae,
-        BioLuminary
+        BioLuminary,
+        Phycophyta
     }
     public Item _item;
     public int _neededQuantity;
@@ -23,7 +21,8 @@ public class UnitPanel : MonoBehaviour
     public enum Item
     {
         EnergyBar,
-        EnergyMeal
+        EnergyMeal,
+        EnergyBowl
     }
     public Item _item;
     Sprite _unit;
@@ -38,12 +37,15 @@ public class UnitPanel : MonoBehaviour
     public Transform _unitPanel;
     RectTransform _need;
     public Transform _needPanel;
+    Image _img;
     GameData _gameData;
     TS_Inventory _inv;
     void Start()
     {
+        _img = GetComponent<Image>();
         _inv = GameObject.Find("Inventory")?.GetComponent<TS_Inventory>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
+        _img.sprite = _gameData._invI.Find(item => item.name == _item.ToString()).icon;
         _gmTS = GameObject.Find("GameManager")?.GetComponent<GameManagerTS>();
         _NeedPanel = new Transform[slots.Length];
         _unitPanel = transform.Find("Unit Panel").GetComponent<Transform>();
@@ -70,32 +72,30 @@ public class UnitPanel : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity;
+            slots[i]._avaliableQuantity = _gameData._invI.Find(item => item.name == slots[i]._item.ToString()).quantity;
+            _NeedPanel[i].Find("Item_Quantity").GetComponent<TextMeshProUGUI>().text = slots[i]._neededQuantity + "/" + slots[i]._avaliableQuantity;
         }
         _AvaliableQuantity.text = _gameData._invI.Find(item => item.name == _item.ToString()).quantity.ToString() + " Avaliable";
     }
-    bool _dataUpdate = false;
-    public void DataUpdate()
+    public void DataUpdate(bool _dataUpdate)
     {
-        if (!_dataUpdate)
+        if (_dataUpdate)
         {
             for (int i = 0; i < slots.Length; i++)
             {
                 _inv.RemoveItem(slots[i]._item.ToString(), slots[i]._neededQuantity);
             }
-            _dataUpdate = true;
         }
         else
         {
             _inv.AddItem(_item.ToString(), _creatingQuantity);
             _gameData._xp += 10;
-            _dataUpdate = false;
         }
     }
     GameManagerTS _gmTS;
     public void FabricatorData()
     {
-        if (Check())
+        if (slots[0]._avaliableQuantity >= slots[0]._neededQuantity && slots[1]._avaliableQuantity >= slots[1]._neededQuantity)
         {
             _gmTS._fabricatingObj.gameObject.SetActive(true);
             _gmTS._activeFab._fabricatingObjSprite = _unit;
@@ -105,15 +105,6 @@ public class UnitPanel : MonoBehaviour
             _gmTS._activeFab._name = _name;
             _gmTS._activeFab._button = transform;
         }
-    }
-
-    bool Check()
-    {
-        if (slots.Length > 1)
-        {
-            return slots[0]._avaliableQuantity >= slots[0]._neededQuantity && slots[1]._avaliableQuantity >= slots[1]._neededQuantity;
-        }
-        else return slots[0]._avaliableQuantity >= slots[0]._neededQuantity;
     }
 
     [SerializeField]

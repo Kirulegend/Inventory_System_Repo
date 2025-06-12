@@ -242,7 +242,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -130264350, guid: e3ec0cc7be8f4e743ae99659ca65f618, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: -4274440440445494562}
   - component: {fileID: 2194688940719119133}
   - component: {fileID: -7414057851799856821}
-  - component: {fileID: -6452021593363707841}
+  - component: {fileID: -8155701791467559556}
   m_Layer: 13
   m_Name: Hydroponic Pod
   m_TagString: Build
@@ -744,7 +744,7 @@ MonoBehaviour:
   _ground:
     serializedVersion: 2
     m_Bits: 16
---- !u!114 &-6452021593363707841
+--- !u!114 &-8155701791467559556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -759,9 +759,6 @@ MonoBehaviour:
   _activeCrop: 
   Start: 0
   _cropReady: 0
-  _timerslider: {fileID: 0}
-  _crop: {fileID: 0}
-  _cropCanvas: {fileID: 0}
 --- !u!1 &7899722499958520511
 GameObject:
   m_ObjectHideFlags: 0

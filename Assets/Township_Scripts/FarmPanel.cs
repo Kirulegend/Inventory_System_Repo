@@ -2,13 +2,15 @@ using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class FarmPanel : MonoBehaviour
 {
     public enum Crop
     {
         NutriAlgae,
-        BioLuminary
+        BioLuminary,
+        Phycophyta
     }
     [Tooltip("Select the Crop for this panel")]
     public Crop _crop;
@@ -23,9 +25,12 @@ public class FarmPanel : MonoBehaviour
     TextMeshProUGUI _Price;
     Transform _farmPanel;
     GameData _gameData;
+    Image _cropImg;
     void Start()
     {
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
+        _cropImg = transform.GetComponent<Image>();
+        _cropImg.sprite = _gameData._invI.Find(item => item.name == _crop.ToString()).icon;
         _farmPanel = transform.Find("Farm Panel").GetComponent<Transform>();
         _name = gameObject.name;
         _Name = _farmPanel.Find("Name").GetComponent<TextMeshProUGUI>();
