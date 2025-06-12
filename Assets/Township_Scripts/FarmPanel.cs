@@ -31,7 +31,8 @@ public class FarmPanel : MonoBehaviour
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _cropImg = transform.GetComponent<Image>();
         _cropImg.sprite = _gameData._invI.Find(item => item.name == _crop.ToString()).icon;
-        _farmPanel = transform.Find("Farm Panel").GetComponent<Transform>();
+        _farmPanel = Instantiate(Resources.Load<Transform>("Farm Panel"), transform);
+        gameObject.GetComponent<UI_Hover>()._hoverData = _farmPanel.gameObject;
         _name = gameObject.name;
         _Name = _farmPanel.Find("Name").GetComponent<TextMeshProUGUI>();
         _Name.text = _name + " X" + _creatingQuantity;

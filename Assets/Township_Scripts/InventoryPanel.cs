@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class InventoryPanel : MonoBehaviour
 {
-    public string _name;
-    public TextMeshProUGUI _sellDes;
-    public TextMeshProUGUI _sellPrice;
-    public int _price;
-    public int _quantity;
+    string _name;
+    TextMeshProUGUI _sellDes;
+    TextMeshProUGUI _sellPrice;
+    int _price;
+    int _quantity;
     void Start()
     {
         _name = transform.Find("Inventory Panel").Find("Name").GetComponent<TextMeshProUGUI>().text;

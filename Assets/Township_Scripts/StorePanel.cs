@@ -4,7 +4,7 @@ using UnityEngine;
 public class StorePanel : MonoBehaviour
 {
     string _name;
-    public int _quantity;
+    public int _person;
     public int _price;
     Transform _storePanel;
     TextMeshProUGUI _Name;
@@ -20,7 +20,7 @@ public class StorePanel : MonoBehaviour
         _Name = _storePanel.Find("Name").GetComponent<TextMeshProUGUI>();
         _Name.text = _name;
         _Quantity = _storePanel.Find("PersonQuantity").GetComponent<TextMeshProUGUI>();
-        _Quantity.text = "X" + _quantity.ToString();
+        _Quantity.text = "X" + _person.ToString();
         _Price = _storePanel.Find("Price").GetComponent<TextMeshProUGUI>();
         _Price.text = _price.ToString();
     }
@@ -30,6 +30,8 @@ public class StorePanel : MonoBehaviour
         if(GameData._instance._qc >= _price)
         {
             GameData._instance._qc -= _price;
+            GameData._instance._population += _person;
+            GameData._instance._xp += _person * 2;
             _placement.Build(gameObject.name);
         }
     }

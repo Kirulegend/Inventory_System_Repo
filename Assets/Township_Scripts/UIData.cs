@@ -7,6 +7,7 @@ public class UIData : MonoBehaviour
     public Slider _xpSlider;
     public TextMeshProUGUI _qcText;
     public TextMeshProUGUI _levelText;
+    public TextMeshProUGUI _populationText;
     public TextMeshProUGUI _road;
     public TextMeshProUGUI _build;
     public TextMeshProUGUI _podCrop;
@@ -30,5 +31,6 @@ public class UIData : MonoBehaviour
 
         _xpSlider.maxValue = GameData._instance._level * 100;
         _xpSlider.value = GameData._instance._xp;
+        _populationText.text = GameData._instance._population.ToString();
     }
 }

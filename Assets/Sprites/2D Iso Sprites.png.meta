@@ -971,6 +971,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: 2D Iso Sprites_38
+      rect:
+        serializedVersion: 2
+        x: 4301
+        y: 227
+        width: 543
+        height: 365
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e0de7ded63a9d49bb7983ae2f66096
+      internalID: 482661092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -1017,6 +1039,7 @@ TextureImporter:
       2D Iso Sprites_35: 1348470310
       2D Iso Sprites_36: 1706582822
       2D Iso Sprites_37: -453895794
+      2D Iso Sprites_38: 482661092
       2D Iso Sprites_4: -1959542457
       2D Iso Sprites_5: 1271495483
       2D Iso Sprites_6: 862833163

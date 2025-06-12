@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,11 +12,11 @@ public enum Directive
 }
 public class GameManagerTS : MonoBehaviour
 {
-    public Canvas _canvas;
+    Canvas _storeCanvas;
     Placement _placement;
     public static bool _nexusClick = false;
-    public DText _dialogue;
-    public GameObject _arrow;
+    DText _dialogue;
+    GameObject _arrow;
     public static bool[] _checks = new bool[10];
     public bool[] _directive = new bool[4];
     public Transform[] _directivePos;
@@ -25,12 +26,16 @@ public class GameManagerTS : MonoBehaviour
     public static Directive _currentDirective;
     public static GameManagerTS _gm;
     GameData _gameData;
-    public GameObject _bullet;
 
     
     void Awake()
     {
-        _bullet = Resources.Load<GameObject>("Bullet");
+        _dialogue = GameObject.Find("UI/NPC/Text")?.GetComponent<DText>();
+        _canvasPod = GameObject.Find("UI/Farm")?.GetComponent<Canvas>();
+        _canvasFab = GameObject.Find("UI/Fabricator Unit")?.GetComponent<Canvas>();
+        _fabButtons = _canvasFab.transform.Find("Buttons").GetComponent<Transform>().gameObject;
+        _storeCanvas = GameObject.Find("UI/Store")?.GetComponent<Canvas>();
+        _arrow = GameObject.Find("Nexus/Arrow")?.GetComponent<GameObject>().gameObject;
         _placement = GameObject.Find("Ground")?.GetComponent<Placement>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _camera = Camera.main;
@@ -48,6 +53,10 @@ public class GameManagerTS : MonoBehaviour
         _fabricatingObj.gameObject.SetActive(false);
         _start = _canvasFab.gameObject.transform.Find("Start").GetComponent<Button>();
         _canvasFab.enabled = false;
+        _canvasPod.enabled = false; 
+        //_dialogue.transform.parent.GetComponent<Canvas>().enabled = false;
+
+
     }
     float _size = 20;
     public bool start = false;
@@ -108,7 +117,7 @@ public class GameManagerTS : MonoBehaviour
         }
         if (_directive[1])
         {
-            _canvas.enabled = true;
+            _storeCanvas.enabled = true;
         }
     }
     public static event Action<Directive> OnDirectiveChanged;
@@ -118,7 +127,7 @@ public class GameManagerTS : MonoBehaviour
         OnDirectiveChanged?.Invoke(_currentDirective);
     }
     public LayerMask _pod;
-    public Canvas _canvasPod;
+    Canvas _canvasPod;
     Pod _activePod;
     void PodCode()
     {
@@ -151,12 +160,12 @@ public class GameManagerTS : MonoBehaviour
         }
     }
     public LayerMask _fab;
-    public Canvas _canvasFab;
-    public FabricatorUnit _activeFab;
+    Canvas _canvasFab;
+    [HideInInspector]public FabricatorUnit _activeFab;
     FabricatorUnit _temp;
-    public Image _fabricatingObj;
-    public GameObject _fabButtons;
-    public Button _start;
+    [HideInInspector]public Image _fabricatingObj;
+    [HideInInspector]public GameObject _fabButtons;
+    Button _start;
     void FabCode()
     {
         if (_activeFab)
@@ -168,7 +177,7 @@ public class GameManagerTS : MonoBehaviour
         {
             if (((1 << Hit.collider.gameObject.layer) & _fab) != 0)
             {
-                if (Input.GetMouseButtonUp(0) && !_placement._editBuild)
+                if (Input.GetMouseButtonUp(0) && !_placement._editBuild && !_placement._activeCube && !_placement._buildCheck)
                 {
                     if (_activeFab) _temp = _activeFab;
                     _activeFab = Hit.collider.gameObject.GetComponent<FabricatorUnit>();
@@ -187,7 +196,7 @@ public class GameManagerTS : MonoBehaviour
                         if (!_activeFab._start || !_activeFab._ready)
                         {
                             _fabricatingObj.gameObject.SetActive(false);
-                            _fabButtons.SetActive(true);        
+                            _fabButtons.SetActive(true); 
                         }
                         if (_activeFab._start || _activeFab._ready)
                         {

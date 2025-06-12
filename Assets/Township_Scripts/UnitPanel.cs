@@ -34,21 +34,23 @@ public class UnitPanel : MonoBehaviour
     TextMeshProUGUI _AvaliableQuantity;
     TextMeshProUGUI _Time;
     Transform[] _NeedPanel;
-    public Transform _unitPanel;
+    Transform _unitPanel;
     RectTransform _need;
-    public Transform _needPanel;
+    Transform _needPanel;
     Image _img;
     GameData _gameData;
     TS_Inventory _inv;
     void Start()
     {
+        _unitPanel = Instantiate(Resources.Load<Transform>("Unit Panel"), transform);
+        _needPanel = Resources.Load<Transform>("NeedItem");
+        gameObject.GetComponent<UI_Hover>()._hoverData = _unitPanel.gameObject;
         _img = GetComponent<Image>();
         _inv = GameObject.Find("Inventory")?.GetComponent<TS_Inventory>();
         _gameData = GameObject.Find("GameData")?.GetComponent<GameData>();
         _img.sprite = _gameData._invI.Find(item => item.name == _item.ToString()).icon;
         _gmTS = GameObject.Find("GameManager")?.GetComponent<GameManagerTS>();
         _NeedPanel = new Transform[slots.Length];
-        _unitPanel = transform.Find("Unit Panel").GetComponent<Transform>();
         _name = gameObject.name;
         _Name = _unitPanel.Find("Name").GetComponent<TextMeshProUGUI>();
         _Name.text = _name + " X" + _creatingQuantity;

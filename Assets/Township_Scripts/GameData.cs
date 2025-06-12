@@ -32,6 +32,7 @@ public class GameData : MonoBehaviour
     public float _xp = 0;
     public int _roadCount = 0;
     public int _buildCount = 0;
+    public int _population = 0;
     TS_Inventory _inv;
     private void Awake()
     {

@@ -126,6 +126,7 @@ public class Placement : MonoBehaviour
                 }
                 _editBuildObj.transform.position = BsnappedPosition;
                 Ani.SetTrigger("Place");
+                _placed = true;
                 _editBuildObj = null;
                 _editBuild = false;
                 _buildCheck = false;
@@ -158,7 +159,7 @@ public class Placement : MonoBehaviour
         }
     }
 
-    GameObject _activeCube = null;
+    [HideInInspector] public GameObject _activeCube = null;
     public static bool _isBuild = false;
     Transform _buildParent;
     Transform _roadParent;

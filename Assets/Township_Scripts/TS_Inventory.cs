@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,9 +10,16 @@ using UnityEngine.UI;
 public class TS_Inventory : MonoBehaviour
 {
     public static TS_Inventory _inv;
-    public GameObject _invPanel;
-    public Transform _invPanelParent;
+    GameObject _invPanel;
+    Transform _invPanelParent;
     Placement _placement;
+    void Awake()
+    {
+        _invPanelParent = GameObject.Find("UI/Inventory/Panel")?.GetComponent<Transform>();
+        _canvas = GameObject.Find("UI/Inventory")?.GetComponent<Canvas>();
+        _invPanel = Resources.Load<GameObject>("Inventory Item");
+    }
+
     void Start()
     {
         _inv = this;
@@ -56,13 +65,13 @@ public class TS_Inventory : MonoBehaviour
     }
     void OnMouseUp()
     {
-        if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject() && !_placement._editBuild && !Placement._placed)
+        if (!_canvas.enabled && !EventSystem.current.IsPointerOverGameObject() && !_placement._editBuild)
         {
             _canvas.enabled = true;
             wasOpenedThisFrame = true;
         }
     }
-    public Canvas _canvas;
+    Canvas _canvas;
     bool wasOpenedThisFrame;
     void AutoClose()
     {
