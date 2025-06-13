@@ -8,9 +8,11 @@ public class Road : MonoBehaviour
     public GameObject[] _road;
     [Tooltip("Select the Road Layer")]
     public LayerMask roadblockLayer;
+    public GameObject _npc;
 
     void Start()
     {
+        _npc = Instantiate(Resources.Load<GameObject>("NPC"), transform);
         Vector3 halfExtents = transform.localScale / 2f * .9f;
         Collider[] overlaps = Physics.OverlapBox(transform.position, halfExtents, transform.rotation, roadblockLayer);
 

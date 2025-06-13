@@ -19,6 +19,7 @@ TagManager:
   - Nexus
   - Fabricating_Obj_BG
   - Farm
+  - NPCSpawner
   layers:
   - Default
   - TransparentFX
