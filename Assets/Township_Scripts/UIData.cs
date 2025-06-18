@@ -12,7 +12,23 @@ public class UIData : MonoBehaviour
     public TextMeshProUGUI _build;
     public TextMeshProUGUI _podCrop;
     public TextMeshProUGUI _energyBar;
-
+    public Toggle _mode;
+    public Material _materialB;
+    public Material _materialG;
+    public Material _materialR;
+    public Texture2D BlackB;
+    public Texture2D WhiteB;
+    public Texture2D BlackG;
+    public Texture2D WhiteG;
+    void Awake()
+    {
+        _materialR = Resources.Load<Material>("Road");
+        _materialB = Resources.Load<Material>("Base");
+        _materialG = Resources.Load<Material>("Ground");
+        _materialB.SetTexture("_BaseMap", WhiteB);
+        _materialG.SetTexture("_BaseMap", WhiteG);
+        _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#757A82", out Color color) ? color : Color.white);
+    }
     void Update()
     {
         UI();
@@ -32,5 +48,26 @@ public class UIData : MonoBehaviour
         _xpSlider.maxValue = GameData._instance._level * 100;
         _xpSlider.value = GameData._instance._xp;
         _populationText.text = GameData._instance._population.ToString();
+    }
+    public void Mode()
+    {
+        if (_mode.isOn)
+        {
+            _materialB.SetTexture("_BaseMap", BlackB);
+            _materialG.SetTexture("_BaseMap", BlackG);
+            _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#CACBCB", out Color color) ? color : Color.white);
+        }
+        else
+        {
+            _materialB.SetTexture("_BaseMap", WhiteB);
+            _materialG.SetTexture("_BaseMap", WhiteG);
+            _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#757A82", out Color color) ? color : Color.white);
+        }
+    }
+    void OnApplicationQuit()
+    {
+        _materialB.SetTexture("_BaseMap", WhiteB);
+        _materialG.SetTexture("_BaseMap", WhiteG);
+        _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#757A82", out Color color) ? color : Color.white);
     }
 }

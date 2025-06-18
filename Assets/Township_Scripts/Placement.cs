@@ -102,11 +102,11 @@ public class Placement : MonoBehaviour
         {
             if (!_defaultMaterial)
             {
-                _defaultMaterial = _editBuildObj.GetComponent<MeshRenderer>().material;
-                _editBuildObj.GetComponent<MeshRenderer>().material = _editMaterial;
+                _defaultMaterial = _editBuildObj.GetComponent<MeshRenderer>().sharedMaterial;
+                _editBuildObj.GetComponent<MeshRenderer>().sharedMaterial = _editMaterial;
             }
-            if (BuildObj._isGround) _editBuildObj.GetComponent<MeshRenderer>().material = _editMaterial;
-            else _editBuildObj.GetComponent<MeshRenderer>().material = _editMaterialR;
+            if (BuildObj._isGround) _editBuildObj.GetComponent<MeshRenderer>().sharedMaterial = _editMaterial;
+            else _editBuildObj.GetComponent<MeshRenderer>().sharedMaterial = _editMaterialR;
             _buildCheck = true;
             _buildCheck = true;
             _editBuildObj.transform.position = new Vector3(BsnappedPosition.x, BsnappedPosition.y + 1, BsnappedPosition.z);
@@ -121,7 +121,7 @@ public class Placement : MonoBehaviour
             {
                 if (_defaultMaterial)
                 {
-                    _editBuildObj.GetComponent<MeshRenderer>().material = _defaultMaterial;
+                    _editBuildObj.GetComponent<MeshRenderer>().sharedMaterial = _defaultMaterial;
                     _defaultMaterial = null;
                 }
                 _editBuildObj.transform.position = BsnappedPosition;
@@ -169,8 +169,8 @@ public class Placement : MonoBehaviour
         if (!_activeCube) _activeCube = Instantiate(Resources.Load<GameObject>(Build), _hitPos, Quaternion.identity, _buildParent);
         if (!_defaultMaterial)
         {
-            _defaultMaterial = _activeCube.GetComponent<MeshRenderer>().material;
-            _activeCube.GetComponent<MeshRenderer>().material = _editMaterial;
+            _defaultMaterial = _activeCube.GetComponent<MeshRenderer>().sharedMaterial;
+            _activeCube.GetComponent<MeshRenderer>().sharedMaterial = _editMaterial;
         }
         _placed = false;
         StartCoroutine(BuildTimer());
@@ -185,8 +185,8 @@ public class Placement : MonoBehaviour
         );
         if (_activeCube)
         {
-            if (BuildObj._isGround) _activeCube.GetComponent<MeshRenderer>().material = _editMaterial;
-            else _activeCube.GetComponent<MeshRenderer>().material = _editMaterialR;
+            if (BuildObj._isGround) _activeCube.GetComponent<MeshRenderer>().sharedMaterial = _editMaterial;
+            else _activeCube.GetComponent<MeshRenderer>().sharedMaterial = _editMaterialR;
             _buildCheck = true;
             _activeCube.transform.position = new Vector3(BsnappedPosition.x, BsnappedPosition.y + 1, BsnappedPosition.z);
             if (Input.GetKeyDown(KeyCode.R))
@@ -199,7 +199,7 @@ public class Placement : MonoBehaviour
             {
                 if (_defaultMaterial)
                 {
-                    _activeCube.GetComponent<MeshRenderer>().material = _defaultMaterial;
+                    _activeCube.GetComponent<MeshRenderer>().sharedMaterial = _defaultMaterial;
                     _defaultMaterial = null;
                 }
                 _gameData._buildCount++;

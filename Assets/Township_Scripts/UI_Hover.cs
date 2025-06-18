@@ -16,6 +16,14 @@ public class UI_Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         _hoverData.SetActive(false);
     }
+    void OnMouseEnter()
+    {
+        _hoverData.SetActive(true);
+    }
+    void OnMouseExit()
+    {
+        _hoverData.SetActive(false);
+    }
     void Update()
     {
         if (!EventSystem.current.IsPointerOverGameObject())

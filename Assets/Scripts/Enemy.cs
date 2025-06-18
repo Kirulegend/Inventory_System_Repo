@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,15 +11,20 @@ public class Enemy : MonoBehaviour
     Rigidbody _bulletRigi;
     bool _isPlayer = false;
     bool _isFiring = false;
+    NavMeshAgent _agent;
+    GameObject _player;
 
     void Start()
     {
+        _player = GameObject.Find("Player");
+        _agent = GetComponent<NavMeshAgent>();
         _instantiatePos = transform.Find("BulletSpawn");
         _bullet = Resources.Load<GameObject>("Bullet");
     }
 
     void Update()
     {
+        _agent.SetDestination(_player.transform.position);
         if (_isPlayer && !GameManager._isInv)
         {
             if (_isFiring)
