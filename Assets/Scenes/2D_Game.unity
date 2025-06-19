@@ -5946,14 +5946,14 @@ MonoBehaviour:
   _build: {fileID: 1101519540}
   _podCrop: {fileID: 1578192718}
   _energyBar: {fileID: 435319481}
-  _mode: {fileID: 631589772}
+  _mode: {fileID: 0}
   _materialB: {fileID: 0}
   _materialG: {fileID: 0}
   _materialR: {fileID: 0}
-  BlackB: {fileID: 2800000, guid: c5c5dec1da6768748a1448caf33c0f9f, type: 3}
-  WhiteB: {fileID: 2800000, guid: c0c40dc38afc94844b1de7195bdb1b83, type: 3}
-  BlackG: {fileID: 2800000, guid: f896d32bc0cb8d540976f3544c9f5ba1, type: 3}
-  WhiteG: {fileID: 2800000, guid: cc020215de6e3dd49bd9f04592ece5c9, type: 3}
+  BlackB: {fileID: 0}
+  WhiteB: {fileID: 0}
+  BlackG: {fileID: 0}
+  WhiteG: {fileID: 0}
 --- !u!1 &1249858356
 GameObject:
   m_ObjectHideFlags: 0
