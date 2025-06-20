@@ -20,6 +20,7 @@ TagManager:
   - Fabricating_Obj_BG
   - Farm
   - NPCSpawner
+  - Damage
   layers:
   - Default
   - TransparentFX

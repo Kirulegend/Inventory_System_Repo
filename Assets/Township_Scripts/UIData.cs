@@ -20,14 +20,13 @@ public class UIData : MonoBehaviour
     public Texture2D WhiteB;
     public Texture2D BlackG;
     public Texture2D WhiteG;
+    public Image _stack;
     void Awake()
     {
         _materialR = Resources.Load<Material>("Road");
         _materialB = Resources.Load<Material>("Base");
         _materialG = Resources.Load<Material>("Ground");
-        _materialB.SetTexture("_BaseMap", WhiteB);
-        _materialG.SetTexture("_BaseMap", WhiteG);
-        _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#757A82", out Color color) ? color : Color.white);
+        Off();
     }
     void Update()
     {
@@ -53,21 +52,41 @@ public class UIData : MonoBehaviour
     {
         if (_mode.isOn)
         {
-            _materialB.SetTexture("_BaseMap", BlackB);
-            _materialG.SetTexture("_BaseMap", BlackG);
-            _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#CACBCB", out Color color) ? color : Color.white);
+            On();
         }
         else
         {
-            _materialB.SetTexture("_BaseMap", WhiteB);
-            _materialG.SetTexture("_BaseMap", WhiteG);
-            _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#757A82", out Color color) ? color : Color.white);
+            Off();
         }
     }
     void OnApplicationQuit()
     {
+        Off();
+    }
+    void On()
+    {
+        _stack.color = ColorUtility.TryParseHtmlString("#B9B9B9", out Color COL) ? COL : Color.white;
+        _populationText.color = ColorUtility.TryParseHtmlString("#B9B9B9", out Color CO) ? CO : Color.white;
+        _levelText.color = ColorUtility.TryParseHtmlString("#B9B9B9", out Color C) ? C : Color.white;
+        _qcText.color = ColorUtility.TryParseHtmlString("#B9B9B9", out Color c) ? c : Color.white;
+        _populationText.transform.parent.GetComponent<Image>().color = ColorUtility.TryParseHtmlString("#B9B9B9", out Color col) ? col : Color.white;
+        _qcText.transform.parent.GetComponent<Image>().color = ColorUtility.TryParseHtmlString("#B9B9B9", out Color co) ? co : Color.white;
+        _xpSlider.transform.Find("XP").GetComponent<Image>().color = ColorUtility.TryParseHtmlString("#B9B9B9", out Color color) ? color : Color.white;
+        _materialB.SetTexture("_BaseMap", BlackB);
+        _materialG.SetTexture("_BaseMap", BlackG);
+        _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#CACBCB", out Color colo) ? colo : Color.white);
+    }
+    void Off()
+    {
+        _stack.color = ColorUtility.TryParseHtmlString("#525252", out Color COL) ? COL : Color.white;
+        _populationText.color = ColorUtility.TryParseHtmlString("#525252", out Color CO) ? CO : Color.white;
+        _levelText.color = ColorUtility.TryParseHtmlString("#525252", out Color C) ? C : Color.white;
+        _qcText.color = ColorUtility.TryParseHtmlString("#525252", out Color c) ? c : Color.white;
+        _populationText.transform.parent.GetComponent<Image>().color = ColorUtility.TryParseHtmlString("#525252", out Color co) ? co : Color.white;
+        _qcText.transform.parent.GetComponent<Image>().color = ColorUtility.TryParseHtmlString("#525252", out Color col) ? col : Color.white;
+        _xpSlider.transform.Find("XP").GetComponent<Image>().color = ColorUtility.TryParseHtmlString("#525252", out Color color) ? color : Color.white;
         _materialB.SetTexture("_BaseMap", WhiteB);
         _materialG.SetTexture("_BaseMap", WhiteG);
-        _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#757A82", out Color color) ? color : Color.white);
+        _materialR.SetColor("_BaseColor", ColorUtility.TryParseHtmlString("#757A82", out Color colo) ? colo : Color.white);
     }
 }

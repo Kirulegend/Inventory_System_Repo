@@ -22,7 +22,6 @@ public class Project_1_Player : MonoBehaviour
     {
         PlayerMovement();
         MouseMovement();
-        Debug.Log("Hi");
     }
     void MouseMovement()
     {
@@ -74,5 +73,15 @@ public class Project_1_Player : MonoBehaviour
     {
         Gizmos.color = GroundCheck() ? Color.green : Color.red;
         Gizmos.DrawCube(new Vector3(transform.position.x, transform.position.y + -1f, transform.position.z), new Vector3(1, .25f, 1));
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.name == "Tel") transform.position = Vector3.up;
+        if (other.gameObject.CompareTag("Damage"))
+        {
+            _rb.AddForce((-transform.forward + transform.up) * 2, ForceMode.Impulse);
+            Debug.Log("Hit");
+        }
+           
     }
 }

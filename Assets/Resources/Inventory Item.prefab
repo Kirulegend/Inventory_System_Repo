@@ -1129,11 +1129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81533d3071be09b40946535371e65026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: 
-  _sellDes: {fileID: 0}
-  _sellPrice: {fileID: 0}
-  _price: 0
-  _quantity: 0
 --- !u!1 &7191636005036102413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,7 +1459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
+  m_Color: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
