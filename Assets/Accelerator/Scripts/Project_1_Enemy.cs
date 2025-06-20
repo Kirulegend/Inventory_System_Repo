@@ -17,7 +17,7 @@ public class Project_1_Enemy : MonoBehaviour
     {
         _ani.SetFloat("Speed", _nav.velocity.magnitude);
         _ani.SetBool("Attack", (_nav.remainingDistance <= _nav.stoppingDistance && _check));
-        _ani.SetBool("Target", _check);
+        _ani.SetBool("Target", _target);
         if(!_check && _nav.velocity.magnitude == 0)
         {
             _nav.SetDestination(_cubes[Random.Range(0, _cubes.Length)].position);
@@ -33,9 +33,14 @@ public class Project_1_Enemy : MonoBehaviour
             _nav.updateRotation = true;
         }
         Ray(100);
-        if (!_target)
+        if (!_target && _wasTargetFalse)
         {
             _nav.ResetPath();
+            _wasTargetFalse = false;
+        }
+        else if (_target)
+        {
+            _wasTargetFalse = true;
         }
     }
     [SerializeField] bool _check = false;
@@ -53,11 +58,12 @@ public class Project_1_Enemy : MonoBehaviour
         {
             _nav.speed /= 2;
             _check = false;
-            _ani.SetBool("Attack", false);
-            _nav.ResetPath();
+            //_ani.SetBool("Attack", false);
+            //_nav.ResetPath();
         }
     }
     [SerializeField] bool _target = false;
+    bool _wasTargetFalse = false;
     [SerializeField] Vector3 _targetPos = Vector3.zero;
     void Ray(int Num)
     {
