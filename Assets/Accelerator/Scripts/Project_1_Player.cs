@@ -80,7 +80,6 @@ public class Project_1_Player : MonoBehaviour
         if (other.gameObject.CompareTag("Damage"))
         {
             _rb.AddForce((-transform.forward + transform.up) * 2, ForceMode.Impulse);
-            Debug.Log("Hit");
         }
            
     }
